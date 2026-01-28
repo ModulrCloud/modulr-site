@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     description: "Powering the global robot economy.",
   },
   icons: {
-    icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
+    icon: [{ url: "/favicon.png", type: "image/png" }],
   },
 };
 

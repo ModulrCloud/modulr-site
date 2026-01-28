@@ -18,6 +18,7 @@ import { HorizontalRailAutoSection } from "@/components/HorizontalRailAutoSectio
 import { WhyBuildersChooseSection } from "@/components/WhyBuildersChooseSection";
 import { BuiltDifferentSection } from "@/components/BuiltDifferentSection";
 import { TonStyleShowcase } from "@/components/TonStyleShowcase";
+import { TeleoperationSection } from "@/components/TeleoperationSection";
 
 const ROADMAP_IMG =
   "https://cdn.prod.website-files.com/688b650d15ca6b144341e1f7/690bd13cd22e0860718d9af7_ROADMAP%20(website%20version).png";
@@ -36,7 +37,6 @@ export default function Home() {
       <SiteHeader />
 
       <main className="pt-16 flex-1">
-        {/* HERO */}
         <section className="relative overflow-hidden border-b border-hairline min-h-[70vh] flex items-center">
           <div className="pointer-events-none absolute inset-0">
             <video
@@ -52,7 +52,6 @@ export default function Home() {
               <source src={HERO_VIDEO_MP4} type="video/mp4" />
             </video>
 
-            {/* circuit-like overlay + enhanced glow */}
             <div className="absolute inset-0 bg-[radial-gradient(1400px_900px_at_50%_30%,rgba(242,180,0,0.15),transparent_55%),radial-gradient(1000px_700px_at_80%_70%,rgba(255,255,255,0.06),transparent_55%)]" />
             <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,.25),rgba(0,0,0,.65),rgba(0,0,0,.88))]" />
           </div>
@@ -60,20 +59,20 @@ export default function Home() {
           <div className="relative mx-auto max-w-6xl px-6 py-24 md:py-32 w-full">
             <Reveal className="flex justify-center">
               <div className="text-[var(--accent)]">
-                <ModulrLogo className="scale-125" />
+                <ModulrLogo size="xl" />
               </div>
             </Reveal>
 
             <div className="mt-10 text-center">
               <Reveal delayMs={60}>
                 <h1 className="text-premium text-4xl font-semibold leading-[1.03] tracking-tight text-white sm:text-6xl">
-                  The Open Network for
-                  <span className="block text-gradient">Robotics, AI, Data, and Compute</span>
+                  Access, Operate, and Monetize
+                  <span className="block text-gradient">Robots Globally</span>
                 </h1>
               </Reveal>
               <Reveal delayMs={140}>
                 <p className="mx-auto mt-6 max-w-2xl text-base leading-7 text-muted sm:text-lg">
-                  Access, operate, and earn from robotic systems anywhere in the world. Real-time teleoperation powered by a decentralized network.
+                  A real-time teleoperation platform built for enterprise performance and an open network economy, connecting robots, AI, data, and compute.
                 </p>
               </Reveal>
 
@@ -82,20 +81,20 @@ export default function Home() {
                 className="mt-9 flex flex-col justify-center gap-3 sm:flex-row sm:items-center"
               >
                 <a
-                  href={MODULR_LINKS.DEMO}
+                  href={MODULR_LINKS.APP}
                   target="_blank"
                   rel="noreferrer"
                   className="inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-semibold transition ring-premium btn-primary"
                 >
-                  Book a Demo
+                  Launch App
                 </a>
                 <a
-                  href={MODULR_LINKS.DOCS}
+                  href={MODULR_LINKS.DEMO}
                   target="_blank"
                   rel="noreferrer"
                   className="inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-semibold transition ring-premium btn-secondary"
                 >
-                  View Docs
+                  Book a Demo
                 </a>
               </Reveal>
             </div>
@@ -103,16 +102,17 @@ export default function Home() {
         </section>
 
         <TrustedByMarquee />
-        {/* Built different. By design. (site2-like) */}
-        <BuiltDifferentSection />
-        <AccessBentoSection />
 
-        {/* TON-style showcase with big tiles */}
-        <TonStyleShowcase />
+        <TeleoperationSection />
+
+        <AccessBentoSection />
 
         <UseCasesHorizontalScrollSection />
 
-        {/* ROADMAP */}
+        <TonStyleShowcase />
+
+        <BuiltDifferentSection />
+
         <section className="border-t border-hairline bg-section">
           <div className="mx-auto max-w-6xl px-6 py-16 md:py-24">
             <Reveal>
@@ -132,25 +132,18 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Stories (happy people / premium big media cards) */}
         <StoriesSection />
 
-        {/* Auto-moving media rail */}
         <HorizontalRailAutoSection />
 
-        {/* Numbers (count-up) */}
         <NumbersSection />
 
-        {/* NEAR-like "Why builders choose" */}
         <WhyBuildersChooseSection />
 
-        {/* Premium product showcase */}
         <PremiumShowcaseSection />
 
-        {/* Sticky highlights (Apple-like narrative) */}
         <StickyHighlightsSection />
 
-        {/* PARALLAX / MOTION */}
         <ParallaxTextSection />
 
         <JoinNetworkSection />
