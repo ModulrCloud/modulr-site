@@ -49,7 +49,7 @@ const features = [
   },
   {
     icon: IconBolt,
-    title: "Sub-120ms Latency",
+    title: "Sub-500ms Latency",
     desc: "Enterprise-grade infrastructure ensures responsive control for precision tasks.",
   },
   {
