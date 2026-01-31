@@ -50,7 +50,7 @@ const features = [
   {
     icon: IconBolt,
     title: "Sub-500ms Latency",
-    desc: "Enterprise-grade infrastructure ensures responsive control for precision tasks.",
+    desc: "Enterprise-grade responsive control for manipulation, recovery, and intervention.",
   },
   {
     icon: IconShield,
@@ -59,8 +59,8 @@ const features = [
   },
   {
     icon: IconChart,
-    title: "Session Analytics",
-    desc: "Track performance, record sessions, and generate actionable insights.",
+    title: "Session Analytics & Logs",
+    desc: "Real-time feedback to debug issues, improve performance, and validate safe operation.",
   },
 ];
 
@@ -91,7 +91,7 @@ export function TeleoperationSection({ className }: { className?: string }) {
           </Reveal>
           <Reveal delayMs={80}>
             <p className="mt-5 text-white/50 text-lg leading-relaxed">
-              Real-time remote operation with enterprise reliability and security.
+              Real-time robot operation built for enterprise reliability and security.
             </p>
           </Reveal>
         </div>

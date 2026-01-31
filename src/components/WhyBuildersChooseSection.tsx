@@ -21,21 +21,21 @@ type NearPanel = {
 
 const panels: NearPanel[] = [
   {
-    kicker: "Speed",
-    title: "Sub-second latency globally",
-    desc: "Modulr's network delivers real-time control with latency under 120ms worldwide, enabling seamless teleoperation even across continents.",
+    kicker: "Customizability",
+    title: "Operate any robot with any interface",
+    desc: "Modulr works across robot manufacturers and control inputs including keyboards, joysticks, VR/AR, haptics, and custom controllers. Teams can operate diverse fleets without rebuilding control systems for each new robot.",
     theme: "mono",
   },
   {
-    kicker: "Scale",
-    title: "Built for millions of robots",
-    desc: "Our decentralized infrastructure scales horizontally, handling thousands of concurrent robot connections without centralized bottlenecks.",
+    kicker: "Coordination",
+    title: "Designed for human-in-the-loop operations",
+    desc: "Modulr helps teams coordinate live robot operations with safe interventions, clear handoffs, and detailed logs, so responsibility and oversight never get lost.",
     theme: "green",
   },
   {
-    kicker: "Security",
-    title: "Enterprise-grade security",
-    desc: "End-to-end encryption, zero-trust architecture, and blockchain-verified access control keep your robotic operations secure.",
+    kicker: "Scale",
+    title: "Built to grow with your organization",
+    desc: "Easily add robots, deployments, and team members as your organization grows, while keeping operations consistent, safe, and manageable over time.",
     theme: "gold",
   },
 ];
@@ -75,7 +75,7 @@ export function WhyBuildersChooseSection({ className }: { className?: string }) 
                 </Reveal>
                 <Reveal delayMs={110}>
                   <p className="mt-6 max-w-sm text-sm leading-7 text-white/60">
-                    Every component of Modulr is designed for real-time performance and global scale.
+                  Modulr is designed to be intuitive for first-time operators, while remaining powerful and customizable for advanced robotics teams.
                   </p>
                 </Reveal>
                 <Reveal delayMs={160}>

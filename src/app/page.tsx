@@ -107,14 +107,25 @@ export default function Home() {
 
         <WhyBuildersChooseSection />
 
-        <AccessBentoSection />
-
         <UseCasesHorizontalScrollSection />
-
+        
+        <PremiumShowcaseSection />
+        
         <TonStyleShowcase />
+        
+        <ParallaxTextSection />
+        
+        {/* <AccessBentoSection /> */}
 
         <BuiltDifferentSection />
+        
+        <StickyHighlightsSection />
+        
+        
 
+        
+
+{/*
         <section className="border-t border-hairline bg-section">
           <div className="mx-auto max-w-6xl px-6 py-16 md:py-24">
             <Reveal>
@@ -133,18 +144,19 @@ export default function Home() {
             </Reveal>
           </div>
         </section>
+*/}
 
         <StoriesSection />
 
-        <HorizontalRailAutoSection />
+        {/* <HorizontalRailAutoSection /> */}
 
         <NumbersSection />
 
-        <PremiumShowcaseSection />
+        
 
-        <StickyHighlightsSection />
+        
 
-        <ParallaxTextSection />
+        
 
         <JoinNetworkSection />
       </main>
