@@ -85,7 +85,7 @@ function LinkIcon({ className }: { className?: string }) {
 export function SiteFooter() {
   return (
     <footer className="border-t border-hairline bg-section">
-      <div className="mx-auto max-w-6xl px-6 py-14">
+      <div className="mx-auto max-w-[1400px] px-6 py-14">
         <div className="grid gap-10 md:grid-cols-5 md:items-start">
           <div className="md:col-span-2">
             <Link href="/" className="rounded ring-premium inline-flex">
