@@ -25,31 +25,31 @@ const items: Item[] = [
     number: "01",
     title: "Global robot network",
     subtitle: "Network",
-    desc: "Access robots anywhere in the world through our decentralized infrastructure. Real-time teleoperation with sub-120ms latency.",
+    desc: "Modulr lets anyone rent or deploy robots globally for practical, real-world work. It’s powered by an open network that brings robots, AI, data, and compute into one seamless interface that anyone can use.",
     image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&h=600&fit=crop",
     accent: "rgba(242,180,0,0.25)",
   },
   {
     number: "02",
-    title: "AI-powered automation",
-    subtitle: "Intelligence",
-    desc: "Combine human operators with AI models for semi-autonomous operations. Train, deploy, and monetize robotic AI agents.",
+    title: "Real-time teleoperation",
+    subtitle: "Performance",
+    desc: "Connect to and control robots from anywhere in the world with near-zero latency, all from your web browser.",
     image: "https://images.unsplash.com/photo-1531746790731-6c087fecd65a?w=800&h=600&fit=crop",
     accent: "rgba(0,200,180,0.25)",
   },
   {
     number: "03",
-    title: "Enterprise-grade security",
-    subtitle: "Security",
-    desc: "End-to-end encryption, zero-trust architecture, and blockchain-verified access control for your robotic operations.",
+    title: "Plug-and-play robotics stack",
+    subtitle: "Intelligence",
+    desc: "Robots, AI models, compute, and data modules connect instantly—no custom integrations or hardware expertise required.",
     image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&h=600&fit=crop",
     accent: "rgba(120,100,255,0.25)",
   },
   {
     number: "04",
-    title: "Revenue from idle robots",
+    title: "Earn from idle robots",
     subtitle: "Earnings",
-    desc: "Turn downtime into revenue. List your robots on the marketplace and earn when others operate them.",
+    desc: "Turn downtime into revenue. List your robots on Modulr's marketplace and earn when others operate them.",
     image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&h=600&fit=crop",
     accent: "rgba(255,100,100,0.25)",
   },
@@ -122,8 +122,8 @@ export function BuiltDifferentSection({ className }: { className?: string }) {
                   </span>
                 </div>
                 <h2 className="text-4xl sm:text-5xl md:text-6xl font-semibold text-white leading-[1.05] tracking-[-0.03em]">
-                  Built different.
-                  <span className="text-white/50 font-light"> By design.</span>
+                  Monetize robots.
+                  <span className="text-white/50 font-light"> Globally.</span>
                 </h2>
               </div>
             </div>

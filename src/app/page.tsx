@@ -66,13 +66,13 @@ export default function Home() {
             <div className="mt-10 text-center">
               <Reveal delayMs={60}>
                 <h1 className="text-premium text-4xl font-semibold leading-[1.03] tracking-tight text-white sm:text-6xl">
-                  Access, Operate, and Monetize
-                  <span className="block text-gradient">Robots Globally</span>
+                  Access, Operate, and
+                  <span className="block text-gradient">Monetize Robots Globally</span>
                 </h1>
               </Reveal>
               <Reveal delayMs={140}>
                 <p className="mx-auto mt-6 max-w-2xl text-base leading-7 text-muted sm:text-lg">
-                  A real-time teleoperation platform built for enterprise performance and an open network economy, connecting robots, AI, data, and compute.
+                  A real-time teleoperation platform built for enterprise performance and an open network economy—connecting robots, AI, data, and compute.
                 </p>
               </Reveal>
 
@@ -105,14 +105,27 @@ export default function Home() {
 
         <TeleoperationSection />
 
-        <AccessBentoSection />
+        <WhyBuildersChooseSection />
 
         <UseCasesHorizontalScrollSection />
-
+        
+        <PremiumShowcaseSection />
+        
         <TonStyleShowcase />
+        
+        <ParallaxTextSection />
+        
+        {/* <AccessBentoSection /> */}
 
         <BuiltDifferentSection />
+        
+        <StickyHighlightsSection />
+        
+        
 
+        
+
+{/*
         <section className="border-t border-hairline bg-section">
           <div className="mx-auto max-w-6xl px-6 py-16 md:py-24">
             <Reveal>
@@ -131,20 +144,19 @@ export default function Home() {
             </Reveal>
           </div>
         </section>
+*/}
 
         <StoriesSection />
 
-        <HorizontalRailAutoSection />
+        {/* <HorizontalRailAutoSection /> */}
 
         <NumbersSection />
 
-        <WhyBuildersChooseSection />
+        
 
-        <PremiumShowcaseSection />
+        
 
-        <StickyHighlightsSection />
-
-        <ParallaxTextSection />
+        
 
         <JoinNetworkSection />
       </main>

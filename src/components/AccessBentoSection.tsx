@@ -62,7 +62,7 @@ export function AccessBentoSection() {
             <h2 className="text-premium text-3xl font-semibold tracking-tight text-white sm:text-4xl">
               Where anyone can{" "}
               <span className="text-gradient">Access, Operate,</span> and{" "}
-              <span className="text-gradient">EARN FROM Robots</span>
+              <span className="text-gradient">EARN from Robots</span>
             </h2>
           </Reveal>
         </div>
