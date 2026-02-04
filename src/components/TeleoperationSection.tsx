@@ -91,7 +91,7 @@ export function TeleoperationSection({ className }: { className?: string }) {
           </Reveal>
           <Reveal delayMs={80}>
             <p className="mt-5 text-white/50 text-lg leading-relaxed">
-              Real-time robot operation built for enterprise reliability and security.
+              Real-time robot operation built for enterprise reliability and security
             </p>
           </Reveal>
         </div>
@@ -118,31 +118,31 @@ export function TeleoperationSection({ className }: { className?: string }) {
               <div className="relative rounded-2xl overflow-hidden border border-white/[0.08] bg-black">
                 <div className="aspect-[16/10]">
                   <SmartImage
-                    src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=1200&h=750&fit=crop"
+                    src="robot_touching_human.png"
                     alt="Teleoperation interface"
                     className="w-full h-full object-cover opacity-80"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
                 </div>
 
-                <div className="absolute bottom-0 inset-x-0 p-5">
+                {/* <div className="absolute bottom-0 inset-x-0 p-5">
                   <div className="flex items-center justify-between text-sm">
                     <div className="flex items-center gap-2">
                       <span className="h-2 w-2 rounded-full bg-emerald-500" />
                       <span className="text-white/70">Connected</span>
                     </div>
                     <div className="flex gap-3 text-white/50 text-xs font-mono">
-                      <span>87ms</span>
+                      <span>200ms</span>
                       <span>60fps</span>
                     </div>
                   </div>
-                </div>
+                </div> */}
               </div>
 
-              <div className="absolute -bottom-4 -right-4 px-4 py-3 rounded-xl border border-white/[0.08] bg-black/90 backdrop-blur-sm">
+              {/* <div className="absolute -bottom-4 -right-4 px-4 py-3 rounded-xl border border-white/[0.08] bg-black/90 backdrop-blur-sm">
                 <p className="text-xl font-semibold text-white">99.9%</p>
                 <p className="text-xs text-white/40">Uptime</p>
-              </div>
+              </div> */}
             </motion.div>
           </Reveal>
         </div>

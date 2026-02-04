@@ -28,12 +28,22 @@ type UseCase = {
 };
 
 const useCases: UseCase[] = [
+  
+  {
+    title: "Industrial Automation",
+    desc: "Remotely manage robotic arms, AGVs, and factory floor equipment with sub-second latency. Scale operations without physical presence.",
+    image: "/agriculture-industrial.png",
+    accent: "rgba(120,100,255,0.35)",
+    stat: "Unlimited",
+    statLabel: "Robots",
+  },
+  
   {
     title: "Entertainment & Gaming",
-    desc: "Control telepresence robots in theme parks, arcades, and immersive experiences from anywhere in the world. Create unforgettable remote experiences.",
-    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1400&h=900&fit=crop",
+    desc: "Control real robots in fighting arenas, race courses, arcades, and immersive experiences from anywhere in the world. Think: Real Steel, AR/VR, drone racing, and more.",
+    image: "/entertainment-gaming.png",
     accent: "rgba(242,180,0,0.35)",
-    stat: "10ms",
+    stat: "Ultra-low",
     statLabel: "Latency",
   },
   {
@@ -44,14 +54,7 @@ const useCases: UseCase[] = [
     stat: "99.9%",
     statLabel: "Uptime",
   },
-  {
-    title: "Industrial Automation",
-    desc: "Remotely manage robotic arms, AGVs, and factory floor equipment with sub-second latency. Scale operations without physical presence.",
-    image: "https://images.unsplash.com/photo-1565514020179-026b92b2ed6a?w=1400&h=900&fit=crop",
-    accent: "rgba(120,100,255,0.35)",
-    stat: "500+",
-    statLabel: "Robots",
-  },
+  
   {
     title: "Space & Extreme Environments",
     desc: "Control rovers, orbital manipulators, and deep-sea exploration robots with real-time feedback loops across vast distances.",
@@ -128,7 +131,7 @@ export function UseCasesHorizontalScrollSection({
               <motion.span
                 style={{
                   color: "transparent",
-                  WebkitTextStroke: "2px rgba(255,255,255,0.15)",
+                  WebkitTextStroke: "2px rgba(255,255,255,0.45)",
                 }}
               >
                 USE
@@ -158,7 +161,7 @@ export function UseCasesHorizontalScrollSection({
                       Remote Teleoperation
                     </div>
                     <p className="text-lg md:text-xl leading-8 text-white/70 max-w-md">
-                      From entertainment to space exploration — Modulr powers
+                      From agriculture to space exploration, Modulr powers
                       real-time robotic control in the most demanding
                       environments.
                     </p>
@@ -355,13 +358,14 @@ function UseCaseCard({
           {useCase.desc}
         </p>
 
-        {/* CTA */}
+        {/* CTA - hidden
         <div className="mt-6 inline-flex items-center gap-3">
           <span className="inline-flex items-center justify-center rounded-full border border-white/15 bg-white/5 backdrop-blur-sm px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-white/10">
             Learn More
           </span>
           <span className="text-white/50 text-lg">→</span>
         </div>
+        */}
       </div>
 
       {/* Subtle inner glow */}

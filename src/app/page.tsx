@@ -107,11 +107,13 @@ export default function Home() {
 
         <WhyBuildersChooseSection />
 
+        <TonStyleShowcase />
+        
         <UseCasesHorizontalScrollSection />
         
         <PremiumShowcaseSection />
         
-        <TonStyleShowcase />
+        
         
         <ParallaxTextSection />
         

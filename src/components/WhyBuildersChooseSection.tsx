@@ -17,6 +17,7 @@ type NearPanel = {
   title: string;
   desc: string;
   theme: "mono" | "green" | "gold";
+  backgroundImage?: string;
 };
 
 const panels: NearPanel[] = [
@@ -25,18 +26,21 @@ const panels: NearPanel[] = [
     title: "Operate any robot with any interface",
     desc: "Modulr works across robot manufacturers and control inputs including keyboards, joysticks, VR/AR, haptics, and custom controllers. Teams can operate diverse fleets without rebuilding control systems for each new robot.",
     theme: "mono",
+    backgroundImage: "/vibrant-wires-bg.png",
   },
   {
     kicker: "Coordination",
     title: "Designed for human-in-the-loop operations",
     desc: "Modulr helps teams coordinate live robot operations with safe interventions, clear handoffs, and detailed logs, so responsibility and oversight never get lost.",
     theme: "green",
+    backgroundImage: "/coordination-bg.png",
   },
   {
     kicker: "Scale",
     title: "Built to grow with your organization",
     desc: "Easily add robots, deployments, and team members as your organization grows, while keeping operations consistent, safe, and manageable over time.",
     theme: "gold",
+    backgroundImage: "/expansion-2.png",
   },
 ];
 
@@ -75,7 +79,7 @@ export function WhyBuildersChooseSection({ className }: { className?: string }) 
                 </Reveal>
                 <Reveal delayMs={110}>
                   <p className="mt-6 max-w-sm text-sm leading-7 text-white/60">
-                  Modulr is designed to be intuitive for first-time operators, while remaining powerful and customizable for advanced robotics teams.
+                  Modulr is designed to be intuitive for first-time operators, yet powerful and customizable for advanced robotics teams.
                   </p>
                 </Reveal>
                 <Reveal delayMs={160}>
@@ -117,10 +121,25 @@ export function WhyBuildersChooseSection({ className }: { className?: string }) 
                       style={{ opacity: opacities[idx] }}
                       className="absolute inset-0"
                     >
-                      <div className="h-full overflow-hidden rounded-[40px] border border-white/10 bg-black/50 shadow-glow relative">
-                        {/* Grid pattern - must also be rounded */}
-                        <div className="pointer-events-none absolute inset-0 rounded-[40px] opacity-[0.10] bg-[linear-gradient(transparent_0,transparent_23px,rgba(255,255,255,0.06)_24px),linear-gradient(90deg,transparent_0,transparent_23px,rgba(255,255,255,0.06)_24px)] [background-size:26px_26px]" />
-                        <div className="pointer-events-none absolute inset-0 rounded-[40px] bg-[linear-gradient(to_bottom,rgba(0,0,0,.25),rgba(0,0,0,.70))]" />
+                      <div className="h-full overflow-hidden rounded-[40px] border border-white/10 shadow-glow relative">
+                        {/* Background: image or default */}
+                        {p.backgroundImage ? (
+                          <>
+                            <div
+                              className="absolute inset-0 rounded-[40px] bg-cover bg-center"
+                              style={{ backgroundImage: `url(${p.backgroundImage})` }}
+                            />
+                            {/* Dark overlay for text readability */}
+                            <div className="pointer-events-none absolute inset-0 rounded-[40px] bg-black/60" />
+                            <div className="pointer-events-none absolute inset-0 rounded-[40px] bg-[linear-gradient(to_bottom,rgba(0,0,0,.35),rgba(0,0,0,.75))]" />
+                          </>
+                        ) : (
+                          <>
+                            <div className="absolute inset-0 rounded-[40px] bg-black/50" />
+                            <div className="pointer-events-none absolute inset-0 rounded-[40px] opacity-[0.10] bg-[linear-gradient(transparent_0,transparent_23px,rgba(255,255,255,0.06)_24px),linear-gradient(90deg,transparent_0,transparent_23px,rgba(255,255,255,0.06)_24px)] [background-size:26px_26px]" />
+                            <div className="pointer-events-none absolute inset-0 rounded-[40px] bg-[linear-gradient(to_bottom,rgba(0,0,0,.25),rgba(0,0,0,.70))]" />
+                          </>
+                        )}
 
                         {/* Content */}
                         <div className="relative h-full p-8 md:p-10 flex flex-col">
@@ -128,7 +147,7 @@ export function WhyBuildersChooseSection({ className }: { className?: string }) 
                           <h3 className="mt-4 text-2xl md:text-3xl font-semibold tracking-tight text-white">
                             {p.title}
                           </h3>
-                          <p className="mt-4 max-w-lg text-sm leading-7 text-white/55">{p.desc}</p>
+                          <p className={cn("mt-4 max-w-lg text-sm leading-7", p.backgroundImage ? "text-white/95 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]" : "text-white/55")}>{p.desc}</p>
                         </div>
                       </div>
                     </motion.div>
