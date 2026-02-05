@@ -60,9 +60,9 @@ const team: TeamMember[] = [
   },
   {
     name: "Rick Friedman",
-    role: "Strategic Advisor",
-    bio: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
-    imageSrc: undefined,
+    role: "Robotics Engineer",
+    bio: "Rick Friedman is a robotics engineering specialist and former researcher at Virginia Tech’s Bio-Inspired Science and Technology Lab. He has built fully autonomous ground rovers end-to-end, spanning software, electronics, mechanical design, and vehicle dynamics. Rick brings professional experience across industrial automation, mining technologies, and robotic agriculture, with a strong emphasis on deploying complete robotic systems in real-world environments. At Modulr, he is focused on end-to-end robotic system development and deployment.",
+    imageSrc: "/rick_friedman.jpg",
   },
 ];
 
@@ -70,7 +70,7 @@ export default function TeamPage() {
   return (
     <PageShell
       title="Meet Our Team"
-      subtitle="World-class engineers, researchers, and operators building the future of robotics."
+      subtitle="World-class engineers and operators building the future of robotics."
     >
       <section className="border-t border-hairline bg-section">
         <div className="mx-auto max-w-6xl px-6 py-16 md:py-24">
@@ -93,7 +93,7 @@ export default function TeamPage() {
                       src={m.imageSrc}
                       alt={m.name}
                       loading="lazy"
-                      className="absolute inset-0 h-full w-full object-cover"
+                      className="absolute inset-0 h-full w-full object-cover object-[center_35%]"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/15 to-transparent" />
                   </div>

@@ -23,34 +23,34 @@ type Item = {
 const items: Item[] = [
   {
     number: "01",
-    title: "Global robot network",
+    title: "Source global robot liquidity",
     subtitle: "Network",
-    desc: "Modulr lets anyone rent or deploy robots globally for practical, real-world work. It’s powered by an open network that brings robots, AI, data, and compute into one seamless interface that anyone can use.",
-    image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&h=600&fit=crop",
+    desc: "Modulr lets anyone rent or deploy robots globally for practical, real-world work. Need to deploy a robot to inspect a pipeline? Or what about a robot for construction site security? It’s all possible through Modulr's peer-to-peer network.",
+    image: "/drones.png",
     accent: "rgba(242,180,0,0.25)",
   },
   {
     number: "02",
-    title: "Real-time teleoperation",
-    subtitle: "Performance",
-    desc: "Connect to and control robots from anywhere in the world with near-zero latency, all from your web browser.",
-    image: "https://images.unsplash.com/photo-1531746790731-6c087fecd65a?w=800&h=600&fit=crop",
+    title: "Operate any robot, anywhere",
+    subtitle: "Control",
+    desc: "Connect to and control robots from anywhere in the world with near-zero latency, all while using your preferred interface: web browser, VR headset, gaming controller, or custom rig.",
+    image: "/operate_any_robot3.png",
     accent: "rgba(0,200,180,0.25)",
   },
   {
     number: "03",
     title: "Plug-and-play robotics stack",
     subtitle: "Intelligence",
-    desc: "Robots, AI models, compute, and data modules connect instantly—no custom integrations or hardware expertise required.",
-    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&h=600&fit=crop",
+    desc: "For clients, no hardware or software engineering expertise is required. For partners, robotic systems can easily be added to the network for access to everything: teleoperation,AI models, compute, and data modules, and more.",
+    image: "/python.png",
     accent: "rgba(120,100,255,0.25)",
   },
   {
     number: "04",
     title: "Earn from idle robots",
     subtitle: "Earnings",
-    desc: "Turn downtime into revenue. List your robots on Modulr's marketplace and earn when others operate them.",
-    image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&h=600&fit=crop",
+    desc: "Turn downtime into revenue and data. List your robots on Modulr's marketplace and earn when others operate them. Or, outsource your robot data collection to qualified operators.",
+    image: "/earnings.png",
     accent: "rgba(255,100,100,0.25)",
   },
 ];
@@ -193,14 +193,15 @@ export function BuiltDifferentSection({ className }: { className?: string }) {
                       <h3 className="text-xl lg:text-2xl font-semibold text-white leading-tight tracking-[-0.02em]">
                         {item.title}
                       </h3>
-                      <p className="mt-3 text-sm text-white/50 leading-relaxed line-clamp-3">{item.desc}</p>
+                      <p className="mt-3 text-sm text-white/50 leading-relaxed">{item.desc}</p>
                     </div>
 
-                    {/* Hover reveal link */}
+                    {/* Hover reveal link - hidden
                     <div className="flex items-center gap-2 text-sm text-white/40 group-hover:text-[var(--accent)] transition-colors duration-300">
                       <span>Learn more</span>
                       <span className="transform group-hover:translate-x-1 transition-transform duration-300">→</span>
                     </div>
+                    */}
                   </div>
 
                   {/* Hover glow */}

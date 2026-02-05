@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Reveal } from "@/components/Reveal";
 import { SmartImage } from "@/components/SmartImage";
 import { cn } from "@/lib/cn";
+import { MODULR_LINKS } from "@/config/links";
 
 /**
  * TON-style showcase section with large premium tiles featuring photos
@@ -20,34 +21,39 @@ type Tile = {
   cta: string;
   accent: string;
   size: "large" | "medium";
+  /** When true, use minimal overlay so the image stays sharp (no blur/fade) */
+  minimalOverlay?: boolean;
+  hideCta?: boolean;
 };
 
 const tiles: Tile[] = [
   {
-    title: "Explore Modulr Network",
-    desc: "Connect robots, operators, and AI systems in one decentralized network. Access, operate, and earn from anywhere.",
-    image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=1200&h=800&fit=crop",
+    title: "Built from Teleoperation Up",
+    desc: "Modulr is solving a real pain point in robotics today: fragmented, custom-built operator interfaces that don’t scale. We’re standardizing robot control into a customizable yet intuitive UX while laying the foundation for a peer-to-peer network connecting robots, AI, data, and compute. This approach earned Modulr a place in NVIDIA’s Inception Program.",
+    image: "/NVIDIA_3.jpeg",
     href: "/technology-overview",
     cta: "Learn More",
     accent: "rgba(242,180,0,0.25)",
     size: "large",
+    minimalOverlay: true,
+    hideCta: true,
   },
   {
     title: "Get Started with Teleoperation",
     desc: "Set up your first robotic system and connect it to the network in minutes. No extra hardware needed.",
-    image: "https://images.unsplash.com/photo-1573164713988-8665fc963095?w=800&h=600&fit=crop",
-    href: "/pricing",
-    cta: "Explore Plans",
+    image: "/mining3.png",
+    href: MODULR_LINKS.APP,
+    cta: "Launch App",
     accent: "rgba(0,200,150,0.25)",
     size: "medium",
   },
   {
-    title: "Meet the Team",
-    desc: "World-class engineers, researchers, and operators building the future of robotics.",
-    image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=600&fit=crop",
-    href: "/team",
-    cta: "View Team",
-    accent: "rgba(120,100,255,0.25)",
+    title: "Long Term Vision",
+    desc: "See the vision for a world where anyone can operate & earn from any robot, anywhere: a decentralized network connecting robots, AI, data, and compute.",
+    image: "/modulr_vision_image.jpg",
+    href: "/technology-overview",
+    cta: "View Technology",
+    accent: "rgba(242,180,0,0.25)",
     size: "medium",
   },
 ];
@@ -66,17 +72,17 @@ export function TonStyleShowcase({ className }: { className?: string }) {
                 Discover
               </div>
               <h2 className="mt-3 text-premium text-3xl font-semibold tracking-tight text-white sm:text-4xl md:text-5xl">
-                The Modulr{" "}
-                <span className="text-gradient">Ecosystem</span>
+              A New  {" "}
+                <span className="text-gradient">Robotics Paradigm</span>
               </h2>
             </div>
           </Reveal>
-          <Reveal delayMs={80}>
+          {/* <Reveal delayMs={80}>
             <p className="max-w-md text-sm leading-7 text-white/60">
               Everything you need to build, deploy, and scale robotic operations
               on a global network.
             </p>
-          </Reveal>
+          </Reveal> */}
         </div>
       </div>
 
@@ -112,21 +118,28 @@ export function TonStyleShowcase({ className }: { className?: string }) {
                       alt={tile.title}
                       className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-[1.04]"
                     />
-                    {/* Overlays */}
-                    <div
-                      className={cn(
-                        "absolute inset-0",
-                        tile.size === "large"
-                          ? "bg-gradient-to-t from-black via-black/60 to-black/30 md:bg-gradient-to-r md:from-transparent md:via-black/40 md:to-black"
-                          : "bg-gradient-to-t from-black via-black/70 to-black/30"
-                      )}
-                    />
-                    <div
-                      className="pointer-events-none absolute inset-0 opacity-50"
-                      style={{
-                        background: `radial-gradient(1000px 600px at 30% 70%, ${tile.accent}, transparent 55%)`,
-                      }}
-                    />
+                    {/* Overlays - minimal when tile.minimalOverlay to keep image sharp */}
+                    {!tile.minimalOverlay && (
+                      <>
+                        <div
+                          className={cn(
+                            "absolute inset-0",
+                            tile.size === "large"
+                              ? "bg-gradient-to-t from-black via-black/60 to-black/30 md:bg-gradient-to-r md:from-transparent md:via-black/40 md:to-black"
+                              : "bg-gradient-to-t from-black via-black/70 to-black/30"
+                          )}
+                        />
+                        <div
+                          className="pointer-events-none absolute inset-0 opacity-50"
+                          style={{
+                            background: `radial-gradient(1000px 600px at 30% 70%, ${tile.accent}, transparent 55%)`,
+                          }}
+                        />
+                      </>
+                    )}
+                    {tile.minimalOverlay && (
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent from-30% via-transparent via-60% to-black/45 md:to-black/55" />
+                    )}
                   </div>
 
                   {/* Content section */}
@@ -167,21 +180,23 @@ export function TonStyleShowcase({ className }: { className?: string }) {
                       >
                         {tile.desc}
                       </p>
-                      <div className="mt-8 inline-flex items-center gap-4">
-                        <span
-                          className={cn(
-                            "inline-flex items-center justify-center rounded-full border border-white/15 bg-white/5 font-semibold text-white transition group-hover:bg-white/10 group-hover:border-[var(--accent)]/40",
-                            tile.size === "large"
-                              ? "px-7 py-3.5 text-base"
-                              : "px-5 py-2.5 text-sm"
-                          )}
-                        >
-                          {tile.cta}
-                        </span>
-                        <span className="text-white/50 group-hover:text-white transition group-hover:translate-x-2 text-xl">
-                          →
-                        </span>
-                      </div>
+                      {!tile.hideCta && (
+                        <div className="mt-8 inline-flex items-center gap-4">
+                          <span
+                            className={cn(
+                              "inline-flex items-center justify-center rounded-full border border-white/15 bg-white/5 font-semibold text-white transition group-hover:bg-white/10 group-hover:border-[var(--accent)]/40",
+                              tile.size === "large"
+                                ? "px-7 py-3.5 text-base"
+                                : "px-5 py-2.5 text-sm"
+                            )}
+                          >
+                            {tile.cta}
+                          </span>
+                          <span className="text-white/50 group-hover:text-white transition group-hover:translate-x-2 text-xl">
+                            →
+                          </span>
+                        </div>
+                      )}
                     </div>
                   </div>
 
