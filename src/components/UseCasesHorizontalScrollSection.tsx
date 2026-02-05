@@ -42,15 +42,15 @@ const useCases: UseCase[] = [
     title: "Entertainment & Gaming",
     desc: "Control real robots in fighting arenas, race courses, arcades, and immersive experiences from anywhere in the world. Think: Real Steel, AR/VR, drone racing, and more.",
     image: "/entertainment-gaming.png",
-    accent: "rgba(242,180,0,0.35)",
+    accent: "rgba(0,200,150,0.35)",
     stat: "Ultra-low",
     statLabel: "Latency",
   },
   {
     title: "Defense & Security",
     desc: "Operate unmanned ground and aerial vehicles for reconnaissance, patrol, and hazardous environment inspection with military-grade reliability.",
-    image: "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=1400&h=900&fit=crop",
-    accent: "rgba(0,200,150,0.35)",
+    image: "/defense_robots.jpg",
+    accent: "rgba(242,180,0,0.35)",
     stat: "99.9%",
     statLabel: "Uptime",
   },
@@ -167,9 +167,9 @@ export function UseCasesHorizontalScrollSection({
                     </p>
                   </motion.div>
 
-                  {/* Scroll indicators */}
+                  {/* Scroll indicators - fill with yellow as user scrolls through each use case */}
                   <motion.div
-                    className="hidden lg:flex flex-col gap-2"
+                    className="flex flex-col gap-2"
                     initial={{ opacity: 0 }}
                     animate={titleInView ? { opacity: 1 } : { opacity: 0 }}
                     transition={{ duration: 0.6, delay: 0.5 }}
@@ -244,17 +244,17 @@ function ScrollIndicator({
   total: number;
   scrollYProgress: ReturnType<typeof useScroll>["scrollYProgress"];
 }) {
-  // Each indicator lights up when its card is active
+  // Fill bar (gray → yellow) as user scrolls through this card's segment
   const start = index / total;
   const end = (index + 1) / total;
 
-  const opacity = useTransform(scrollYProgress, [start, start + 0.05, end - 0.05, end], [0.3, 1, 1, 0.3]);
+  const opacity = useTransform(scrollYProgress, [start, start + 0.05, end - 0.05, end], [0.4, 1, 1, 0.4]);
   const scaleX = useTransform(scrollYProgress, [start, end], [0, 1]);
 
   return (
-    <div className="relative h-1 w-20 rounded-full bg-white/10 overflow-hidden">
+    <div className="relative h-1.5 w-24 rounded-full bg-white/15 overflow-hidden">
       <motion.div
-        className="absolute inset-y-0 left-0 bg-[var(--accent)] rounded-full"
+        className="absolute inset-y-0 left-0 w-full rounded-full bg-[var(--accent)]"
         style={{ scaleX, transformOrigin: "left", opacity }}
       />
     </div>

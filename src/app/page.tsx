@@ -103,15 +103,22 @@ export default function Home() {
 
         <TrustedByMarquee />
 
+        <TonStyleShowcase />
+        
+        <WhyBuildersChooseSection />
+        
         <TeleoperationSection />
 
-        <WhyBuildersChooseSection />
-
-        <TonStyleShowcase />
+        
+        
+        
+        <PremiumShowcaseSection />
+        
+        
         
         <UseCasesHorizontalScrollSection />
         
-        <PremiumShowcaseSection />
+        
         
         
         
@@ -152,11 +159,11 @@ export default function Home() {
 
         {/* <HorizontalRailAutoSection /> */}
 
+        
+
+        
+
         <NumbersSection />
-
-        
-
-        
 
         
 
