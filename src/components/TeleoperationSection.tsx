@@ -118,7 +118,7 @@ export function TeleoperationSection({ className }: { className?: string }) {
               <div className="relative rounded-2xl overflow-hidden border border-white/[0.08] bg-black">
                 <div className="aspect-[16/10]">
                   <SmartImage
-                    src="robot_touching_human.png"
+                    src="/robot_touching_human.png"
                     alt="Teleoperation interface"
                     className="w-full h-full object-cover opacity-80"
                   />
