@@ -6,16 +6,13 @@ import { JoinNetworkSection } from "@/components/JoinNetworkSection";
 import { MODULR_LINKS } from "@/config/links";
 import { PageIntro } from "@/components/PageIntro";
 import { ParallaxTextSection } from "@/components/ParallaxTextSection";
-import { AccessBentoSection } from "@/components/AccessBentoSection";
 import { TrustedByMarquee } from "@/components/TrustedByMarquee";
 import { StoriesSection } from "@/components/StoriesSection";
 import { getCachedStories } from "@/lib/roboticsFeeds";
 import { PremiumShowcaseSection } from "@/components/PremiumShowcaseSection";
 import { UseCasesHorizontalScrollSection } from "@/components/UseCasesHorizontalScrollSection";
 import { StickyHighlightsSection } from "@/components/StickyHighlightsSection";
-import { SmartImage } from "@/components/SmartImage";
 import { NumbersSection } from "@/components/NumbersSection";
-import { HorizontalRailAutoSection } from "@/components/HorizontalRailAutoSection";
 import { WhyBuildersChooseSection } from "@/components/WhyBuildersChooseSection";
 import { BuiltDifferentSection } from "@/components/BuiltDifferentSection";
 import { TonStyleShowcase } from "@/components/TonStyleShowcase";
@@ -40,6 +37,7 @@ export default async function Home() {
       <SiteHeader />
 
       <main className="pt-16 flex-1">
+        {/* Hero */}
         <section className="relative overflow-hidden border-b border-hairline min-h-[70vh] flex items-center">
           <div className="pointer-events-none absolute inset-0">
             <video
@@ -54,7 +52,6 @@ export default async function Home() {
               <source src={HERO_VIDEO_WEBM} type="video/webm" />
               <source src={HERO_VIDEO_MP4} type="video/mp4" />
             </video>
-
             <div className="absolute inset-0 bg-[radial-gradient(1400px_900px_at_50%_30%,rgba(242,180,0,0.15),transparent_55%),radial-gradient(1000px_700px_at_80%_70%,rgba(255,255,255,0.06),transparent_55%)]" />
             <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,.25),rgba(0,0,0,.65),rgba(0,0,0,.88))]" />
           </div>
@@ -105,38 +102,17 @@ export default async function Home() {
         </section>
 
         <TrustedByMarquee />
-
         <TonStyleShowcase />
-        
         <WhyBuildersChooseSection />
-        
         <TeleoperationSection />
-
         <UseCasesHorizontalScrollSection />
-        
-        
         <PremiumShowcaseSection />
-        
-        
-        
-        
-        
-        
-        
-        
-        
         <ParallaxTextSection />
-        
         <StickyHighlightsSection />
+
         {/* <AccessBentoSection /> */}
 
         <BuiltDifferentSection />
-        
-        
-        
-        
-
-        
 
 {/*
         <section className="border-t border-hairline bg-section">
@@ -158,21 +134,11 @@ export default async function Home() {
           </div>
         </section>
 */}
-
         <NumbersSection />
-        
         <StoriesSection stories={stories} />
 
         {/* <HorizontalRailAutoSection /> */}
-
         
-
-        
-
-        
-
-        
-
         <JoinNetworkSection />
       </main>
 

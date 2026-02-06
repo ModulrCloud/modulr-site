@@ -41,15 +41,11 @@ export function JoinNetworkSection({ className }: { className?: string }) {
         headers: { "content-type": "application/json" },
         body: JSON.stringify(form),
       });
-      const data = (await res.json().catch(() => null)) as
-        | { ok: true }
-        | { ok: false; error?: string }
-        | null;
+      const data: { ok: boolean; error?: string } | null =
+        await res.json().catch(() => null);
 
-      if (!res.ok || !data || (data as any).ok !== true) {
-        throw new Error(
-          (data as any)?.error || "Something went wrong while submitting the form.",
-        );
+      if (!res.ok || !data?.ok) {
+        throw new Error(data?.error || "Something went wrong while submitting the form.");
       }
       setStatus("success");
     } catch (err) {

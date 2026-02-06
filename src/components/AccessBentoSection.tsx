@@ -14,17 +14,9 @@ const LOTTIE_STACK =
 const LOTTIE_EARN =
   "https://cdn.prod.website-files.com/688b650d15ca6b144341e1f7/6893c46da4ffaea92417d390_ilustra5.json";
 
-function Card({
-  className,
-  children,
-  hover = true,
-}: {
-  className?: string;
-  children: React.ReactNode;
-  hover?: boolean;
-}) {
+function Card({ className, children, hover = true }: { className?: string; children: React.ReactNode; hover?: boolean }) {
   const reduce = useReducedMotion();
-  const Hover = hover && !reduce;
+  const shouldHover = hover && !reduce;
 
   return (
     <motion.div
@@ -34,17 +26,8 @@ function Card({
         "shadow-[0_0_0_1px_rgba(255,255,255,0.04),0_24px_84px_rgba(0,0,0,0.45)]",
         className,
       )}
-      whileHover={
-        Hover
-          ? {
-              y: -6,
-              scale: 1.01,
-              transition: { duration: 0.22, ease: [0.2, 0.8, 0.2, 1] },
-            }
-          : undefined
-      }
+      whileHover={shouldHover ? { y: -6, scale: 1.01, transition: { duration: 0.22, ease: [0.2, 0.8, 0.2, 1] } } : undefined}
     >
-      {/* subtle glow */}
       <div className="pointer-events-none absolute inset-0 opacity-80 bg-[radial-gradient(900px_420px_at_80%_25%,rgba(242,180,0,0.10),transparent_60%)]" />
       {children}
     </motion.div>

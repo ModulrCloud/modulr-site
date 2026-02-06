@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
+const YEAR = new Date().getFullYear().toString();
+
 export function PageIntro() {
   const [isVisible, setIsVisible] = useState(true);
   const [phase, setPhase] = useState<"loading" | "reveal" | "done">("loading");
@@ -37,7 +39,6 @@ export function PageIntro() {
             animate={phase === "reveal" ? { y: "-100%" } : { y: 0 }}
             transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
           >
-            {/* Subtle grid */}
             <div
               className="absolute inset-0 opacity-[0.03]"
               style={{
@@ -47,15 +48,13 @@ export function PageIntro() {
               }}
             />
 
-            {/* Center glow */}
             <motion.div
               className="absolute inset-0"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1.1, delay: 0.2 }}
               style={{
-                backgroundImage:
-                  "radial-gradient(ellipse 40% 25% at 50% 50%, rgba(242,180,0,0.10) 0%, transparent 70%)",
+                backgroundImage: "radial-gradient(ellipse 40% 25% at 50% 50%, rgba(242,180,0,0.10) 0%, transparent 70%)",
               }}
             />
 
@@ -64,22 +63,14 @@ export function PageIntro() {
                 <motion.div
                   className="overflow-hidden"
                   initial={{ opacity: 0 }}
-                  animate={
-                    phase === "loading"
-                      ? { opacity: 1 }
-                      : { opacity: 0, scale: 1.05, y: -20 }
-                  }
+                  animate={phase === "loading" ? { opacity: 1 } : { opacity: 0, scale: 1.05, y: -20 }}
                   transition={{ duration: 0.5 }}
                 >
                   <motion.h1
                     className="text-2xl md:text-4xl lg:text-5xl font-light tracking-[0.15em] uppercase text-white"
                     initial={{ y: 50, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
-                    transition={{
-                      duration: 0.9,
-                      delay: 0.3,
-                      ease: [0.22, 1, 0.36, 1],
-                    }}
+                    transition={{ duration: 0.9, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
                   >
                     Powering the future
                   </motion.h1>
@@ -96,11 +87,7 @@ export function PageIntro() {
                       className="absolute inset-y-0 left-0 bg-gradient-to-r from-white/60 via-[var(--accent)]/70 to-white/60"
                       initial={{ width: "0%" }}
                       animate={{ width: "100%" }}
-                      transition={{
-                        duration: 1.2,
-                        delay: 0.5,
-                        ease: "easeInOut",
-                      }}
+                      transition={{ duration: 1.2, delay: 0.5, ease: "easeInOut" }}
                     />
                   </div>
                 </motion.div>
@@ -114,9 +101,7 @@ export function PageIntro() {
               transition={{ duration: 0.5, delay: 0.3 }}
             >
               <div className="h-1.5 w-1.5 rounded-full bg-[var(--accent)] shadow-[0_0_10px_rgba(242,180,0,0.55)]" />
-              <span className="text-[10px] tracking-[0.3em] uppercase text-white/30">
-                Loading
-              </span>
+              <span className="text-[10px] tracking-[0.3em] uppercase text-white/30">Loading</span>
             </motion.div>
 
             <motion.div
@@ -125,13 +110,10 @@ export function PageIntro() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
             >
-              <span className="text-[10px] tracking-[0.3em] uppercase text-white/30">
-                2025
-              </span>
+              <span className="text-[10px] tracking-[0.3em] uppercase text-white/30">{YEAR}</span>
             </motion.div>
           </motion.div>
 
-          {/* Second layer accent slide */}
           <motion.div
             className="absolute inset-0 bg-gradient-to-t from-[var(--accent)]/6 to-transparent"
             initial={{ y: "100%" }}
@@ -143,7 +125,3 @@ export function PageIntro() {
     </AnimatePresence>
   );
 }
-
-
-
-

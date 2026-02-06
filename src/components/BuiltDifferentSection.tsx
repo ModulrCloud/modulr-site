@@ -91,11 +91,8 @@ export function BuiltDifferentSection({ className }: { className?: string }) {
 
   return (
     <section className={cn("relative bg-section border-t border-hairline", className)}>
-      {/* Scroll container - height determines scroll length */}
       <div ref={containerRef} className="relative h-[300vh]">
-        {/* Sticky viewport */}
         <div className="sticky top-0 h-screen w-full overflow-hidden">
-          {/* Background effects */}
           <div className="absolute inset-0">
             <div className="absolute inset-0 bg-gradient-to-b from-black via-black/95 to-black" />
             <div
@@ -108,7 +105,6 @@ export function BuiltDifferentSection({ className }: { className?: string }) {
             <div className="absolute inset-0 k-noise opacity-[0.12]" />
           </div>
 
-          {/* Header */}
           <motion.div
             className="absolute top-0 left-0 right-0 z-10 pt-24 lg:pt-32"
             style={{ opacity: titleOpacity, y: titleY }}
@@ -129,7 +125,6 @@ export function BuiltDifferentSection({ className }: { className?: string }) {
             </div>
           </motion.div>
 
-          {/* Progress line */}
           <div className="absolute top-[calc(50%-2px)] left-0 right-0 z-0">
             <div className="mx-4 lg:mx-24">
               <div className="mx-auto w-full max-w-[1600px]">
@@ -140,7 +135,6 @@ export function BuiltDifferentSection({ className }: { className?: string }) {
             </div>
           </div>
 
-          {/* Horizontal cards container */}
           <motion.div
             className="absolute top-1/2 left-0 -translate-y-1/2 flex gap-8 pl-4 lg:pl-24 pt-16"
             style={{ x, opacity: fadeOut }}
@@ -154,16 +148,13 @@ export function BuiltDifferentSection({ className }: { className?: string }) {
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 viewport={{ once: true, margin: "-10%" }}
               >
-                {/* Card */}
                 <div className="relative h-full rounded-3xl border border-white/10 bg-white/[0.02] backdrop-blur-sm overflow-hidden group">
-                  {/* Image area with overlay */}
                   <div className="relative h-[50%] overflow-hidden">
                     <SmartImage
                       src={item.image}
                       alt={item.title}
                       className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-[1.05]"
                     />
-                    {/* Gradient overlays */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
                     <div
                       className="pointer-events-none absolute inset-0 opacity-60"
@@ -172,14 +163,12 @@ export function BuiltDifferentSection({ className }: { className?: string }) {
                       }}
                     />
 
-                    {/* Number badge */}
                     <div className="absolute top-6 left-6 h-10 w-10 rounded-xl border border-white/15 bg-black/50 backdrop-blur grid place-items-center">
                       <span className="text-sm font-medium tracking-[0.15em] text-white/80">
                         {item.number}
                       </span>
                     </div>
 
-                    {/* Subtitle badge */}
                     <div className="absolute top-6 right-6 px-3 py-1.5 rounded-full border border-white/15 bg-black/50 backdrop-blur">
                       <span className="text-[10px] uppercase tracking-[0.25em] text-white/60">
                         {item.subtitle}
@@ -187,7 +176,6 @@ export function BuiltDifferentSection({ className }: { className?: string }) {
                     </div>
                   </div>
 
-                  {/* Content area */}
                   <div className="p-6 lg:p-8 flex flex-col justify-between h-[50%]">
                     <div>
                       <h3 className="text-xl lg:text-2xl font-semibold text-white leading-tight tracking-[-0.02em]">
@@ -196,15 +184,8 @@ export function BuiltDifferentSection({ className }: { className?: string }) {
                       <p className="mt-3 text-sm text-white/50 leading-relaxed">{item.desc}</p>
                     </div>
 
-                    {/* Hover reveal link - hidden
-                    <div className="flex items-center gap-2 text-sm text-white/40 group-hover:text-[var(--accent)] transition-colors duration-300">
-                      <span>Learn more</span>
-                      <span className="transform group-hover:translate-x-1 transition-transform duration-300">→</span>
-                    </div>
-                    */}
                   </div>
 
-                  {/* Hover glow */}
                   <div className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
                     <div
                       className="absolute inset-0 rounded-3xl"
@@ -218,11 +199,9 @@ export function BuiltDifferentSection({ className }: { className?: string }) {
               </motion.div>
             ))}
 
-            {/* End spacer */}
             <div className="flex-shrink-0 w-[20vw]" />
           </motion.div>
 
-          {/* Scroll hint at bottom */}
           <motion.div className="absolute bottom-8 left-0 right-0 z-10 pointer-events-none" style={{ opacity: scrollHintOpacity }}>
             <div className="flex justify-center">
               <div className="flex items-center gap-3 text-xs text-white/30 uppercase tracking-[0.3em]">
@@ -234,7 +213,6 @@ export function BuiltDifferentSection({ className }: { className?: string }) {
             </div>
           </motion.div>
 
-          {/* Vignette */}
           <div className="absolute inset-0 pointer-events-none">
             <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-black to-transparent" />
             <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-black to-transparent" />

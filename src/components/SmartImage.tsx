@@ -17,6 +17,7 @@ export function SmartImage({ src, alt, className, fallbackClassName, fallbackSrc
 
   if (broken && fallbackSrc && !fallbackBroken) {
     return (
+      // eslint-disable-next-line @next/next/no-img-element
       <img
         src={fallbackSrc}
         alt={alt}
@@ -41,6 +42,7 @@ export function SmartImage({ src, alt, className, fallbackClassName, fallbackSrc
   }
 
   return (
+    // eslint-disable-next-line @next/next/no-img-element
     <img
       src={src}
       alt={alt}
@@ -51,7 +53,3 @@ export function SmartImage({ src, alt, className, fallbackClassName, fallbackSrc
     />
   );
 }
-
-
-
-

@@ -5,11 +5,6 @@ import { Reveal } from "@/components/Reveal";
 import { SmartImage } from "@/components/SmartImage";
 import { cn } from "@/lib/cn";
 
-/**
- * Auto-scrolling marquee rail with cards.
- * Uses pure CSS animation for smooth infinite loop.
- */
-
 type Card = {
   title: string;
   href: string;
@@ -45,7 +40,6 @@ const cards: Card[] = [
 ];
 
 export function HorizontalRailAutoSection({ className }: { className?: string }) {
-  // Double the cards for seamless loop
   const list = [...cards, ...cards];
 
   return (
@@ -65,13 +59,10 @@ export function HorizontalRailAutoSection({ className }: { className?: string })
         </div>
       </div>
 
-      {/* Full-width marquee container */}
       <div className="relative">
-        {/* Fade masks */}
         <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-20 bg-gradient-to-r from-[var(--bg-section)] to-transparent" />
         <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-20 bg-gradient-to-l from-[var(--bg-section)] to-transparent" />
 
-        {/* Marquee track - CSS animation */}
         <div className="flex w-max animate-rail-scroll hover:[animation-play-state:paused]">
           {list.map((c, i) => (
             <Link

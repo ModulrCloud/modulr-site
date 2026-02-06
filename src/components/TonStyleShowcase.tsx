@@ -7,12 +7,6 @@ import { SmartImage } from "@/components/SmartImage";
 import { cn } from "@/lib/cn";
 import { MODULR_LINKS } from "@/config/links";
 
-/**
- * TON-style showcase section with large premium tiles featuring photos
- * Like ton.org/en/use - big rounded cards with images and CTAs
- * FULL-WIDTH version
- */
-
 type Tile = {
   title: string;
   desc: string;
@@ -63,7 +57,6 @@ export function TonStyleShowcase({ className }: { className?: string }) {
 
   return (
     <section className={cn("border-t border-hairline bg-section", className)}>
-      {/* Header - constrained */}
       <div className="mx-auto max-w-7xl px-6 pt-20 md:pt-28">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between mb-14">
           <Reveal>
@@ -77,16 +70,9 @@ export function TonStyleShowcase({ className }: { className?: string }) {
               </h2>
             </div>
           </Reveal>
-          {/* <Reveal delayMs={80}>
-            <p className="max-w-md text-sm leading-7 text-white/60">
-              Everything you need to build, deploy, and scale robotic operations
-              on a global network.
-            </p>
-          </Reveal> */}
         </div>
       </div>
 
-      {/* Cards - FULL WIDTH with subtle edge padding */}
       <div className="px-4 md:px-8 pb-20 md:pb-28">
         <div className="grid gap-5 md:grid-cols-2">
           {tiles.map((tile, i) => (
@@ -106,7 +92,6 @@ export function TonStyleShowcase({ className }: { className?: string }) {
                   whileHover={reduce ? undefined : { y: -6, scale: 1.003 }}
                   transition={{ duration: 0.28, ease: [0.2, 0.8, 0.2, 1] }}
                 >
-                  {/* Image section */}
                   <div
                     className={cn(
                       "absolute inset-0 overflow-hidden",
@@ -118,7 +103,6 @@ export function TonStyleShowcase({ className }: { className?: string }) {
                       alt={tile.title}
                       className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-[1.04]"
                     />
-                    {/* Overlays - minimal when tile.minimalOverlay to keep image sharp */}
                     {!tile.minimalOverlay && (
                       <>
                         <div
@@ -142,7 +126,6 @@ export function TonStyleShowcase({ className }: { className?: string }) {
                     )}
                   </div>
 
-                  {/* Content section */}
                   <div
                     className={cn(
                       "relative flex flex-col justify-end p-8 md:p-12",
@@ -151,7 +134,6 @@ export function TonStyleShowcase({ className }: { className?: string }) {
                         : "h-full"
                     )}
                   >
-                    {/* Accent glow behind content */}
                     <div
                       className="pointer-events-none absolute inset-0 opacity-30"
                       style={{
@@ -200,7 +182,6 @@ export function TonStyleShowcase({ className }: { className?: string }) {
                     </div>
                   </div>
 
-                  {/* Hover ring */}
                   <div className="pointer-events-none absolute inset-0 rounded-[32px] md:rounded-[48px] ring-1 ring-inset ring-white/5 group-hover:ring-[var(--accent)]/30 transition" />
                 </motion.article>
               </Link>

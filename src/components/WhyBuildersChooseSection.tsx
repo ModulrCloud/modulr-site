@@ -6,13 +6,7 @@ import Link from "next/link";
 import { Reveal } from "@/components/Reveal";
 import { cn } from "@/lib/cn";
 
-/**
- * NEAR-like section:
- * - Left side: STICKY title that stays pinned while scrolling
- * - Right side: content panels that crossfade as user scrolls
- */
-
-type NearPanel = {
+type Panel = {
   kicker: string;
   title: string;
   desc: string;
@@ -20,7 +14,7 @@ type NearPanel = {
   backgroundImage?: string;
 };
 
-const panels: NearPanel[] = [
+const panels: Panel[] = [
   {
     kicker: "Customizability",
     title: "Operate any robot with any interface",
@@ -52,7 +46,6 @@ export function WhyBuildersChooseSection({ className }: { className?: string }) 
     offset: ["start start", "end end"],
   });
 
-  // Opacity transforms for 3 panels
   const o0 = useTransform(scrollYProgress, [0, 0.25, 0.35], [1, 1, 0]);
   const o1 = useTransform(scrollYProgress, [0.3, 0.45, 0.65], [0, 1, 0]);
   const o2 = useTransform(scrollYProgress, [0.6, 0.75, 1], [0, 1, 1]);
@@ -60,13 +53,10 @@ export function WhyBuildersChooseSection({ className }: { className?: string }) 
 
   return (
     <section className={cn("border-t border-hairline bg-section", className)}>
-      {/* This container drives the scroll - needs to be tall */}
       <div ref={containerRef} className="relative min-h-[300vh]">
-        {/* Sticky wrapper for both columns */}
         <div className="sticky top-0 min-h-screen">
           <div className="mx-auto max-w-7xl px-6">
             <div className="grid gap-10 md:grid-cols-12 md:gap-16 pt-24 md:pt-32 pb-20">
-              {/* LEFT: Sticky title (stays in place) */}
               <div className="md:col-span-5">
                 <Reveal>
                   <div className="text-xs tracking-[0.22em] uppercase text-white/55">Why Modulr</div>
@@ -93,7 +83,6 @@ export function WhyBuildersChooseSection({ className }: { className?: string }) 
                   </div>
                 </Reveal>
 
-                {/* Scroll progress indicator */}
                 <div className="mt-12 hidden md:flex items-center gap-3">
                   {panels.map((_, idx) => (
                     <motion.div
@@ -112,7 +101,6 @@ export function WhyBuildersChooseSection({ className }: { className?: string }) 
                 </div>
               </div>
 
-              {/* RIGHT: Crossfading panels */}
               <div className="md:col-span-7 relative">
                 <div className="relative h-[480px] md:h-[540px]">
                   {panels.map((p, idx) => (
@@ -122,14 +110,12 @@ export function WhyBuildersChooseSection({ className }: { className?: string }) 
                       className="absolute inset-0"
                     >
                       <div className="h-full overflow-hidden rounded-[40px] border border-white/10 shadow-glow relative">
-                        {/* Background: image or default */}
                         {p.backgroundImage ? (
                           <>
                             <div
                               className="absolute inset-0 rounded-[40px] bg-cover bg-center"
                               style={{ backgroundImage: `url(${p.backgroundImage})` }}
                             />
-                            {/* Dark overlay for text readability */}
                             <div className="pointer-events-none absolute inset-0 rounded-[40px] bg-black/60" />
                             <div className="pointer-events-none absolute inset-0 rounded-[40px] bg-[linear-gradient(to_bottom,rgba(0,0,0,.35),rgba(0,0,0,.75))]" />
                           </>
@@ -141,7 +127,6 @@ export function WhyBuildersChooseSection({ className }: { className?: string }) 
                           </>
                         )}
 
-                        {/* Content */}
                         <div className="relative h-full p-8 md:p-10 flex flex-col">
                           <div className="text-sm font-medium text-white/70">{p.kicker}</div>
                           <h3 className="mt-4 text-2xl md:text-3xl font-semibold tracking-tight text-white">

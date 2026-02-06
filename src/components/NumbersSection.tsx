@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Reveal } from "@/components/Reveal";
 import { cn } from "@/lib/cn";
 
@@ -37,39 +37,25 @@ function format(n: number) {
   return new Intl.NumberFormat(undefined).format(Math.round(n));
 }
 
-function Counter({
-  to,
-  suffix = "",
-  trigger,
-}: {
-  to: number;
-  suffix?: string;
-  trigger: number;
-}) {
-  const ref = useRef<HTMLDivElement | null>(null);
+function Counter({ to, suffix = "", trigger }: { to: number; suffix?: string; trigger: number }) {
   const [v, setV] = useState(0);
 
   useEffect(() => {
     setV(0);
     const start = performance.now();
-    const dur = 2200; // Slower animation
+    const duration = 2200;
     let raf = 0;
     const tick = (now: number) => {
-      const p = Math.min(1, (now - start) / dur);
-      const e = 1 - Math.pow(1 - p, 3);
-      setV(to * e);
-      if (p < 1) raf = requestAnimationFrame(tick);
+      const progress = Math.min(1, (now - start) / duration);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setV(to * eased);
+      if (progress < 1) raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
   }, [to, trigger]);
 
-  return (
-    <div ref={ref} className="tabular-nums">
-      {format(v)}
-      {suffix}
-    </div>
-  );
+  return <div className="tabular-nums">{format(v)}{suffix}</div>;
 }
 
 const stats = [
