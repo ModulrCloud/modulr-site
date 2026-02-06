@@ -9,6 +9,7 @@ import { ParallaxTextSection } from "@/components/ParallaxTextSection";
 import { AccessBentoSection } from "@/components/AccessBentoSection";
 import { TrustedByMarquee } from "@/components/TrustedByMarquee";
 import { StoriesSection } from "@/components/StoriesSection";
+import { getCachedStories } from "@/lib/roboticsFeeds";
 import { PremiumShowcaseSection } from "@/components/PremiumShowcaseSection";
 import { UseCasesHorizontalScrollSection } from "@/components/UseCasesHorizontalScrollSection";
 import { StickyHighlightsSection } from "@/components/StickyHighlightsSection";
@@ -30,7 +31,9 @@ const HERO_VIDEO_WEBM =
 const HERO_POSTER =
   "https://cdn.prod.website-files.com/688b650d15ca6b144341e1f7%2F689b4e755b6819dac8d89bd5_hero_bg_semsombra%20%281%29-poster-00001.jpg";
 
-export default function Home() {
+export default async function Home() {
+  const stories = await getCachedStories();
+
   return (
     <div className="min-h-screen flex flex-col">
       <PageIntro />
@@ -109,14 +112,14 @@ export default function Home() {
         
         <TeleoperationSection />
 
-        
+        <UseCasesHorizontalScrollSection />
         
         
         <PremiumShowcaseSection />
         
         
         
-        <UseCasesHorizontalScrollSection />
+        
         
         
         
@@ -124,11 +127,12 @@ export default function Home() {
         
         <ParallaxTextSection />
         
+        <StickyHighlightsSection />
         {/* <AccessBentoSection /> */}
 
         <BuiltDifferentSection />
         
-        <StickyHighlightsSection />
+        
         
         
 
@@ -155,7 +159,9 @@ export default function Home() {
         </section>
 */}
 
-        <StoriesSection />
+        <NumbersSection />
+        
+        <StoriesSection stories={stories} />
 
         {/* <HorizontalRailAutoSection /> */}
 
@@ -163,7 +169,7 @@ export default function Home() {
 
         
 
-        <NumbersSection />
+        
 
         
 

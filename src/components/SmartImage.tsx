@@ -8,10 +8,25 @@ type Props = {
   alt: string;
   className?: string;
   fallbackClassName?: string;
+  fallbackSrc?: string;
 };
 
-export function SmartImage({ src, alt, className, fallbackClassName }: Props) {
+export function SmartImage({ src, alt, className, fallbackClassName, fallbackSrc }: Props) {
   const [broken, setBroken] = useState(false);
+  const [fallbackBroken, setFallbackBroken] = useState(false);
+
+  if (broken && fallbackSrc && !fallbackBroken) {
+    return (
+      <img
+        src={fallbackSrc}
+        alt={alt}
+        loading="lazy"
+        className={className}
+        referrerPolicy="no-referrer"
+        onError={() => setFallbackBroken(true)}
+      />
+    );
+  }
 
   if (broken || !src) {
     return (
@@ -31,6 +46,7 @@ export function SmartImage({ src, alt, className, fallbackClassName }: Props) {
       alt={alt}
       loading="lazy"
       className={className}
+      referrerPolicy="no-referrer"
       onError={() => setBroken(true)}
     />
   );

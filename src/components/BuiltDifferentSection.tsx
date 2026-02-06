@@ -27,7 +27,7 @@ const items: Item[] = [
     subtitle: "Network",
     desc: "Modulr lets anyone rent or deploy robots globally for practical, real-world work. Need to deploy a robot to inspect a pipeline? Or what about a robot for construction site security? It’s all possible through Modulr's peer-to-peer network.",
     image: "/drones.png",
-    accent: "rgba(242,180,0,0.25)",
+    accent: "rgba(0,200,180,0.25)",
   },
   {
     number: "02",
@@ -35,7 +35,7 @@ const items: Item[] = [
     subtitle: "Control",
     desc: "Connect to and control robots from anywhere in the world with near-zero latency, all while using your preferred interface: web browser, VR headset, gaming controller, or custom rig.",
     image: "/operate_any_robot3.png",
-    accent: "rgba(0,200,180,0.25)",
+    accent: "rgba(242,180,0,0.25)",
   },
   {
     number: "03",

@@ -25,6 +25,10 @@ const nextConfig: NextConfig = {
         port: "",
         pathname: "/**",
       },
+      // RSS feed article images (proxied so they load despite hotlinking blocks)
+      { protocol: "https", hostname: "www.therobotreport.com", port: "", pathname: "/**" },
+      { protocol: "https", hostname: "spectrum.ieee.org", port: "", pathname: "/**" },
+      { protocol: "https", hostname: "robohub.org", port: "", pathname: "/**" },
     ],
   },
 };
