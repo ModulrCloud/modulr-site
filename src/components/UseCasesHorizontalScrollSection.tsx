@@ -11,13 +11,6 @@ import {
 import { SmartImage } from "@/components/SmartImage";
 import { cn } from "@/lib/cn";
 
-/**
- * Premium Use Cases section with immersive scroll experience
- * - Giant animated title
- * - Sticky left side with rotating content
- * - Large full-bleed cards that reveal on scroll
- */
-
 type UseCase = {
   title: string;
   desc: string;
@@ -88,7 +81,6 @@ export function UseCasesHorizontalScrollSection({
     offset: ["start start", "end end"],
   });
 
-  // Calculate which card should be active based on scroll
   const cardCount = useCases.length;
 
   return (
@@ -100,15 +92,12 @@ export function UseCasesHorizontalScrollSection({
       )}
       style={{ height: `${100 + cardCount * 100}vh` }}
     >
-      {/* Sticky viewport */}
       <div className="sticky top-0 h-screen w-full overflow-hidden">
-        {/* Background gradient */}
         <div className="absolute inset-0">
           <div className="absolute inset-0 bg-gradient-to-b from-black via-[#050508] to-black" />
           <div className="absolute inset-0 k-noise opacity-[0.08]" />
         </div>
 
-        {/* Giant animated title - top */}
         <div
           ref={titleRef}
           className="absolute top-0 left-0 right-0 z-20 pt-16 md:pt-24 pointer-events-none"
@@ -143,11 +132,9 @@ export function UseCasesHorizontalScrollSection({
           </div>
         </div>
 
-        {/* Cards container */}
         <div className="absolute inset-0 flex items-center justify-center pt-32 md:pt-40">
           <div className="relative w-full max-w-[1600px] mx-auto px-6 md:px-12">
             <div className="grid gap-8 lg:grid-cols-12 lg:gap-12 items-center">
-              {/* Left side - sticky info */}
               <div className="lg:col-span-4 relative z-10">
                 <div className="space-y-8">
                   <motion.div
@@ -167,7 +154,6 @@ export function UseCasesHorizontalScrollSection({
                     </p>
                   </motion.div>
 
-                  {/* Scroll indicators - fill with yellow as user scrolls through each use case */}
                   <motion.div
                     className="flex flex-col gap-2"
                     initial={{ opacity: 0 }}
@@ -186,7 +172,6 @@ export function UseCasesHorizontalScrollSection({
                 </div>
               </div>
 
-              {/* Right side - stacked cards */}
               <div className="lg:col-span-8 relative">
                 <div className="relative h-[50vh] md:h-[55vh] lg:h-[60vh]">
                   {useCases.map((uc, idx) => (
@@ -205,7 +190,6 @@ export function UseCasesHorizontalScrollSection({
           </div>
         </div>
 
-        {/* Scroll hint */}
         <motion.div
           className="absolute bottom-8 left-0 right-0 z-10 flex justify-center pointer-events-none"
           initial={{ opacity: 0 }}
@@ -222,7 +206,6 @@ export function UseCasesHorizontalScrollSection({
           </motion.div>
         </motion.div>
 
-        {/* Vignette */}
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute inset-y-0 left-0 w-16 md:w-24 bg-gradient-to-r from-black to-transparent" />
           <div className="absolute inset-y-0 right-0 w-16 md:w-24 bg-gradient-to-l from-black to-transparent" />
@@ -233,8 +216,6 @@ export function UseCasesHorizontalScrollSection({
   );
 }
 
-/* ─────────────────────────────────────────────────────────────────────────── */
-
 function ScrollIndicator({
   index,
   total,
@@ -244,7 +225,6 @@ function ScrollIndicator({
   total: number;
   scrollYProgress: ReturnType<typeof useScroll>["scrollYProgress"];
 }) {
-  // Fill bar (gray → yellow) as user scrolls through this card's segment
   const start = index / total;
   const end = (index + 1) / total;
 
@@ -261,8 +241,6 @@ function ScrollIndicator({
   );
 }
 
-/* ─────────────────────────────────────────────────────────────────────────── */
-
 function UseCaseCard({
   useCase,
   index,
@@ -276,12 +254,10 @@ function UseCaseCard({
   scrollYProgress: ReturnType<typeof useScroll>["scrollYProgress"];
   reduce: boolean | null;
 }) {
-  // Calculate visibility range for this card
   const start = index / total;
   const peak = (index + 0.5) / total;
   const end = (index + 1) / total;
 
-  // Transforms
   const opacity = useTransform(
     scrollYProgress,
     [start, start + 0.08, peak, end - 0.08, end],
@@ -318,16 +294,13 @@ function UseCaseCard({
         zIndex: total - index,
       }}
     >
-      {/* Image */}
       <div className="absolute inset-0">
         <SmartImage
           src={useCase.image}
           alt={useCase.title}
           className="absolute inset-0 h-full w-full object-cover"
         />
-        {/* Overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-black/30" />
-        {/* Accent glow */}
         <div
           className="pointer-events-none absolute inset-0 opacity-60"
           style={{
@@ -336,9 +309,7 @@ function UseCaseCard({
         />
       </div>
 
-      {/* Content */}
       <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-10 lg:p-12">
-        {/* Stat badge */}
         <div className="mb-6 inline-flex self-start items-center gap-3">
           <div className="rounded-2xl border border-white/15 bg-black/50 backdrop-blur-sm px-5 py-3">
             <div className="text-2xl md:text-3xl font-bold text-white">
@@ -350,7 +321,6 @@ function UseCaseCard({
           </div>
         </div>
 
-        {/* Title & desc */}
         <h3 className="text-2xl md:text-3xl lg:text-4xl font-semibold tracking-tight text-white">
           {useCase.title}
         </h3>
@@ -358,25 +328,12 @@ function UseCaseCard({
           {useCase.desc}
         </p>
 
-        {/* CTA - hidden
-        <div className="mt-6 inline-flex items-center gap-3">
-          <span className="inline-flex items-center justify-center rounded-full border border-white/15 bg-white/5 backdrop-blur-sm px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-white/10">
-            Learn More
-          </span>
-          <span className="text-white/50 text-lg">→</span>
-        </div>
-        */}
       </div>
 
-      {/* Subtle inner glow */}
       <div
         className="pointer-events-none absolute inset-0 rounded-[28px] md:rounded-[40px]"
-        style={{
-          boxShadow: `inset 0 0 120px ${useCase.accent}`,
-        }}
+        style={{ boxShadow: `inset 0 0 120px ${useCase.accent}` }}
       />
-
-      {/* Border highlight on hover */}
       <div className="pointer-events-none absolute inset-0 rounded-[28px] md:rounded-[40px] ring-1 ring-inset ring-white/5" />
     </motion.article>
   );

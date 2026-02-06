@@ -87,10 +87,11 @@ export function PremiumShowcaseSection() {
                     </div>
                     <div className="col-span-12 rounded-2xl border border-white/10 bg-white/[0.03] p-4">
                       <div className="flex items-center justify-between text-xs text-white/45">
-                        <span>Session</span>
+                        <span>Session History</span>
                         <span className="text-white/60">$1.34/min</span>
                       </div>
                       <div className="mt-3 min-h-[200px] rounded-xl overflow-hidden border border-white/5 bg-black/30">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                           src="/session-history-screenshot.png"
                           alt="Session history: Total Sessions, Completed, Total Time, Avg Duration with session list"

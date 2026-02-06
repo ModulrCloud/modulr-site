@@ -8,10 +8,26 @@ type Props = {
   alt: string;
   className?: string;
   fallbackClassName?: string;
+  fallbackSrc?: string;
 };
 
-export function SmartImage({ src, alt, className, fallbackClassName }: Props) {
+export function SmartImage({ src, alt, className, fallbackClassName, fallbackSrc }: Props) {
   const [broken, setBroken] = useState(false);
+  const [fallbackBroken, setFallbackBroken] = useState(false);
+
+  if (broken && fallbackSrc && !fallbackBroken) {
+    return (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        src={fallbackSrc}
+        alt={alt}
+        loading="lazy"
+        className={className}
+        referrerPolicy="no-referrer"
+        onError={() => setFallbackBroken(true)}
+      />
+    );
+  }
 
   if (broken || !src) {
     return (
@@ -26,16 +42,14 @@ export function SmartImage({ src, alt, className, fallbackClassName }: Props) {
   }
 
   return (
+    // eslint-disable-next-line @next/next/no-img-element
     <img
       src={src}
       alt={alt}
       loading="lazy"
       className={className}
+      referrerPolicy="no-referrer"
       onError={() => setBroken(true)}
     />
   );
 }
-
-
-
-

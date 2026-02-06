@@ -6,11 +6,14 @@ import { cn } from "@/lib/cn";
 export function PageShell({
   title,
   subtitle,
+  actions,
   children,
   className,
 }: {
   title?: string;
   subtitle?: string;
+  /** Rendered below the subtitle in the same header section (e.g. buttons) */
+  actions?: ReactNode;
   children?: ReactNode;
   className?: string;
 }) {
@@ -25,6 +28,11 @@ export function PageShell({
             </h1>
             {subtitle ? (
               <p className="mt-5 max-w-3xl text-base leading-7 text-muted">{subtitle}</p>
+            ) : null}
+            {actions ? (
+              <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
+                {actions}
+              </div>
             ) : null}
           </div>
         </section>

@@ -6,35 +6,35 @@ import { cn } from "@/lib/cn";
 
 const ownerSteps = [
   {
-    title: "Connect with the Modulr agent",
-    desc: "Get your robots on the network without rebuilding from scratch. Integrate your existing systems with the Modulr agent so they’re ready for scalable, remote operation—no more in-house solutions that don’t grow with you.",
+    title: "Control any robot with one interface",
+    desc: "Modulr supports any robot, any interface, any command. Add the Modulr agent to your robot, set your parameters, and you're live. No custom interfaces from scratch or one-off rules per robot.",
   },
   {
-    title: "Customize control over your fleet",
-    desc: "Support any manufacturer, custom ROS commands, and the interfaces your team already uses. One platform that adapts to your stack so control is consistent and easy to use across the whole fleet.",
+    title: "Empower teams & scale operations",
+    desc: "Define who can access and operate each robot, when, and under what rules. Detailed logs, clear handoffs, and audit trails help engineers focus on solving the real issues instead of babysitting.",
   },
   {
-    title: "Set permissions and preferences",
-    desc: "Define who can access and operate each robot, when, and under what rules. No more babysitting sessions—engineers stay focused on hard problems while operators and clients use the access you grant.",
+    title: "Operate on your terms",
+    desc: "Use custom controllers, AR/VR headsets, keyboards, joysticks, location/task presets, or any bespoke interface—even add custom ROS commands. Easily make the Modulr interface your own.",
   },
 ];
 
 const clientSteps = [
   {
-    title: "Discover",
-    desc: "Browse and discover robots and services on the network. See availability, pricing, and capabilities in one place—no long procurement.",
+    title: "Discover & rent robots",
+    desc: "Browse and discover robots and services on the network. See availability, pricing, and capabilities in one place. No need to buy a robot you don't need.",
   },
   {
-    title: "Operate",
-    desc: "Connect and control from your browser, VR headset, or preferred interface. Real-time feedback and built-in safety guardrails on every session.",
+    title: "Operate from anywhere",
+    desc: "Connect and control from your browser, VR headset, or preferred interface. Real-time feedback and built-in safety guardrails are present in every session.",
   },
   {
     title: "Pay per use",
-    desc: "Rent only what you need. Clear per-session or per-minute pricing; no lock-in. Ideal for one-off inspections, demos, or scaling operations.",
+    desc: "Rent only what you need. Clear per-session or per-minute pricing; no lock-in. Ideal for infrequent, dangerous, or monotonous tasks. Let robots do the work for you—without having to buy.",
   },
 ];
 
-export function StickyHighlightsSection({ className }: { className?: string }) {
+export function HowItWorks({ className }: { className?: string }) {
   const ref = useRef<HTMLDivElement | null>(null);
 
   return (
@@ -48,12 +48,12 @@ export function StickyHighlightsSection({ className }: { className?: string }) {
           </Reveal>
           <Reveal delayMs={60}>
             <h2 className="mt-3 text-premium text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-              One platform to <span className="text-gradient">operate and monetize robots</span> 
+              One platform to <span className="text-gradient">operate and monetize robots</span>
             </h2>
           </Reveal>
           <Reveal delayMs={110}>
             <p className="mt-5 text-sm leading-7 text-white/60 max-w-2xl">
-              Whether you're a robotics team looking for better internal controls over your own fleet, or an operator looking to rent and operate robots for your business—Modulr connects both sides.
+              Whether you're a robotics team looking for better internal controls over your fleet, or an operator looking to rent and operate robots for your business—Modulr has you covered.
             </p>
           </Reveal>
         </div>
@@ -62,16 +62,16 @@ export function StickyHighlightsSection({ className }: { className?: string }) {
           {/* Left: For robot owners */}
           <div className="md:sticky md:top-24 md:self-start">
             <Reveal delayMs={90}>
-              <div className="h-full rounded-2xl border border-hairline bg-white/[0.02] p-6 md:p-8 flex flex-col">
-                <div className="text-xs tracking-[0.2em] uppercase text-white/50 mb-1">
-                  For robot owners
+              <div className="h-full rounded-2xl border border-white/20 bg-white/[0.06] p-6 md:p-8 flex flex-col shadow-[0_0_0_1px_rgba(255,255,255,0.06)]">
+                <div className="text-xs tracking-[0.2em] uppercase text-white/70 mb-1">
+                  For partners & robot teams
                 </div>
                 <h3 className="text-lg md:text-xl font-semibold text-white mt-1">
-                  Customize full control over your robots
+                  Full customizability for your fleet & team
                 </h3>
                 <div className="mt-6 space-y-3 flex-1">
                   {ownerSteps.map((s, i) => (
-                    <div key={s.title} className="rounded-xl border border-white/10 bg-black/20 p-5">
+                    <div key={s.title} className="rounded-xl border border-white/15 bg-white/[0.01] p-5">
                       <div className="text-sm font-semibold text-white">
                         <span className="text-[var(--accent)]">{String(i + 1).padStart(2, "0")}</span>{" "}
                         {s.title}
@@ -125,7 +125,3 @@ export function StickyHighlightsSection({ className }: { className?: string }) {
     </section>
   );
 }
-
-
-
-

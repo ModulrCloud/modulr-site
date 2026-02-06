@@ -24,8 +24,8 @@ export function LottiePlayer({
   ariaLabel,
   preserveAspectRatio = "xMidYMid meet",
 }: Props) {
-  const containerRef = useRef<HTMLDivElement | null>(null);
-  const animRef = useRef<any>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const animRef = useRef<ReturnType<typeof import("lottie-web").default.loadAnimation> | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -35,13 +35,10 @@ export function LottiePlayer({
       const el = containerRef.current;
       if (!el) return;
 
-      const reduce =
-        window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches ?? false;
-
+      const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches ?? false;
       const lottie = (await import("lottie-web")).default;
       if (cancelled) return;
 
-      // Ensure empty
       el.innerHTML = "";
 
       const anim = lottie.loadAnimation({
@@ -50,39 +47,27 @@ export function LottiePlayer({
         loop: reduce ? false : loop,
         autoplay: reduce ? false : autoplay,
         path: src,
-        rendererSettings: {
-          preserveAspectRatio,
-        },
+        rendererSettings: { preserveAspectRatio },
       });
       anim.setSpeed(speed);
       animRef.current = anim;
 
-      const onEnter = () => {
-        if (!hoverReplay) return;
-        if (!animRef.current) return;
-        if (reduce) return;
-        // replay from start
-        animRef.current.stop();
-        animRef.current.play();
-      };
-
-      if (hoverReplay) {
+      if (hoverReplay && !reduce) {
+        const onEnter = () => {
+          animRef.current?.stop();
+          animRef.current?.play();
+        };
         el.addEventListener("pointerenter", onEnter, { passive: true });
         cleanup = () => el.removeEventListener("pointerenter", onEnter);
       }
 
-      // If reduce-motion: draw first frame only.
-      if (reduce) {
-        anim.goToAndStop(0, true);
-      }
+      if (reduce) anim.goToAndStop(0, true);
     })();
 
     return () => {
       cancelled = true;
       cleanup?.();
-      try {
-        animRef.current?.destroy?.();
-      } catch {}
+      animRef.current?.destroy();
       animRef.current = null;
     };
   }, [autoplay, hoverReplay, loop, preserveAspectRatio, speed, src]);
@@ -96,5 +81,3 @@ export function LottiePlayer({
     />
   );
 }
-
-

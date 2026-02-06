@@ -86,7 +86,7 @@ export function TeleoperationSection({ className }: { className?: string }) {
           </Reveal>
           <Reveal delayMs={40}>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-white tracking-tight">
-              A new standard of control
+              A new standard for robot control
             </h2>
           </Reveal>
           <Reveal delayMs={80}>

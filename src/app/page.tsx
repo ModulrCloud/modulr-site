@@ -6,18 +6,16 @@ import { JoinNetworkSection } from "@/components/JoinNetworkSection";
 import { MODULR_LINKS } from "@/config/links";
 import { PageIntro } from "@/components/PageIntro";
 import { ParallaxTextSection } from "@/components/ParallaxTextSection";
-import { AccessBentoSection } from "@/components/AccessBentoSection";
 import { TrustedByMarquee } from "@/components/TrustedByMarquee";
 import { StoriesSection } from "@/components/StoriesSection";
+import { getCachedStories } from "@/lib/roboticsFeeds";
 import { PremiumShowcaseSection } from "@/components/PremiumShowcaseSection";
 import { UseCasesHorizontalScrollSection } from "@/components/UseCasesHorizontalScrollSection";
-import { StickyHighlightsSection } from "@/components/StickyHighlightsSection";
-import { SmartImage } from "@/components/SmartImage";
+import { HowItWorks } from "@/components/HowItWorks";
 import { NumbersSection } from "@/components/NumbersSection";
-import { HorizontalRailAutoSection } from "@/components/HorizontalRailAutoSection";
 import { WhyBuildersChooseSection } from "@/components/WhyBuildersChooseSection";
-import { BuiltDifferentSection } from "@/components/BuiltDifferentSection";
-import { TonStyleShowcase } from "@/components/TonStyleShowcase";
+import { MonetizeRobotsGlobally } from "@/components/MonetizeRobotsGlobally";
+import { DiscoverNewParadigm } from "@/components/DiscoverNewParadigm";
 import { TeleoperationSection } from "@/components/TeleoperationSection";
 
 const ROADMAP_IMG =
@@ -30,13 +28,16 @@ const HERO_VIDEO_WEBM =
 const HERO_POSTER =
   "https://cdn.prod.website-files.com/688b650d15ca6b144341e1f7%2F689b4e755b6819dac8d89bd5_hero_bg_semsombra%20%281%29-poster-00001.jpg";
 
-export default function Home() {
+export default async function Home() {
+  const stories = await getCachedStories();
+
   return (
     <div className="min-h-screen flex flex-col">
       <PageIntro />
       <SiteHeader />
 
       <main className="pt-16 flex-1">
+        {/* Hero */}
         <section className="relative overflow-hidden border-b border-hairline min-h-[70vh] flex items-center">
           <div className="pointer-events-none absolute inset-0">
             <video
@@ -51,7 +52,6 @@ export default function Home() {
               <source src={HERO_VIDEO_WEBM} type="video/webm" />
               <source src={HERO_VIDEO_MP4} type="video/mp4" />
             </video>
-
             <div className="absolute inset-0 bg-[radial-gradient(1400px_900px_at_50%_30%,rgba(242,180,0,0.15),transparent_55%),radial-gradient(1000px_700px_at_80%_70%,rgba(255,255,255,0.06),transparent_55%)]" />
             <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,.25),rgba(0,0,0,.65),rgba(0,0,0,.88))]" />
           </div>
@@ -66,8 +66,7 @@ export default function Home() {
             <div className="mt-10 text-center">
               <Reveal delayMs={60}>
                 <h1 className="text-premium text-4xl font-semibold leading-[1.03] tracking-tight text-white sm:text-6xl">
-                  Access, Operate, and
-                  <span className="block text-gradient">Monetize Robots Globally</span>
+                  Robot Operation, <span className="text-gradient">at Scale.</span>
                 </h1>
               </Reveal>
               <Reveal delayMs={140}>
@@ -102,37 +101,18 @@ export default function Home() {
         </section>
 
         <TrustedByMarquee />
-
-        <TonStyleShowcase />
-        
-        <WhyBuildersChooseSection />
-        
+        <DiscoverNewParadigm />
         <TeleoperationSection />
-
-        
-        
-        
+        <WhyBuildersChooseSection />
         <PremiumShowcaseSection />
-        
-        
-        
         <UseCasesHorizontalScrollSection />
-        
-        
-        
-        
-        
+        <HowItWorks />
         <ParallaxTextSection />
         
+
         {/* <AccessBentoSection /> */}
 
-        <BuiltDifferentSection />
-        
-        <StickyHighlightsSection />
-        
-        
-
-        
+        <MonetizeRobotsGlobally />
 
 {/*
         <section className="border-t border-hairline bg-section">
@@ -154,19 +134,11 @@ export default function Home() {
           </div>
         </section>
 */}
-
-        <StoriesSection />
+        <NumbersSection />
+        <StoriesSection stories={stories} />
 
         {/* <HorizontalRailAutoSection /> */}
-
         
-
-        
-
-        <NumbersSection />
-
-        
-
         <JoinNetworkSection />
       </main>
 

@@ -41,15 +41,11 @@ export function JoinNetworkSection({ className }: { className?: string }) {
         headers: { "content-type": "application/json" },
         body: JSON.stringify(form),
       });
-      const data = (await res.json().catch(() => null)) as
-        | { ok: true }
-        | { ok: false; error?: string }
-        | null;
+      const data: { ok: boolean; error?: string } | null =
+        await res.json().catch(() => null);
 
-      if (!res.ok || !data || (data as any).ok !== true) {
-        throw new Error(
-          (data as any)?.error || "Something went wrong while submitting the form.",
-        );
+      if (!res.ok || !data?.ok) {
+        throw new Error(data?.error || "Something went wrong while submitting the form.");
       }
       setStatus("success");
     } catch (err) {
@@ -67,7 +63,7 @@ export function JoinNetworkSection({ className }: { className?: string }) {
               Earn with us
             </div>
             <h2 className="mt-4 text-premium text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-              Join the <span className="text-gradient">Modulr</span> Network
+              Join the <span className="text-gradient">Modulr Network</span>
             </h2>
             <p className="mt-5 text-base leading-7 text-muted">
               If you're a provider of robotics or AI/data/compute services, you can join our
