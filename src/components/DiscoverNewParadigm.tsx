@@ -23,7 +23,7 @@ type Tile = {
 const tiles: Tile[] = [
   {
     title: "Built from Teleoperation Up",
-    desc: "Modulr is solving a real pain point in robotics today: fragmented, custom-built operator interfaces that don’t scale. We’re standardizing robot control into a customizable yet intuitive UX while laying the foundation for a peer-to-peer network connecting robots, AI, data, and compute. This approach earned Modulr a place in NVIDIA’s Inception Program.",
+    desc: "Modulr is solving a real pain point in robotics today: fragmented, custom-built operator interfaces that don't scale. We're standardizing robot control into a customizable yet intuitive UX while laying the foundation for a peer-to-peer network connecting robots, AI, data, and compute. This approach earned Modulr a place in NVIDIA's Inception Program.",
     image: "/NVIDIA_3.jpeg",
     href: "/technology-overview",
     cta: "Learn More",
@@ -52,7 +52,7 @@ const tiles: Tile[] = [
   },
 ];
 
-export function TonStyleShowcase({ className }: { className?: string }) {
+export function DiscoverNewParadigm({ className }: { className?: string }) {
   const reduce = useReducedMotion();
 
   return (

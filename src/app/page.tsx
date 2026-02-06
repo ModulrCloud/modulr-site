@@ -11,11 +11,11 @@ import { StoriesSection } from "@/components/StoriesSection";
 import { getCachedStories } from "@/lib/roboticsFeeds";
 import { PremiumShowcaseSection } from "@/components/PremiumShowcaseSection";
 import { UseCasesHorizontalScrollSection } from "@/components/UseCasesHorizontalScrollSection";
-import { StickyHighlightsSection } from "@/components/StickyHighlightsSection";
+import { HowItWorks } from "@/components/HowItWorks";
 import { NumbersSection } from "@/components/NumbersSection";
 import { WhyBuildersChooseSection } from "@/components/WhyBuildersChooseSection";
-import { BuiltDifferentSection } from "@/components/BuiltDifferentSection";
-import { TonStyleShowcase } from "@/components/TonStyleShowcase";
+import { MonetizeRobotsGlobally } from "@/components/MonetizeRobotsGlobally";
+import { DiscoverNewParadigm } from "@/components/DiscoverNewParadigm";
 import { TeleoperationSection } from "@/components/TeleoperationSection";
 
 const ROADMAP_IMG =
@@ -66,8 +66,7 @@ export default async function Home() {
             <div className="mt-10 text-center">
               <Reveal delayMs={60}>
                 <h1 className="text-premium text-4xl font-semibold leading-[1.03] tracking-tight text-white sm:text-6xl">
-                  Access, Operate, and
-                  <span className="block text-gradient">Monetize Robots Globally</span>
+                  Robot Operation, <span className="text-gradient">at Scale.</span>
                 </h1>
               </Reveal>
               <Reveal delayMs={140}>
@@ -102,17 +101,18 @@ export default async function Home() {
         </section>
 
         <TrustedByMarquee />
-        <TonStyleShowcase />
-        <WhyBuildersChooseSection />
+        <DiscoverNewParadigm />
         <TeleoperationSection />
-        <UseCasesHorizontalScrollSection />
+        <WhyBuildersChooseSection />
         <PremiumShowcaseSection />
+        <UseCasesHorizontalScrollSection />
+        <HowItWorks />
         <ParallaxTextSection />
-        <StickyHighlightsSection />
+        
 
         {/* <AccessBentoSection /> */}
 
-        <BuiltDifferentSection />
+        <MonetizeRobotsGlobally />
 
 {/*
         <section className="border-t border-hairline bg-section">

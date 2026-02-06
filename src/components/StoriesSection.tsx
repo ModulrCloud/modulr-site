@@ -80,9 +80,7 @@ export function StoriesSection({ stories: storiesProp }: StoriesSectionProps) {
           </Reveal>
           <Reveal delayMs={60}>
             <Link
-              href={isExternalFeed ? "https://www.therobotreport.com/" : "/news"}
-              target={isExternalFeed ? "_blank" : undefined}
-              rel={isExternalFeed ? "noopener noreferrer" : undefined}
+              href="/news"
               className="text-sm text-white/60 hover:text-white transition ring-premium rounded"
             >
               View all

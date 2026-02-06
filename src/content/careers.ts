@@ -20,7 +20,7 @@ export const careerDepartments = [
 ] as const;
 
 export const careerPosts: CareerPost[] = [
-  {
+  /*{
     slug: "senior-rust-engineer",
     title: "Senior Rust Engineer",
     department: "Engineering",
@@ -31,7 +31,7 @@ export const careerPosts: CareerPost[] = [
     excerpt:
       "Build core blockchain infrastructure for the Modulr Network. You'll design high-performance systems for real-time robotic teleoperation using Rust.",
     posted: "Jan 15, 2026",
-  },
+  },*/
   {
     slug: "robotics-systems-engineer",
     title: "Robotics Systems Engineer",
@@ -39,7 +39,7 @@ export const careerPosts: CareerPost[] = [
     location: "San Francisco, CA",
     type: "Full-time",
     level: "Mid-Senior",
-    salary: "$130k – $170k",
+    salary: "$110k – $150k",
     excerpt:
       "Design and integrate robotic hardware and software systems. Work with ROS2, embedded systems, and real-time control architectures.",
     posted: "Jan 12, 2026",
@@ -51,7 +51,7 @@ export const careerPosts: CareerPost[] = [
     location: "Remote",
     type: "Full-time",
     level: "Mid",
-    salary: "$100k – $140k",
+    salary: "$80k – $120k",
     excerpt:
       "Create beautiful, high-performance user interfaces for our teleoperation dashboard and network explorer using React and Next.js.",
     posted: "Jan 10, 2026",
@@ -63,11 +63,12 @@ export const careerPosts: CareerPost[] = [
     location: "Remote (US)",
     type: "Full-time",
     level: "Senior",
-    salary: "$120k – $160k",
+    salary: "$80k – $120k",
     excerpt:
       "Shape the future of human-robot interaction. Design intuitive interfaces for complex robotic control systems and blockchain-native applications.",
     posted: "Jan 8, 2026",
   },
+  /* Hidden
   {
     slug: "devrel-engineer",
     title: "Developer Relations Engineer",
@@ -91,18 +92,19 @@ export const careerPosts: CareerPost[] = [
       "Develop low-latency firmware for robotic controllers and edge devices. Experience with ARM, FPGA, and real-time operating systems required.",
     posted: "Jan 3, 2026",
   },
-  {
+  */
+  /*{
     slug: "blockchain-engineer",
     title: "Blockchain Protocol Engineer",
     department: "Engineering",
     location: "Remote",
     type: "Full-time",
     level: "Senior",
-    salary: "$160k – $220k",
+    salary: "$120k – $140k",
     excerpt:
       "Design and implement consensus mechanisms, smart contract VMs, and cryptographic primitives for the Modulr Network.",
     posted: "Dec 28, 2025",
-  },
+  },*/
   {
     slug: "operations-manager",
     title: "Operations Manager",

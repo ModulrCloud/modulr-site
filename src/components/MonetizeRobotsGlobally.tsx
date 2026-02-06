@@ -25,7 +25,7 @@ const items: Item[] = [
     number: "01",
     title: "Source global robot liquidity",
     subtitle: "Network",
-    desc: "Modulr lets anyone rent or deploy robots globally for practical, real-world work. Need to deploy a robot to inspect a pipeline? Or what about a robot for construction site security? It’s all possible through Modulr's peer-to-peer network.",
+    desc: "Modulr lets anyone rent or deploy robots globally for practical, real-world work. Need to deploy a robot to inspect a pipeline? Or what about a robot for construction site security? It's all possible through Modulr's peer-to-peer network.",
     image: "/drones.png",
     accent: "rgba(0,200,180,0.25)",
   },
@@ -55,7 +55,7 @@ const items: Item[] = [
   },
 ];
 
-export function BuiltDifferentSection({ className }: { className?: string }) {
+export function MonetizeRobotsGlobally({ className }: { className?: string }) {
   const reduceMotion = useReducedMotion();
   const containerRef = useRef<HTMLDivElement | null>(null);
 

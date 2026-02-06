@@ -34,7 +34,7 @@ const clientSteps = [
   },
 ];
 
-export function StickyHighlightsSection({ className }: { className?: string }) {
+export function HowItWorks({ className }: { className?: string }) {
   const ref = useRef<HTMLDivElement | null>(null);
 
   return (
@@ -48,12 +48,12 @@ export function StickyHighlightsSection({ className }: { className?: string }) {
           </Reveal>
           <Reveal delayMs={60}>
             <h2 className="mt-3 text-premium text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-              One platform to <span className="text-gradient">operate and monetize robots</span> 
+              One platform to <span className="text-gradient">operate and monetize robots</span>
             </h2>
           </Reveal>
           <Reveal delayMs={110}>
             <p className="mt-5 text-sm leading-7 text-white/60 max-w-2xl">
-              Whether you're a robotics team looking for better internal controls over your fleet or an operator looking to rent and operate robots for your business—Modulr connects both sides.
+              Whether you're a robotics team looking for better internal controls over your fleet, or an operator looking to rent and operate robots for your business—Modulr has you covered.
             </p>
           </Reveal>
         </div>
@@ -125,7 +125,3 @@ export function StickyHighlightsSection({ className }: { className?: string }) {
     </section>
   );
 }
-
-
-
-
