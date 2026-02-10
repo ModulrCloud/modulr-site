@@ -72,12 +72,12 @@ export function NewsPageContent({ stories }: NewsPageContentProps) {
   const rest = useRss ? stories.slice(1) : newsPosts.slice(1);
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen min-w-0 w-full max-w-[100vw] flex flex-col overflow-x-hidden">
       <SiteHeader />
 
-      <main className="pt-16 flex-1">
+      <main className="pt-16 flex-1 min-w-0 w-full max-w-[100vw] overflow-x-hidden">
         <section className="relative overflow-hidden border-b border-hairline">
-          <div className="mx-auto max-w-6xl px-6 py-16 md:py-24">
+          <div className="mx-auto max-w-6xl px-6 pt-16 md:pt-24 pb-8 md:pb-12">
             <div className="max-w-3xl">
               <Reveal>
                 <div className="text-xs tracking-[0.28em] uppercase text-white/45">
@@ -91,8 +91,7 @@ export function NewsPageContent({ stories }: NewsPageContentProps) {
               </Reveal>
               <Reveal delayMs={100}>
                 <p className="mt-6 text-lg text-white/60 max-w-2xl">
-                  Stay up to date with the latest announcements, product updates,
-                  and community stories.
+                  Stay up to date with the latest stories in robotics & AI.
                 </p>
               </Reveal>
             </div>
@@ -100,10 +99,10 @@ export function NewsPageContent({ stories }: NewsPageContentProps) {
         </section>
 
         {/* Featured + Rail */}
-        <section className="bg-section">
-          <div className="mx-auto max-w-6xl px-6 py-16 md:py-24">
-            <div className="grid grid-cols-12 gap-8">
-              <div className="col-span-12 lg:col-span-5">
+        <section className="bg-section min-w-0 w-full max-w-[100vw] overflow-x-hidden">
+          <div className="mx-auto w-full min-w-0 max-w-6xl px-4 sm:px-6 pt-8 md:pt-12 pb-16 md:pb-24">
+            <div className="grid w-full min-w-0 grid-cols-12 gap-6 sm:gap-8">
+              <div className="col-span-12 min-w-0 lg:col-span-5">
                 <Reveal>
                   <div className="text-xs tracking-[0.22em] uppercase text-white/55">
                     Featured
@@ -115,9 +114,9 @@ export function NewsPageContent({ stories }: NewsPageContentProps) {
                       href={(featured as RoboticsStoryCard).href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="block"
+                      className="block min-w-0 max-w-full"
                     >
-                      <article className="mt-6 rounded-[28px] border border-white/10 bg-white/[0.03] overflow-hidden group">
+                      <article className="mt-6 w-full min-w-0 rounded-[28px] border border-white/10 bg-white/[0.03] overflow-hidden group">
                         <div className="relative aspect-[16/10] overflow-hidden">
                           <SmartImage
                             src={
@@ -161,9 +160,9 @@ export function NewsPageContent({ stories }: NewsPageContentProps) {
                   ) : (
                     <Link
                       href={`/news/${(featured as (typeof newsPosts)[0]).slug}`}
-                      className="block"
+                      className="block min-w-0 max-w-full"
                     >
-                      <article className="mt-6 rounded-[28px] border border-white/10 bg-white/[0.03] overflow-hidden group">
+                      <article className="mt-6 w-full min-w-0 rounded-[28px] border border-white/10 bg-white/[0.03] overflow-hidden group">
                         <div className="relative aspect-[16/10] overflow-hidden">
                           <img
                             src={(featured as (typeof newsPosts)[0]).image}
@@ -205,8 +204,8 @@ export function NewsPageContent({ stories }: NewsPageContentProps) {
                 </Reveal>
               </div>
 
-              <div className="col-span-12 lg:col-span-7">
-                <div className="flex items-center justify-between">
+              <div className="col-span-12 min-w-0 w-full max-w-full overflow-x-hidden lg:col-span-7">
+                <div className="flex min-w-0 items-center justify-between gap-3">
                   <div className="text-xs tracking-[0.22em] uppercase text-white/55">
                     Latest
                   </div>
@@ -232,7 +231,7 @@ export function NewsPageContent({ stories }: NewsPageContentProps) {
 
                 <div
                   ref={railRef}
-                  className="mt-6 flex gap-4 overflow-x-auto pb-2 [scroll-snap-type:x_mandatory] mask-fade-x scrollbar-hide"
+                  className="mt-6 flex min-w-0 gap-4 overflow-x-auto pb-2 [scroll-snap-type:x_mandatory] scrollbar-hide max-sm:[mask-image:none] sm:mask-fade-x"
                   style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
                 >
                   {useRss

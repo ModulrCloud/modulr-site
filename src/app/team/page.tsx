@@ -19,7 +19,7 @@ const team: TeamMember[] = [
   {
     name: "Mack Lorden",
     role: "Chief Executive Officer",
-    bio: "Mack is an experienced strategic growth leader with over a decade of experience in web3, AI, and frontier tech. He scaled a GPU computing product to $40M in revenue within 6 months, launched a $3M web3 ecosystem, and has angel invested in/advised 50+ web3 companies. As CEO he is focused on building the base layer for the global robot economy.",
+    bio: "Mack is an experienced strategic growth leader with over a decade of experience in sales, web3, AI, and frontier tech. He scaled a GPU computing product to $40M in revenue within 6 months, launched a $3M web3 ecosystem, and has angel invested in/advised 50+ early-stage tech companies. As CEO he is focused on making robots easy to operate and accessible to everyone.",
     imageSrc:
       "https://cdn.prod.website-files.com/688b650d15ca6b144341e1f7/68ff8377f77cbae2fb3262d8_Mack%20Mono-p-2600.jpg",
   },
@@ -71,6 +71,7 @@ export default function TeamPage() {
     <PageShell
       title="Meet Our Team"
       subtitle="World-class engineers and operators building the future of robotics."
+      compactHeader
     >
       <section className="border-t border-hairline bg-section">
         <div className="mx-auto max-w-6xl px-6 py-16 md:py-24">

@@ -214,8 +214,8 @@ export function MonetizeRobotsGlobally({ className }: { className?: string }) {
           </motion.div>
 
           <div className="absolute inset-0 pointer-events-none">
-            <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-black to-transparent" />
-            <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-black to-transparent" />
+            <div className="absolute inset-y-0 left-0 w-8 md:w-16 lg:w-24 opacity-70 md:opacity-90 lg:opacity-100 bg-gradient-to-r from-black to-transparent" />
+            <div className="absolute inset-y-0 right-0 w-8 md:w-16 lg:w-24 opacity-70 md:opacity-90 lg:opacity-100 bg-gradient-to-l from-black to-transparent" />
           </div>
         </div>
       </div>

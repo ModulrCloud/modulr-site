@@ -67,7 +67,8 @@ export function PremiumShowcaseSection() {
                     Operator cockpit
                   </div>
                   <div className="mt-4 grid grid-cols-12 gap-4">
-                    <div className="col-span-7 rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+                    {/* On mobile these cards stack; on desktop they sit side-by-side (7/5 split) */}
+                    <div className="col-span-12 md:col-span-7 rounded-2xl border border-white/10 bg-white/[0.03] p-4">
                       <div className="text-xs text-white/45">Latency (avg)</div>
                       <div className="mt-2 text-2xl font-semibold text-white">
                         220ms
@@ -76,7 +77,7 @@ export function PremiumShowcaseSection() {
                         <div className="h-full w-[72%] rounded-full bg-[linear-gradient(90deg,var(--accent),rgba(255,255,255,0.2))]" />
                       </div>
                     </div>
-                    <div className="col-span-5 rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+                    <div className="col-span-12 md:col-span-5 rounded-2xl border border-white/10 bg-white/[0.03] p-4">
                       <div className="text-xs text-white/45">Safety</div>
                       <div className="mt-2 text-sm font-semibold text-white">
                         Guardrails on

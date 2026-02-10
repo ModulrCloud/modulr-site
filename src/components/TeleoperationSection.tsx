@@ -97,7 +97,8 @@ export function TeleoperationSection({ className }: { className?: string }) {
         </div>
 
         <div className="grid lg:grid-cols-5 gap-12 lg:gap-8">
-          <div className="lg:col-span-2 space-y-4">
+          {/* Mobile/tablet: image first, then bullets. Desktop unchanged. */}
+          <div className="order-2 lg:order-none lg:col-span-2 space-y-4">
             {features.map((feature, i) => (
               <Reveal key={feature.title} delayMs={120 + i * 40}>
                 <div className="group flex gap-4 p-4 rounded-xl border border-transparent hover:border-white/[0.08] hover:bg-white/[0.02] transition-colors">
@@ -113,7 +114,7 @@ export function TeleoperationSection({ className }: { className?: string }) {
             ))}
           </div>
 
-          <Reveal delayMs={200} className="lg:col-span-3">
+          <Reveal delayMs={200} className="order-1 lg:order-none lg:col-span-3">
             <motion.div className="relative" style={{ y }}>
               <div className="relative rounded-2xl overflow-hidden border border-white/[0.08] bg-black">
                 <div className="aspect-[16/10]">

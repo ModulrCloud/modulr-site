@@ -1,7 +1,7 @@
-import { getCachedStories } from "@/lib/roboticsFeeds";
+import { getCachedStoriesForNews } from "@/lib/roboticsFeeds";
 import { NewsPageContent } from "@/app/news/NewsPageContent";
 
 export default async function NewsPage() {
-  const stories = await getCachedStories();
+  const stories = await getCachedStoriesForNews();
   return <NewsPageContent stories={stories ?? undefined} />;
 }

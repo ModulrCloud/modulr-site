@@ -81,7 +81,7 @@ export function StoriesSection({ stories: storiesProp }: StoriesSectionProps) {
           <Reveal delayMs={60}>
             <Link
               href="/news"
-              className="text-sm text-white/60 hover:text-white transition ring-premium rounded"
+              className="shrink-0 whitespace-nowrap text-sm text-white/60 hover:text-white transition ring-premium rounded"
             >
               View all
             </Link>

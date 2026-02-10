@@ -12,17 +12,18 @@ type Company = {
 };
 
 const companies: Company[] = [
+  
   {
     name: "IRYS",
     logo: "https://cdn.brandfetch.io/idkFvHPM3p/theme/dark/logo.svg?c=1bxid64Mup7aczewSAYMX&t=1757914702922",
   },
   {
-    name: "Inflectiv AI",
-    logo: "/trusted-inflectiv-ai.png",
-  },
-  {
     name: "NVIDIA Inception",
     logo: "https://cdn.brandfetch.io/idXoj5DuCE/theme/light/logo.svg?c=1bxid64Mup7aczewSAYMX&t=1725526926970",
+  },
+  {
+    name: "Inflectiv AI",
+    logo: "/trusted-inflectiv-ai.png",
   },
   {
     name: "RoboX",

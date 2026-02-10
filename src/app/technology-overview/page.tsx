@@ -8,6 +8,7 @@ export default function TechnologyOverviewPage() {
     <PageShell
       title="Technology Overview"
       subtitle="Discover the architecture and capabilities that power the Modulr network."
+      compactHeader
       actions={
         <>
           <a
@@ -29,7 +30,7 @@ export default function TechnologyOverviewPage() {
         </>
       }
     >
-      <HowItWorks />
+      <HowItWorks compactTop />
 
       <section className="border-t border-hairline bg-section">
         <div className="mx-auto max-w-6xl px-6 py-16 md:py-24">

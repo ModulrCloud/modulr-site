@@ -9,6 +9,7 @@ export function PageShell({
   actions,
   children,
   className,
+  compactHeader,
 }: {
   title?: string;
   subtitle?: string;
@@ -16,13 +17,20 @@ export function PageShell({
   actions?: ReactNode;
   children?: ReactNode;
   className?: string;
+  /** When true, reduces bottom padding of the header for a tighter gap to the next section */
+  compactHeader?: boolean;
 }) {
   return (
     <div className="min-h-screen flex flex-col">
       <SiteHeader />
       <main className={cn("pt-16 flex-1", className)}>
         <section className="border-b border-hairline bg-section">
-          <div className="mx-auto max-w-6xl px-6 py-16 md:py-20">
+          <div
+            className={cn(
+              "mx-auto max-w-6xl px-6 pt-16 md:pt-20",
+              compactHeader ? "pb-8 md:pb-12" : "pb-16 md:pb-20",
+            )}
+          >
             <h1 className="text-premium text-3xl font-semibold tracking-tight text-white sm:text-5xl">
               {title}
             </h1>

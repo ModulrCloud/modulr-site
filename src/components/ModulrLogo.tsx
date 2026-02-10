@@ -22,7 +22,12 @@ export function ModulrLogo({
   variant?: "mark" | "footer";
   size?: "default" | "large" | "xl";
 }) {
-  const src = variant === "footer" ? MODULR_ASSETS.LOGO_FOOTER : MODULR_ASSETS.LOGO_MARK;
+  const src =
+    variant === "footer"
+      ? MODULR_ASSETS.LOGO_FOOTER
+      : variant === "mark" && size === "xl"
+        ? MODULR_ASSETS.LOGO_HERO
+        : MODULR_ASSETS.LOGO_MARK;
   const config = variant === "footer" ? sizeConfig.footer : sizeConfig[size];
 
   return (
