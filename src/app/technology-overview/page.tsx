@@ -1,7 +1,6 @@
 import { PageShell } from "@/components/PageShell";
 import { Reveal } from "@/components/Reveal";
 import { HowItWorks } from "@/components/HowItWorks";
-import { AppGallery } from "@/components/AppGallery";
 import { MODULR_LINKS } from "@/config/links";
 
 export default function TechnologyOverviewPage() {
@@ -98,7 +97,7 @@ export default function TechnologyOverviewPage() {
           </div>
         </div>
       </section>
-
+{/*
       <section className="border-t border-hairline bg-section">
         <div className="mx-auto max-w-6xl px-6 py-16 md:py-24">
           <Reveal>
@@ -122,7 +121,7 @@ export default function TechnologyOverviewPage() {
           </Reveal>
         </div>
       </section>
-
+*/}
       <section className="border-t border-hairline bg-section">
         <div className="mx-auto max-w-6xl px-6 py-16 md:py-24">
           <Reveal>

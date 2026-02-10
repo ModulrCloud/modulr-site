@@ -92,10 +92,11 @@ export function DiscoverNewParadigm({ className }: { className?: string }) {
                   whileHover={reduce ? undefined : { y: -6, scale: 1.003 }}
                   transition={{ duration: 0.28, ease: [0.2, 0.8, 0.2, 1] }}
                 >
+                  {/* Desktop large tile: left column = image only. Mobile / medium: image fills card. */}
                   <div
                     className={cn(
                       "absolute inset-0 overflow-hidden",
-                      tile.size === "large" ? "md:relative md:w-[60%]" : ""
+                      tile.size === "large" ? "md:relative md:w-[55%] md:shrink-0" : ""
                     )}
                   >
                     <SmartImage
@@ -122,15 +123,16 @@ export function DiscoverNewParadigm({ className }: { className?: string }) {
                       </>
                     )}
                     {tile.minimalOverlay && (
-                      <div className="absolute inset-0 bg-gradient-to-r from-transparent from-30% via-transparent via-60% to-black/45 md:to-black/55" />
+                      <div className="absolute inset-0 md:bg-none bg-gradient-to-r from-transparent from-30% via-transparent via-60% to-black/45" />
                     )}
                   </div>
 
+                  {/* Desktop large tile: right column = dark text panel. No overlay on image. */}
                   <div
                     className={cn(
                       "relative flex flex-col justify-end p-8 md:p-12",
                       tile.size === "large"
-                        ? "md:w-[40%] md:justify-center h-full"
+                        ? "md:w-[45%] md:shrink-0 md:justify-center md:bg-black/95 md:border-l md:border-white/10 h-full"
                         : "h-full"
                     )}
                   >

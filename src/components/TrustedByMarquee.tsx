@@ -17,6 +17,10 @@ const companies: Company[] = [
     logo: "https://cdn.brandfetch.io/idkFvHPM3p/theme/dark/logo.svg?c=1bxid64Mup7aczewSAYMX&t=1757914702922",
   },
   {
+    name: "Inflectiv AI",
+    logo: "/trusted-inflectiv-ai.png",
+  },
+  {
     name: "NVIDIA Inception",
     logo: "https://cdn.brandfetch.io/idXoj5DuCE/theme/light/logo.svg?c=1bxid64Mup7aczewSAYMX&t=1725526926970",
   },
@@ -24,10 +28,10 @@ const companies: Company[] = [
     name: "RoboX",
     logo: "/robox-logo-white.png",
   },
-  {
+  /*{
     name: "Oxford University",
     logo: "https://cdn.brandfetch.io/idkDJyXvmW/theme/dark/logo.svg?c=1bxid64Mup7aczewSAYMX&t=1719305229674",
-  },
+  },*/
   {
     name: "Paal AI",
     logo: "./paal-ai-logo.webp",
@@ -49,7 +53,7 @@ export function TrustedByMarquee({ className }: { className?: string }) {
         <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-32 bg-gradient-to-l from-black to-transparent" />
 
         <div className="flex animate-marquee-slow py-3">
-          {[0, 1, 2, 3].map((setIndex) => (
+          {[0, 1].map((setIndex) => (
             <div key={setIndex} className="flex shrink-0 items-center gap-20 px-10">
               {companies.map((company, i) => (
                 <div
