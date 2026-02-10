@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { PageShell } from "@/components/PageShell";
+import { SiteHeader } from "@/components/SiteHeader";
+import { SiteFooter } from "@/components/SiteFooter";
 import { Reveal } from "@/components/Reveal";
 
 export const metadata: Metadata = {
@@ -75,18 +76,40 @@ const team: TeamMember[] = [
 
 export default function TeamPage() {
   return (
-    <PageShell
-      title="Meet Our Team"
-      subtitle="World-class engineers and operators building the future of robotics."
-      compactHeader
-    >
-      <section className="border-t border-hairline bg-section">
-        <div className="mx-auto max-w-6xl px-6 py-16 md:py-24">
-          <Reveal>
-            <h2 className="text-premium text-2xl font-semibold tracking-tight text-white sm:text-3xl">
-              Our Team
-            </h2>
-          </Reveal>
+    <div className="min-h-screen flex flex-col">
+      <SiteHeader />
+
+      <main className="pt-16 flex-1">
+        {/* Hero - same style as Research, News, Careers */}
+        <section className="relative overflow-hidden border-b border-hairline">
+          <div className="mx-auto max-w-6xl px-6 pt-16 md:pt-24 pb-8 md:pb-12">
+            <div className="max-w-3xl">
+              <Reveal>
+                <div className="text-xs tracking-[0.28em] uppercase text-white/45">
+                  Team
+                </div>
+              </Reveal>
+              <Reveal delayMs={60}>
+                <h1 className="mt-4 text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tight text-white">
+                  Meet Our Team
+                </h1>
+              </Reveal>
+              <Reveal delayMs={100}>
+                <p className="mt-6 text-lg text-white/60 max-w-2xl">
+                  World-class engineers and operators building the future of robotics.
+                </p>
+              </Reveal>
+            </div>
+          </div>
+        </section>
+
+        <section className="border-t border-hairline bg-section">
+          <div className="mx-auto max-w-6xl px-6 py-16 md:py-24">
+            <Reveal>
+              <h2 className="text-premium text-2xl font-semibold tracking-tight text-white sm:text-3xl">
+                Our Team
+              </h2>
+            </Reveal>
 
           <div className="mt-10 grid gap-4 md:grid-cols-2">
             {team.map((m, i) => (
@@ -121,6 +144,9 @@ export default function TeamPage() {
           </div>
         </div>
       </section>
-    </PageShell>
+      </main>
+
+      <SiteFooter />
+    </div>
   );
 }

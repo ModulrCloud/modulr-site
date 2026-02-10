@@ -5,14 +5,14 @@ import { MODULR_LINKS } from "@/config/links";
 export const metadata: Metadata = {
   title: "Launch App",
   description:
-    "The Modulr app is launching soon. Request a product demo or explore the docs.",
+    "Connect to and control robots from anywhere in the world with near-zero latency, all while using your preferred interface: web browser, VR headset, gaming controller, or custom rig.",
 };
 
 export default function LaunchAppPage() {
   return (
     <PageShell
       title="Launch App"
-      subtitle="The Modulr app is launching soon. In the meantime, you can request a product demo or explore the docs."
+      subtitle="Connect to and control robots from anywhere in the world with near-zero latency, all while using your preferred interface: web browser, VR headset, gaming controller, or custom rig."
     >
       <section className="border-t border-hairline bg-section">
         <div className="mx-auto max-w-6xl px-6 py-16 md:py-24">
