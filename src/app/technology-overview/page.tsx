@@ -1,7 +1,14 @@
+import type { Metadata } from "next";
 import { PageShell } from "@/components/PageShell";
 import { Reveal } from "@/components/Reveal";
 import { HowItWorks } from "@/components/HowItWorks";
 import { MODULR_LINKS } from "@/config/links";
+
+export const metadata: Metadata = {
+  title: "Technology",
+  description:
+    "Discover the architecture and capabilities that power the Modulr network.",
+};
 
 export default function TechnologyOverviewPage() {
   return (

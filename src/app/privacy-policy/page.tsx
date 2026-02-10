@@ -1,5 +1,12 @@
+import type { Metadata } from "next";
 import { PageShell } from "@/components/PageShell";
 import { Reveal } from "@/components/Reveal";
+
+export const metadata: Metadata = {
+  title: "Privacy Policy",
+  description:
+    "This Privacy Policy outlines how Modulr handles data and user activity within its decentralized operating infrastructure.",
+};
 
 const sections: Array<{ title: string; body: string }> = [
   {

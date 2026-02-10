@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { SiteHeader } from "@/components/SiteHeader";
@@ -58,11 +59,19 @@ function Body({ body }: { body: ResearchPostResolved["body"] }) {
   );
 }
 
-export default async function ResearchArticlePage({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
+type Props = { params: Promise<{ slug: string }> };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
+  const post = getResearchPost(slug);
+  if (!post) return {};
+  return {
+    title: post.title,
+    description: post.excerpt,
+  };
+}
+
+export default async function ResearchArticlePage({ params }: Props) {
   const { slug } = await params;
   const post = getResearchPost(slug);
   if (!post) notFound();

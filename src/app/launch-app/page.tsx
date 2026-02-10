@@ -1,5 +1,12 @@
+import type { Metadata } from "next";
 import { PageShell } from "@/components/PageShell";
 import { MODULR_LINKS } from "@/config/links";
+
+export const metadata: Metadata = {
+  title: "Launch App",
+  description:
+    "The Modulr app is launching soon. Request a product demo or explore the docs.",
+};
 
 export default function LaunchAppPage() {
   return (

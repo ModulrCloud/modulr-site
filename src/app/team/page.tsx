@@ -1,5 +1,12 @@
+import type { Metadata } from "next";
 import { PageShell } from "@/components/PageShell";
 import { Reveal } from "@/components/Reveal";
+
+export const metadata: Metadata = {
+  title: "Team",
+  description:
+    "World-class engineers and operators building the future of robotics.",
+};
 
 type TeamMember = {
   name: string;

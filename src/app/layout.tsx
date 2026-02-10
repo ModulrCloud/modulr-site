@@ -15,24 +15,25 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Modulr — The Open Network for Robotics, AI, Data, and Compute",
-    template: "%s — Modulr",
+    default: "Modulr - Robot Operation, at Scale",
+    template: "Modulr - %s",
   },
-  description: "Powering the global robot economy.",
+  description: "A real-time teleoperation platform built for enterprise performance and an open network economy—connecting robots, AI, data, and compute.",
   metadataBase: new URL("https://www.modulr.cloud"),
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "Modulr — The Open Network for Robotics, AI, Data, and Compute",
-    description: "Powering the global robot economy.",
+    title: "Modulr - Robot Operation, at Scale",
+    description: "A real-time teleoperation platform built for enterprise performance and an open network economy—connecting robots, AI, data, and compute.",
     type: "website",
     url: "https://www.modulr.cloud/",
+    siteName: "Modulr",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Modulr — The Open Network for Robotics, AI, Data, and Compute",
-    description: "Powering the global robot economy.",
+    title: "Modulr - Robot Operation, at Scale",
+    description: "A real-time teleoperation platform built for enterprise performance and an open network economy—connecting robots, AI, data, and compute.",
   },
   icons: {
     icon: [{ url: "/favicon.png", type: "image/png" }],

@@ -1,6 +1,13 @@
+import type { Metadata } from "next";
 import { PageShell } from "@/components/PageShell";
 import { Reveal } from "@/components/Reveal";
 import { MODULR_LINKS } from "@/config/links";
+
+export const metadata: Metadata = {
+  title: "Pricing & Billing",
+  description:
+    "Usage-based pricing for the Modulr platform. Clear, upfront pricing in local currency. Book a demo to learn more.",
+};
 
 export default function PricingPage() {
   return (
