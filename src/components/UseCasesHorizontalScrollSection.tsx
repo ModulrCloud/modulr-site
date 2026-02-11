@@ -75,9 +75,12 @@ const useCases: UseCase[] = [
 
 export function UseCasesHorizontalScrollSection({
   className,
+  theme = "dark",
 }: {
   className?: string;
+  theme?: "dark" | "light";
 }) {
+  const isDark = theme !== "light";
   const reduce = useReducedMotion();
   const containerRef = useRef<HTMLDivElement | null>(null);
   const titleRef = useRef<HTMLDivElement | null>(null);
@@ -90,22 +93,38 @@ export function UseCasesHorizontalScrollSection({
 
   // Calculate which card should be active based on scroll
   const cardCount = useCases.length;
+  const hintOpacity = useTransform(
+    scrollYProgress,
+    [0, 0.1, (cardCount - 1) / cardCount, 1],
+    [0, 1, 1, 0],
+  );
 
   return (
     <section
       ref={containerRef}
       className={cn(
-        "relative bg-black border-t border-hairline",
+        "relative border-t border-hairline",
         className
       )}
-      style={{ height: `${100 + cardCount * 100}vh` }}
+      style={{
+        height: `${100 + cardCount * 100}vh`,
+        background: isDark ? "#000" : "#fff",
+        transition: "background 0.3s",
+      }}
     >
       {/* Sticky viewport */}
       <div className="sticky top-0 h-screen w-full overflow-hidden">
         {/* Background gradient */}
         <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-gradient-to-b from-black via-[#050508] to-black" />
-          <div className="absolute inset-0 k-noise opacity-[0.08]" />
+          <div
+            className="absolute inset-0"
+            style={{
+              background: isDark
+                ? "linear-gradient(to bottom, #000, #050508, #000)"
+                : "linear-gradient(to bottom, #fff, #fafafa, #fff)",
+            }}
+          />
+          <div className="absolute inset-0 k-noise" style={{ opacity: isDark ? 0.08 : 0.05 }} />
         </div>
 
         {/* Giant animated title - top */}
@@ -131,12 +150,25 @@ export function UseCasesHorizontalScrollSection({
               <motion.span
                 style={{
                   color: "transparent",
-                  WebkitTextStroke: "2px rgba(255,255,255,0.45)",
+                  WebkitTextStroke: `2px ${isDark ? "rgba(255,255,255,0.45)" : "rgba(0,0,0,0.25)"}`,
                 }}
               >
                 USE
               </motion.span>{" "}
-              <motion.span className="bg-gradient-to-r from-white via-white to-[var(--accent)] bg-clip-text text-transparent">
+              <motion.span
+                className={cn(
+                  "bg-clip-text text-transparent",
+                  isDark
+                    ? "bg-gradient-to-r from-white via-white to-[var(--accent)]"
+                    : "bg-gradient-to-r from-black via-black to-[var(--accent)]",
+                )}
+                // Prevent the "yellow bar" artifact on some browsers by forcing text fill transparency.
+                style={{
+                  WebkitBackgroundClip: "text",
+                  backgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}
+              >
                 CASES
               </motion.span>
             </motion.h2>
@@ -197,6 +229,7 @@ export function UseCasesHorizontalScrollSection({
                       total={cardCount}
                       scrollYProgress={scrollYProgress}
                       reduce={reduce}
+                      theme={theme}
                     />
                   ))}
                 </div>
@@ -208,12 +241,12 @@ export function UseCasesHorizontalScrollSection({
         {/* Scroll hint */}
         <motion.div
           className="absolute bottom-8 left-0 right-0 z-10 flex justify-center pointer-events-none"
-          initial={{ opacity: 0 }}
-          animate={titleInView ? { opacity: 1 } : { opacity: 0 }}
-          transition={{ delay: 1 }}
+          style={{ opacity: titleInView ? hintOpacity : 0 }}
+          initial={false}
         >
           <motion.div
-            className="flex items-center gap-3 text-xs text-white/30 uppercase tracking-[0.3em]"
+            className="flex items-center gap-3 text-xs uppercase tracking-[0.3em]"
+            style={{ color: isDark ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.3)" }}
             animate={{ y: [0, 8, 0] }}
             transition={{ duration: 2, repeat: Infinity }}
           >
@@ -224,9 +257,24 @@ export function UseCasesHorizontalScrollSection({
 
         {/* Vignette */}
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute inset-y-0 left-0 w-16 md:w-24 bg-gradient-to-r from-black to-transparent" />
-          <div className="absolute inset-y-0 right-0 w-16 md:w-24 bg-gradient-to-l from-black to-transparent" />
-          <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black to-transparent" />
+          <div
+            className="absolute inset-y-0 left-0 w-16 md:w-24"
+            style={{
+              background: `linear-gradient(to right, ${isDark ? "#000" : "#fff"}, transparent)`,
+            }}
+          />
+          <div
+            className="absolute inset-y-0 right-0 w-16 md:w-24"
+            style={{
+              background: `linear-gradient(to left, ${isDark ? "#000" : "#fff"}, transparent)`,
+            }}
+          />
+          <div
+            className="absolute inset-x-0 bottom-0 h-32"
+            style={{
+              background: `linear-gradient(to top, ${isDark ? "#000" : "#fff"}, transparent)`,
+            }}
+          />
         </div>
       </div>
     </section>
@@ -269,13 +317,16 @@ function UseCaseCard({
   total,
   scrollYProgress,
   reduce,
+  theme = "dark",
 }: {
   useCase: UseCase;
   index: number;
   total: number;
   scrollYProgress: ReturnType<typeof useScroll>["scrollYProgress"];
   reduce: boolean | null;
+  theme?: "dark" | "light";
 }) {
+  const isDark = theme !== "light";
   // Calculate visibility range for this card
   const start = index / total;
   const peak = (index + 0.5) / total;
@@ -308,8 +359,10 @@ function UseCaseCard({
 
   return (
     <motion.article
-      className="absolute inset-0 overflow-hidden rounded-[28px] md:rounded-[40px] border border-white/10 bg-black/60"
+      className="absolute inset-0 overflow-hidden rounded-[28px] md:rounded-[40px]"
       style={{
+        border: `1px solid ${isDark ? "rgba(255,255,255,0.10)" : "rgba(0,0,0,0.10)"}`,
+        background: isDark ? "rgba(0,0,0,0.60)" : "rgba(255,255,255,0.65)",
         opacity,
         y,
         scale,
@@ -326,7 +379,14 @@ function UseCaseCard({
           className="absolute inset-0 h-full w-full object-cover"
         />
         {/* Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-black/30" />
+        <div
+          className="absolute inset-0"
+          style={{
+            background: isDark
+              ? "linear-gradient(to top, rgba(0,0,0,0.85), rgba(0,0,0,0.6), rgba(0,0,0,0.30))"
+              : "linear-gradient(to top, rgba(255,255,255,0.85), rgba(255,255,255,0.6), rgba(255,255,255,0.30))",
+          }}
+        />
         {/* Accent glow */}
         <div
           className="pointer-events-none absolute inset-0 opacity-60"
@@ -340,21 +400,37 @@ function UseCaseCard({
       <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-10 lg:p-12">
         {/* Stat badge */}
         <div className="mb-6 inline-flex self-start items-center gap-3">
-          <div className="rounded-2xl border border-white/15 bg-black/50 backdrop-blur-sm px-5 py-3">
-            <div className="text-2xl md:text-3xl font-bold text-white">
+          <div
+            className="rounded-2xl backdrop-blur-sm px-5 py-3"
+            style={{
+              border: `1px solid ${isDark ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.15)"}`,
+              background: isDark ? "rgba(0,0,0,0.50)" : "rgba(255,255,255,0.55)",
+              color: isDark ? "#fff" : "#000",
+            }}
+          >
+            <div className="text-2xl md:text-3xl font-bold" style={{ color: isDark ? "#fff" : "#000" }}>
               {useCase.stat}
             </div>
-            <div className="text-[10px] tracking-[0.2em] uppercase text-white/50">
+            <div
+              className="text-[10px] tracking-[0.2em] uppercase"
+              style={{ color: isDark ? "rgba(255,255,255,0.50)" : "rgba(0,0,0,0.50)" }}
+            >
               {useCase.statLabel}
             </div>
           </div>
         </div>
 
         {/* Title & desc */}
-        <h3 className="text-2xl md:text-3xl lg:text-4xl font-semibold tracking-tight text-white">
+        <h3
+          className="text-2xl md:text-3xl lg:text-4xl font-semibold tracking-tight"
+          style={{ color: isDark ? "#fff" : "#000" }}
+        >
           {useCase.title}
         </h3>
-        <p className="mt-3 text-sm md:text-base leading-7 text-white/60 max-w-xl">
+        <p
+          className="mt-3 text-sm md:text-base leading-7 max-w-xl"
+          style={{ color: isDark ? "rgba(255,255,255,0.60)" : "rgba(0,0,0,0.60)" }}
+        >
           {useCase.desc}
         </p>
 

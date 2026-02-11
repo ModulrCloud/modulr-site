@@ -40,7 +40,37 @@ export default function ExampleCareersPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedDepartment, setSelectedDepartment] = useState("All");
   const [filterQuery, setFilterQuery] = useState("");
+  const [theme, setTheme] = useState<"dark" | "light">(() => {
+    if (typeof window === "undefined") return "light";
+    return (localStorage.getItem("theme") as "dark" | "light" | null) ?? "light";
+  });
   const searchInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    const newTheme = theme === "dark" ? "light" : "dark";
+    setTheme(newTheme);
+    localStorage.setItem("theme", newTheme);
+    document.documentElement.setAttribute("data-theme", newTheme);
+  };
+
+  const bgColor = theme === "dark" ? "#000" : "#fff";
+  const textColor = theme === "dark" ? "#fff" : "#000";
+  const mutedTextColor = theme === "dark" ? "rgba(255,255,255,0.6)" : "rgba(0,0,0,0.6)";
+  const mutedTextColor2 = theme === "dark" ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.4)";
+  const borderColor = theme === "dark" ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)";
+  const borderColor2 = theme === "dark" ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)";
+  const cardBg = theme === "dark" ? "rgba(255,255,255,0.02)" : "rgba(0,0,0,0.02)";
+  const cardBorder = theme === "dark" ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)";
+  const inputBg = theme === "dark" ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.04)";
+  const inputBorder = theme === "dark" ? "rgba(255,255,255,0.10)" : "rgba(0,0,0,0.10)";
+  const inputIconStroke = theme === "dark" ? "rgba(255,255,255,0.40)" : "rgba(0,0,0,0.40)";
+  const pillIdleBg = theme === "dark" ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.04)";
+  const pillActiveBg = theme === "dark" ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.08)";
+  const pillTextIdle = theme === "dark" ? "rgba(255,255,255,0.65)" : "rgba(0,0,0,0.65)";
 
   useEffect(() => {
     if (searchOpen && searchInputRef.current) {
@@ -88,24 +118,69 @@ export default function ExampleCareersPage() {
     <div
       className="min-h-screen"
       style={{
-        background: "#000",
+        background: bgColor,
+        color: textColor,
         fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
       }}
     >
       {/* HEADER */}
-      <header className="sticky top-0 z-50" style={{ background: "rgba(0,0,0,0.85)", backdropFilter: "blur(20px)", borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
+      <header className="sticky top-0 z-50" style={{ background: theme === "dark" ? "rgba(0,0,0,0.85)" : "rgba(255,255,255,0.85)", backdropFilter: "blur(20px)", borderBottom: `1px solid ${borderColor}` }}>
         <div className="mx-auto flex max-w-[1400px] items-center justify-between px-6 py-3">
           <Link href="/example" className="flex items-center gap-3">
             <img src={MODULR_ASSETS.LOGO_MARK} alt="Modulr" style={{ height: 28, width: "auto" }} />
           </Link>
           <div className="flex items-center gap-3">
-            <button onClick={() => setSearchOpen(true)} style={{ display: "flex", alignItems: "center", gap: 8, background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 8, padding: "6px 12px", color: "rgba(255,255,255,0.5)", fontSize: 13, cursor: "pointer" }}>
+            <button onClick={() => setSearchOpen(true)} style={{ display: "flex", alignItems: "center", gap: 8, background: theme === "dark" ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)", border: `1px solid ${borderColor2}`, borderRadius: 8, padding: "6px 12px", color: theme === "dark" ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.5)", fontSize: 13, cursor: "pointer" }}>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8" /><path d="M21 21l-4.35-4.35" /></svg>
               <span className="hidden sm:inline">Search</span>
-              <kbd style={{ marginLeft: 4, padding: "2px 6px", borderRadius: 4, background: "rgba(255,255,255,0.08)", fontSize: 11 }}>⌘K</kbd>
+              <kbd style={{ marginLeft: 4, padding: "2px 6px", borderRadius: 4, background: theme === "dark" ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)", fontSize: 11 }}>⌘K</kbd>
             </button>
-            <Link href="#" style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.15)", borderRadius: 20, padding: "8px 16px", color: "#fff", fontSize: 14, fontWeight: 500, textDecoration: "none" }}>
-              Sign in
+            <button
+              onClick={toggleTheme}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                width: 36,
+                height: 36,
+                borderRadius: 8,
+                background: theme === "dark" ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)",
+                border: `1px solid ${borderColor2}`,
+                color: theme === "dark" ? "rgba(255,255,255,0.7)" : "rgba(0,0,0,0.7)",
+                cursor: "pointer",
+              }}
+              aria-label="Toggle theme"
+            >
+              {theme === "dark" ? (
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <circle cx="12" cy="12" r="5" />
+                  <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+                </svg>
+              ) : (
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                </svg>
+              )}
+            </button>
+            <Link
+              href="https://testnet.explorer.modulr.cloud"
+              target="_blank"
+              rel="noreferrer"
+              style={{
+                background: theme === "dark" ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.04)",
+                border: `1px solid ${theme === "dark" ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.12)"}`,
+                borderRadius: 20,
+                padding: "8px 16px",
+                color: theme === "dark" ? "rgba(255,255,255,0.86)" : "rgba(0,0,0,0.86)",
+                fontSize: 14,
+                fontWeight: 500,
+                textDecoration: "none",
+              }}
+            >
+              Explorer
+            </Link>
+            <Link href="https://app.modulr.cloud" target="_blank" rel="noreferrer" style={{ background: theme === "dark" ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)", border: `1px solid ${theme === "dark" ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.15)"}`, borderRadius: 20, padding: "8px 16px", color: theme === "dark" ? "#fff" : "#000", fontSize: 14, fontWeight: 500, textDecoration: "none" }}>
+              Go to App
             </Link>
           </div>
         </div>
@@ -119,7 +194,7 @@ export default function ExampleCareersPage() {
             <aside className="hidden w-[160px] flex-shrink-0 lg:block">
               <nav className="sticky top-24 space-y-1">
                 {sidebarNav.map((item) => (
-                  <Link key={item.label} href={item.href} style={{ display: "block", padding: "8px 0", color: item.active ? "#fff" : "rgba(255,255,255,0.6)", fontSize: 14, textDecoration: "none", fontWeight: item.active ? 500 : 400 }}>
+                  <Link key={item.label} href={item.href} style={{ display: "block", padding: "8px 0", color: item.active ? textColor : mutedTextColor, fontSize: 14, textDecoration: "none", fontWeight: item.active ? 500 : 400 }}>
                     {item.label}
                   </Link>
                 ))}
@@ -130,13 +205,13 @@ export default function ExampleCareersPage() {
             <div className="flex-1 space-y-12">
               {/* Hero */}
               <section>
-                <div style={{ fontSize: 11, letterSpacing: "0.25em", textTransform: "uppercase", color: "rgba(255,255,255,0.4)", marginBottom: 12 }}>
+                <div style={{ fontSize: 11, letterSpacing: "0.25em", textTransform: "uppercase", color: mutedTextColor2, marginBottom: 12 }}>
                   Careers
                 </div>
-                <h1 style={{ fontSize: 48, fontWeight: 600, color: "#fff", letterSpacing: "-0.02em", lineHeight: 1.1 }}>
+                <h1 style={{ fontSize: 48, fontWeight: 600, color: textColor, letterSpacing: "-0.02em", lineHeight: 1.1 }}>
                   Join Our Mission
                 </h1>
-                <p style={{ marginTop: 16, fontSize: 18, color: "rgba(255,255,255,0.6)", maxWidth: 600, lineHeight: 1.7 }}>
+                <p style={{ marginTop: 16, fontSize: 18, color: mutedTextColor, maxWidth: 600, lineHeight: 1.7 }}>
                   Help us build the future of robotics. We&apos;re looking for talented individuals who want to make an impact.
                 </p>
               </section>
@@ -149,9 +224,9 @@ export default function ExampleCareersPage() {
                   { value: "100%", label: "Remote-friendly" },
                   { value: careerPosts.length.toString(), label: "Open positions" },
                 ].map((stat) => (
-                  <div key={stat.label} style={{ padding: 20, borderRadius: 14, background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
-                    <div style={{ fontSize: 28, fontWeight: 600, color: "#fff" }}>{stat.value}</div>
-                    <div style={{ marginTop: 4, fontSize: 13, color: "rgba(255,255,255,0.45)" }}>{stat.label}</div>
+                  <div key={stat.label} style={{ padding: 20, borderRadius: 14, background: cardBg, border: `1px solid ${cardBorder}` }}>
+                    <div style={{ fontSize: 28, fontWeight: 600, color: textColor }}>{stat.value}</div>
+                    <div style={{ marginTop: 4, fontSize: 13, color: mutedTextColor2 }}>{stat.label}</div>
                   </div>
                 ))}
               </section>
@@ -159,7 +234,7 @@ export default function ExampleCareersPage() {
               {/* Filter */}
               <section style={{ display: "flex", gap: 16, flexWrap: "wrap", alignItems: "center" }}>
                 <div style={{ position: "relative", flex: 1, minWidth: 200, maxWidth: 320 }}>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="2" style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)" }}>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={inputIconStroke} strokeWidth="2" style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)" }}>
                     <circle cx="11" cy="11" r="8" />
                     <path d="M21 21l-4.35-4.35" />
                   </svg>
@@ -168,7 +243,7 @@ export default function ExampleCareersPage() {
                     placeholder="Search positions..."
                     value={filterQuery}
                     onChange={(e) => setFilterQuery(e.target.value)}
-                    style={{ width: "100%", padding: "10px 12px 10px 40px", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 10, color: "#fff", fontSize: 14, outline: "none" }}
+                    style={{ width: "100%", padding: "10px 12px 10px 40px", background: inputBg, border: `1px solid ${inputBorder}`, borderRadius: 10, color: textColor, fontSize: 14, outline: "none" }}
                   />
                 </div>
                 <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
@@ -179,9 +254,9 @@ export default function ExampleCareersPage() {
                       style={{
                         padding: "8px 14px",
                         borderRadius: 20,
-                        background: selectedDepartment === dept ? "rgba(255,255,255,0.12)" : "rgba(255,255,255,0.04)",
-                        border: "1px solid rgba(255,255,255,0.1)",
-                        color: selectedDepartment === dept ? "#fff" : "rgba(255,255,255,0.6)",
+                        background: selectedDepartment === dept ? pillActiveBg : pillIdleBg,
+                        border: `1px solid ${inputBorder}`,
+                        color: selectedDepartment === dept ? textColor : pillTextIdle,
                         fontSize: 13,
                         cursor: "pointer",
                       }}
@@ -208,22 +283,28 @@ export default function ExampleCareersPage() {
                           justifyContent: "space-between",
                           padding: "20px 24px",
                           borderRadius: 14,
-                          background: "rgba(255,255,255,0.02)",
-                          border: "1px solid rgba(255,255,255,0.06)",
+                          background: cardBg,
+                          border: `1px solid ${cardBorder}`,
                           textDecoration: "none",
                           transition: "border-color 0.2s, background 0.2s",
                         }}
-                        onMouseEnter={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.12)"; e.currentTarget.style.background = "rgba(255,255,255,0.03)"; }}
-                        onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)"; e.currentTarget.style.background = "rgba(255,255,255,0.02)"; }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.borderColor = theme === "dark" ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.12)";
+                          e.currentTarget.style.background = theme === "dark" ? "rgba(255,255,255,0.03)" : "rgba(0,0,0,0.03)";
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.borderColor = cardBorder;
+                          e.currentTarget.style.background = cardBg;
+                        }}
                       >
                         <div style={{ flex: 1 }}>
                           <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
-                            <h3 style={{ fontSize: 17, fontWeight: 500, color: "#fff" }}>{post.title}</h3>
+                            <h3 style={{ fontSize: 17, fontWeight: 500, color: textColor }}>{post.title}</h3>
                             <span style={{ padding: "3px 10px", borderRadius: 10, background: colors.bg, border: `1px solid ${colors.border}`, fontSize: 11, color: colors.text, fontWeight: 500 }}>
                               {post.type}
                             </span>
                           </div>
-                          <div style={{ display: "flex", gap: 16, fontSize: 13, color: "rgba(255,255,255,0.5)" }}>
+                          <div style={{ display: "flex", gap: 16, fontSize: 13, color: mutedTextColor }}>
                             <span>{post.department}</span>
                             <span>·</span>
                             <span>{post.location}</span>
@@ -235,7 +316,7 @@ export default function ExampleCareersPage() {
                             )}
                           </div>
                         </div>
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="2" style={{ transition: "transform 0.2s" }} className="group-hover:translate-x-1">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={theme === "dark" ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.35)"} strokeWidth="2" style={{ transition: "transform 0.2s" }} className="group-hover:translate-x-1">
                           <path d="M9 18l6-6-6-6" />
                         </svg>
                       </Link>
@@ -243,7 +324,7 @@ export default function ExampleCareersPage() {
                   })}
                 </div>
                 {filteredPosts.length === 0 && (
-                  <div style={{ textAlign: "center", padding: 48, color: "rgba(255,255,255,0.4)" }}>
+                  <div style={{ textAlign: "center", padding: 48, color: mutedTextColor2 }}>
                     No positions found matching your criteria.
                   </div>
                 )}
@@ -251,8 +332,8 @@ export default function ExampleCareersPage() {
 
               {/* CTA */}
               <section style={{ padding: "32px", borderRadius: 20, background: "linear-gradient(135deg, rgba(242,180,0,0.08), rgba(242,180,0,0.02))", border: "1px solid rgba(242,180,0,0.15)" }}>
-                <h2 style={{ fontSize: 22, fontWeight: 500, color: "#fff" }}>Don&apos;t see the right role?</h2>
-                <p style={{ marginTop: 8, fontSize: 15, color: "rgba(255,255,255,0.6)", maxWidth: 500 }}>
+                <h2 style={{ fontSize: 22, fontWeight: 500, color: textColor }}>Don&apos;t see the right role?</h2>
+                <p style={{ marginTop: 8, fontSize: 15, color: mutedTextColor, maxWidth: 500 }}>
                   We&apos;re always looking for talented people. Send us your resume and we&apos;ll keep you in mind.
                 </p>
                 <a href="mailto:careers@modulr.cloud" style={{ display: "inline-flex", marginTop: 20, padding: "10px 22px", borderRadius: 10, background: "#f2b400", color: "#000", fontSize: 14, fontWeight: 600, textDecoration: "none" }}>

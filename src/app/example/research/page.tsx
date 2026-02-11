@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState, useMemo, useRef, useEffect } from "react";
 import { SiteFooter } from "@/components/SiteFooter";
 import { MODULR_ASSETS } from "@/config/assets";
+import { ExampleMegaNav } from "@/components/example/ExampleMegaNav";
 import { researchCategories, researchPosts } from "@/content/research";
 
 /* ─────────────────────────────────────────────────────────────────────────────
@@ -35,7 +36,33 @@ export default function ExampleResearchPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [filterQuery, setFilterQuery] = useState("");
+  const [theme, setTheme] = useState<"dark" | "light">(() => {
+    if (typeof window === "undefined") return "light";
+    return (localStorage.getItem("theme") as "dark" | "light" | null) ?? "light";
+  });
   const searchInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    const newTheme = theme === "dark" ? "light" : "dark";
+    setTheme(newTheme);
+    localStorage.setItem("theme", newTheme);
+    document.documentElement.setAttribute("data-theme", newTheme);
+  };
+
+  const bgColor = theme === "dark" ? "#000" : "#fff";
+  const textColor = theme === "dark" ? "#fff" : "#000";
+  const mutedTextColor = theme === "dark" ? "rgba(255,255,255,0.6)" : "rgba(0,0,0,0.6)";
+  const mutedTextColor2 = theme === "dark" ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.4)";
+  const borderColor = theme === "dark" ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)";
+  const borderColor2 = theme === "dark" ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)";
+  const cardBg = theme === "dark" ? "rgba(255,255,255,0.02)" : "rgba(0,0,0,0.02)";
+  const cardBorder = theme === "dark" ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)";
+  const cardBorderHover = theme === "dark" ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.12)";
+  const inputBg = theme === "dark" ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.04)";
 
   useEffect(() => {
     if (searchOpen && searchInputRef.current) {
@@ -82,23 +109,29 @@ export default function ExampleResearchPage() {
     <div
       className="min-h-screen"
       style={{
-        background: "#000",
+        background: bgColor,
+        color: textColor,
         fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+        transition: "background 0.3s, color 0.3s",
       }}
     >
       {/* HEADER */}
       <header
         className="sticky top-0 z-50"
         style={{
-          background: "rgba(0,0,0,0.85)",
+          background: theme === "dark" ? "rgba(0,0,0,0.85)" : "rgba(255,255,255,0.85)",
           backdropFilter: "blur(20px)",
-          borderBottom: "1px solid rgba(255,255,255,0.08)",
+          borderBottom: `1px solid ${borderColor}`,
         }}
       >
         <div className="mx-auto flex max-w-[1400px] items-center justify-between px-6 py-3">
-          <Link href="/example" className="flex items-center gap-3">
-            <img src={MODULR_ASSETS.LOGO_MARK} alt="Modulr" style={{ height: 28, width: "auto" }} />
-          </Link>
+          <div className="flex items-center gap-6">
+            <Link href="/example" className="flex items-center gap-3">
+              <img src={MODULR_ASSETS.LOGO_MARK} alt="Modulr" style={{ height: 28, width: "auto" }} />
+            </Link>
+            <ExampleMegaNav theme={theme} />
+          </div>
+
           <div className="flex items-center gap-3">
             <button
               onClick={() => setSearchOpen(true)}
@@ -106,11 +139,11 @@ export default function ExampleResearchPage() {
                 display: "flex",
                 alignItems: "center",
                 gap: 8,
-                background: "rgba(255,255,255,0.06)",
-                border: "1px solid rgba(255,255,255,0.1)",
+                background: theme === "dark" ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)",
+                border: `1px solid ${borderColor2}`,
                 borderRadius: 8,
                 padding: "6px 12px",
-                color: "rgba(255,255,255,0.5)",
+                color: theme === "dark" ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.5)",
                 fontSize: 13,
                 cursor: "pointer",
               }}
@@ -120,10 +153,68 @@ export default function ExampleResearchPage() {
                 <path d="M21 21l-4.35-4.35" />
               </svg>
               <span className="hidden sm:inline">Search</span>
-              <kbd style={{ marginLeft: 4, padding: "2px 6px", borderRadius: 4, background: "rgba(255,255,255,0.08)", fontSize: 11 }}>⌘K</kbd>
+              <kbd style={{ marginLeft: 4, padding: "2px 6px", borderRadius: 4, background: theme === "dark" ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)", fontSize: 11 }}>⌘K</kbd>
             </button>
-            <Link href="#" style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.15)", borderRadius: 20, padding: "8px 16px", color: "#fff", fontSize: 14, fontWeight: 500, textDecoration: "none" }}>
-              Sign in
+            <button
+              onClick={toggleTheme}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                width: 36,
+                height: 36,
+                borderRadius: 8,
+                background: theme === "dark" ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)",
+                border: `1px solid ${borderColor2}`,
+                color: theme === "dark" ? "rgba(255,255,255,0.7)" : "rgba(0,0,0,0.7)",
+                cursor: "pointer",
+              }}
+              aria-label="Toggle theme"
+            >
+              {theme === "dark" ? (
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <circle cx="12" cy="12" r="5" />
+                  <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+                </svg>
+              ) : (
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                </svg>
+              )}
+            </button>
+            <Link
+              href="https://testnet.explorer.modulr.cloud"
+              target="_blank"
+              rel="noreferrer"
+              style={{
+                background: theme === "dark" ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.04)",
+                border: `1px solid ${theme === "dark" ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.12)"}`,
+                borderRadius: 20,
+                padding: "8px 16px",
+                color: theme === "dark" ? "rgba(255,255,255,0.86)" : "rgba(0,0,0,0.86)",
+                fontSize: 14,
+                fontWeight: 500,
+                textDecoration: "none",
+              }}
+            >
+              Explorer
+            </Link>
+            <Link
+              href="https://app.modulr.cloud"
+              target="_blank"
+              rel="noreferrer"
+              style={{
+                background: theme === "dark" ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)",
+                border: `1px solid ${theme === "dark" ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.15)"}`,
+                borderRadius: 20,
+                padding: "8px 16px",
+                color: theme === "dark" ? "#fff" : "#000",
+                fontSize: 14,
+                fontWeight: 500,
+                textDecoration: "none",
+              }}
+            >
+              Go to App
             </Link>
           </div>
         </div>
@@ -143,7 +234,7 @@ export default function ExampleResearchPage() {
                     style={{
                       display: "block",
                       padding: "8px 0",
-                      color: item.active ? "#fff" : "rgba(255,255,255,0.6)",
+                      color: item.active ? textColor : mutedTextColor,
                       fontSize: 14,
                       textDecoration: "none",
                       fontWeight: item.active ? 500 : 400,
@@ -159,13 +250,13 @@ export default function ExampleResearchPage() {
             <div className="flex-1 space-y-12">
               {/* Hero */}
               <section>
-                <div style={{ fontSize: 11, letterSpacing: "0.25em", textTransform: "uppercase", color: "rgba(255,255,255,0.4)", marginBottom: 12 }}>
+                <div style={{ fontSize: 11, letterSpacing: "0.25em", textTransform: "uppercase", color: mutedTextColor2, marginBottom: 12 }}>
                   Research
                 </div>
-                <h1 style={{ fontSize: 48, fontWeight: 600, color: "#fff", letterSpacing: "-0.02em", lineHeight: 1.1 }}>
+                <h1 style={{ fontSize: 48, fontWeight: 600, color: textColor, letterSpacing: "-0.02em", lineHeight: 1.1 }}>
                   Research &<br />Publications
                 </h1>
-                <p style={{ marginTop: 16, fontSize: 18, color: "rgba(255,255,255,0.6)", maxWidth: 600, lineHeight: 1.7 }}>
+                <p style={{ marginTop: 16, fontSize: 18, color: mutedTextColor, maxWidth: 600, lineHeight: 1.7 }}>
                   Explore our latest research, whitepapers, and technical documentation on robotics, AI, and decentralized systems.
                 </p>
               </section>
@@ -173,7 +264,7 @@ export default function ExampleResearchPage() {
               {/* Filter */}
               <section style={{ display: "flex", gap: 16, flexWrap: "wrap", alignItems: "center" }}>
                 <div style={{ position: "relative", flex: 1, minWidth: 200, maxWidth: 320 }}>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="2" style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)" }}>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={mutedTextColor2} strokeWidth="2" style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)" }}>
                     <circle cx="11" cy="11" r="8" />
                     <path d="M21 21l-4.35-4.35" />
                   </svg>
@@ -185,10 +276,10 @@ export default function ExampleResearchPage() {
                     style={{
                       width: "100%",
                       padding: "10px 12px 10px 40px",
-                      background: "rgba(255,255,255,0.04)",
-                      border: "1px solid rgba(255,255,255,0.1)",
+                      background: inputBg,
+                      border: `1px solid ${borderColor2}`,
                       borderRadius: 10,
-                      color: "#fff",
+                      color: textColor,
                       fontSize: 14,
                       outline: "none",
                     }}
@@ -202,9 +293,11 @@ export default function ExampleResearchPage() {
                       style={{
                         padding: "8px 14px",
                         borderRadius: 20,
-                        background: selectedCategory === cat ? "rgba(255,255,255,0.12)" : "rgba(255,255,255,0.04)",
-                        border: "1px solid rgba(255,255,255,0.1)",
-                        color: selectedCategory === cat ? "#fff" : "rgba(255,255,255,0.6)",
+                        background: selectedCategory === cat
+                          ? (theme === "dark" ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.06)")
+                          : inputBg,
+                        border: `1px solid ${borderColor2}`,
+                        color: selectedCategory === cat ? textColor : mutedTextColor,
                         fontSize: 13,
                         cursor: "pointer",
                       }}
@@ -226,32 +319,32 @@ export default function ExampleResearchPage() {
                       style={{
                         padding: 24,
                         borderRadius: 16,
-                        background: "rgba(255,255,255,0.02)",
-                        border: "1px solid rgba(255,255,255,0.06)",
+                        background: cardBg,
+                        border: `1px solid ${cardBorder}`,
                         transition: "border-color 0.2s, transform 0.2s",
                       }}
-                      onMouseEnter={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.12)"; e.currentTarget.style.transform = "translateY(-2px)"; }}
-                      onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)"; e.currentTarget.style.transform = "translateY(0)"; }}
+                      onMouseEnter={(e) => { e.currentTarget.style.borderColor = cardBorderHover; e.currentTarget.style.transform = "translateY(-2px)"; }}
+                      onMouseLeave={(e) => { e.currentTarget.style.borderColor = cardBorder; e.currentTarget.style.transform = "translateY(0)"; }}
                     >
                       <div style={{ display: "flex", gap: 8, marginBottom: 12 }}>
-                        <span style={{ padding: "4px 10px", borderRadius: 12, background: "rgba(255,255,255,0.06)", fontSize: 11, color: "rgba(255,255,255,0.6)", textTransform: "uppercase", letterSpacing: "0.05em" }}>
+                        <span style={{ padding: "4px 10px", borderRadius: 12, background: theme === "dark" ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.05)", fontSize: 11, color: mutedTextColor, textTransform: "uppercase", letterSpacing: "0.05em" }}>
                           {post.category}
                         </span>
                       </div>
-                      <h3 style={{ fontSize: 17, fontWeight: 500, color: "#fff", lineHeight: 1.4, marginBottom: 8 }}>
+                      <h3 style={{ fontSize: 17, fontWeight: 500, color: textColor, lineHeight: 1.4, marginBottom: 8 }}>
                         {post.title}
                       </h3>
-                      <p style={{ fontSize: 14, color: "rgba(255,255,255,0.5)", lineHeight: 1.6, display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
+                      <p style={{ fontSize: 14, color: mutedTextColor, lineHeight: 1.6, display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
                         {post.excerpt}
                       </p>
-                      <div style={{ marginTop: 16, fontSize: 12, color: "rgba(255,255,255,0.4)" }}>
+                      <div style={{ marginTop: 16, fontSize: 12, color: mutedTextColor2 }}>
                         {post.date} · {post.readingMinutes} min read
                       </div>
                     </Link>
                   ))}
                 </div>
                 {filteredPosts.length === 0 && (
-                  <div style={{ textAlign: "center", padding: 48, color: "rgba(255,255,255,0.4)" }}>
+                  <div style={{ textAlign: "center", padding: 48, color: mutedTextColor2 }}>
                     No research posts found matching your criteria.
                   </div>
                 )}
@@ -267,24 +360,24 @@ export default function ExampleResearchPage() {
       {searchOpen && (
         <div style={{ position: "fixed", inset: 0, zIndex: 100, display: "flex", alignItems: "flex-start", justifyContent: "center", paddingTop: 100 }}>
           <div onClick={() => { setSearchOpen(false); setSearchQuery(""); }} style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.8)", backdropFilter: "blur(8px)" }} />
-          <div style={{ position: "relative", width: "100%", maxWidth: 560, margin: "0 24px", background: "rgba(24,24,24,0.98)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 16, overflow: "hidden", boxShadow: "0 24px 80px rgba(0,0,0,0.5)" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "16px 20px", borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="2"><circle cx="11" cy="11" r="8" /><path d="M21 21l-4.35-4.35" /></svg>
-              <input ref={searchInputRef} type="text" placeholder="Search..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} style={{ flex: 1, background: "transparent", border: "none", outline: "none", fontSize: 16, color: "#fff" }} />
-              <kbd style={{ padding: "4px 8px", borderRadius: 6, background: "rgba(255,255,255,0.08)", fontSize: 12, color: "rgba(255,255,255,0.5)" }}>ESC</kbd>
+          <div style={{ position: "relative", width: "100%", maxWidth: 560, margin: "0 24px", background: theme === "dark" ? "rgba(24,24,24,0.98)" : "rgba(255,255,255,0.98)", border: `1px solid ${borderColor2}`, borderRadius: 16, overflow: "hidden", boxShadow: theme === "dark" ? "0 24px 80px rgba(0,0,0,0.5)" : "0 24px 80px rgba(0,0,0,0.18)" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "16px 20px", borderBottom: `1px solid ${borderColor}` }}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={mutedTextColor2} strokeWidth="2"><circle cx="11" cy="11" r="8" /><path d="M21 21l-4.35-4.35" /></svg>
+              <input ref={searchInputRef} type="text" placeholder="Search..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} style={{ flex: 1, background: "transparent", border: "none", outline: "none", fontSize: 16, color: textColor }} />
+              <kbd style={{ padding: "4px 8px", borderRadius: 6, background: inputBg, fontSize: 12, color: mutedTextColor }}>ESC</kbd>
             </div>
             <div style={{ maxHeight: 400, overflowY: "auto" }}>
               {searchQuery.length === 0 ? (
-                <div style={{ padding: "32px 20px", textAlign: "center", color: "rgba(255,255,255,0.4)", fontSize: 14 }}>Start typing to search...</div>
+                <div style={{ padding: "32px 20px", textAlign: "center", color: mutedTextColor2, fontSize: 14 }}>Start typing to search...</div>
               ) : filteredResults.length === 0 ? (
-                <div style={{ padding: "32px 20px", textAlign: "center", color: "rgba(255,255,255,0.4)", fontSize: 14 }}>No results found</div>
+                <div style={{ padding: "32px 20px", textAlign: "center", color: mutedTextColor2, fontSize: 14 }}>No results found</div>
               ) : (
                 <div style={{ padding: "8px 0" }}>
                   {filteredResults.map((item) => (
-                    <Link key={item.href} href={item.href} onClick={() => { setSearchOpen(false); setSearchQuery(""); }} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 20px", color: "#fff", textDecoration: "none" }}>
+                    <Link key={item.href} href={item.href} onClick={() => { setSearchOpen(false); setSearchQuery(""); }} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 20px", color: textColor, textDecoration: "none" }}>
                       <div>
                         <div style={{ fontSize: 15, fontWeight: 500 }}>{item.title}</div>
-                        <div style={{ marginTop: 2, fontSize: 12, color: "rgba(255,255,255,0.4)" }}>{item.category}</div>
+                        <div style={{ marginTop: 2, fontSize: 12, color: mutedTextColor2 }}>{item.category}</div>
                       </div>
                     </Link>
                   ))}

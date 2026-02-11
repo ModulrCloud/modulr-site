@@ -19,6 +19,7 @@ import { WhyBuildersChooseSection } from "@/components/WhyBuildersChooseSection"
 import { BuiltDifferentSection } from "@/components/BuiltDifferentSection";
 import { TonStyleShowcase } from "@/components/TonStyleShowcase";
 import { TeleoperationSection } from "@/components/TeleoperationSection";
+import { newsPosts } from "@/content/news";
 
 const ROADMAP_IMG =
   "https://cdn.prod.website-files.com/688b650d15ca6b144341e1f7/690bd13cd22e0860718d9af7_ROADMAP%20(website%20version).png";
@@ -31,6 +32,8 @@ const HERO_POSTER =
   "https://cdn.prod.website-files.com/688b650d15ca6b144341e1f7%2F689b4e755b6819dac8d89bd5_hero_bg_semsombra%20%281%29-poster-00001.jpg";
 
 export default function Home() {
+  const latestNews = newsPosts.slice(0, 3);
+
   return (
     <div className="min-h-screen flex flex-col">
       <PageIntro />
@@ -156,6 +159,67 @@ export default function Home() {
 */}
 
         <StoriesSection />
+
+        {/* News (from the same feed as /news and /example/news) */}
+        <section className="border-t border-hairline bg-section">
+          <div className="mx-auto max-w-6xl px-6 py-16 md:py-24">
+            <div className="flex items-end justify-between gap-6">
+              <div>
+                <Reveal>
+                  <div className="text-xs tracking-[0.28em] uppercase text-white/45">
+                    News
+                  </div>
+                </Reveal>
+                <Reveal delayMs={60}>
+                  <h2 className="mt-4 text-premium text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+                    Latest updates
+                  </h2>
+                </Reveal>
+              </div>
+              <Reveal delayMs={80}>
+                <a
+                  href="/news"
+                  className="text-sm font-semibold text-white/70 hover:text-white transition ring-premium rounded"
+                >
+                  View all →
+                </a>
+              </Reveal>
+            </div>
+
+            <div className="mt-10 grid gap-6 md:grid-cols-3">
+              {latestNews.map((post, idx) => (
+                <Reveal key={post.slug} delayMs={120 + idx * 60}>
+                  <a href={`/news/${post.slug}`} className="block group">
+                    <article className="rounded-[26px] border border-white/10 bg-white/[0.03] overflow-hidden h-full">
+                      <div className="relative aspect-[16/10] overflow-hidden">
+                        <img
+                          src={post.image}
+                          alt={post.title}
+                          className="absolute inset-0 w-full h-full object-cover transition duration-500 group-hover:scale-105"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-transparent" />
+                      </div>
+                      <div className="p-6">
+                        <div className="text-xs text-white/55">
+                          {post.date} • {post.readingMinutes} min read
+                        </div>
+                        <h3 className="mt-3 text-lg font-semibold tracking-tight text-white group-hover:text-[var(--accent)] transition line-clamp-2">
+                          {post.title}
+                        </h3>
+                        <p className="mt-3 text-sm leading-6 text-white/60 line-clamp-3">
+                          {post.excerpt}
+                        </p>
+                        <div className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-white/75 group-hover:text-white transition">
+                          Read more <span className="group-hover:translate-x-1 transition">→</span>
+                        </div>
+                      </div>
+                    </article>
+                  </a>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
 
         {/* <HorizontalRailAutoSection /> */}
 

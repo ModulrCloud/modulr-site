@@ -1,11 +1,13 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useInView, useReducedMotion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { Reveal } from "@/components/Reveal";
 import { SmartImage } from "@/components/SmartImage";
 import { cn } from "@/lib/cn";
 import { MODULR_LINKS } from "@/config/links";
+import { TextScramble } from "@/components/TextScramble";
 
 /**
  * TON-style showcase section with large premium tiles featuring photos
@@ -60,20 +62,67 @@ const tiles: Tile[] = [
 
 export function TonStyleShowcase({ className }: { className?: string }) {
   const reduce = useReducedMotion();
+  const [isDark, setIsDark] = useState(true);
+  const [isMd, setIsMd] = useState(false);
+  const headingRef = useRef<HTMLHeadingElement | null>(null);
+  // Re-trigger on every entry (requested): when you scroll away and come back, scramble runs again.
+  const headingInView = useInView(headingRef, { margin: "-35% 0px -35% 0px", once: false });
+  
+  useEffect(() => {
+    // Get theme from data-theme attribute on document
+    const checkTheme = () => {
+      const theme = document.documentElement.getAttribute('data-theme');
+      setIsDark(theme !== 'light');
+    };
+    
+    const checkSize = () => {
+      setIsMd(window.innerWidth >= 768);
+    };
+    
+    checkTheme();
+    checkSize();
+    
+    // Watch for theme changes
+    const observer = new MutationObserver(checkTheme);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-theme']
+    });
+    
+    window.addEventListener('resize', checkSize);
+    
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('resize', checkSize);
+    };
+  }, []);
 
   return (
-    <section className={cn("border-t border-hairline bg-section", className)}>
+    <section 
+      className={cn("border-t border-hairline", className)}
+      style={{
+        background: isDark ? "#000" : "#fff",
+        borderTopColor: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)",
+        transition: "background 0.3s, border-color 0.3s",
+      }}
+    >
       {/* Header - constrained */}
       <div className="mx-auto max-w-7xl px-6 pt-20 md:pt-28">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between mb-14">
           <Reveal>
             <div>
-              <div className="text-xs tracking-[0.22em] uppercase text-white/55">
+              <div style={{ fontSize: 11, letterSpacing: "0.22em", textTransform: "uppercase", color: isDark ? "rgba(255,255,255,0.55)" : "rgba(0,0,0,0.55)" }}>
                 Discover
               </div>
-              <h2 className="mt-3 text-premium text-3xl font-semibold tracking-tight text-white sm:text-4xl md:text-5xl">
-              A New  {" "}
-                <span className="text-gradient">Robotics Paradigm</span>
+              <h2
+                ref={headingRef}
+                className="mt-3 text-premium text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl"
+                style={{ color: isDark ? "#fff" : "#000" }}
+              >
+                <TextScramble text="A New " start={headingInView} delayMs={80} durationMs={720} />
+                <span className="text-gradient">
+                  <TextScramble text="Robotics Paradigm" start={headingInView} delayMs={130} durationMs={980} />
+                </span>
               </h2>
             </div>
           </Reveal>
@@ -98,11 +147,16 @@ export function TonStyleShowcase({ className }: { className?: string }) {
               <Link href={tile.href} className="group block">
                 <motion.article
                   className={cn(
-                    "relative overflow-hidden rounded-[32px] md:rounded-[48px] border border-white/10 bg-black/40",
+                    "relative overflow-hidden rounded-[32px] md:rounded-[48px]",
                     tile.size === "large"
                       ? "md:flex md:items-stretch min-h-[400px] md:min-h-[520px]"
                       : "min-h-[380px] md:min-h-[440px]"
                   )}
+                  style={{
+                    border: `1px solid ${isDark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)"}`,
+                    // Keep the card glass subtle; image drives the look.
+                    background: isDark ? "rgba(0,0,0,0.4)" : "rgba(255,255,255,0.25)",
+                  }}
                   whileHover={reduce ? undefined : { y: -6, scale: 1.003 }}
                   transition={{ duration: 0.28, ease: [0.2, 0.8, 0.2, 1] }}
                 >
@@ -122,23 +176,52 @@ export function TonStyleShowcase({ className }: { className?: string }) {
                     {!tile.minimalOverlay && (
                       <>
                         <div
-                          className={cn(
-                            "absolute inset-0",
-                            tile.size === "large"
-                              ? "bg-gradient-to-t from-black via-black/60 to-black/30 md:bg-gradient-to-r md:from-transparent md:via-black/40 md:to-black"
-                              : "bg-gradient-to-t from-black via-black/70 to-black/30"
-                          )}
+                          className="absolute inset-0"
+                          style={{
+                            background: tile.size === "large"
+                              ? isDark 
+                                ? isMd
+                                  ? "linear-gradient(to right, transparent, rgba(0,0,0,0.4), #000)"
+                                  : "linear-gradient(to top, #000, rgba(0,0,0,0.6), rgba(0,0,0,0.3))"
+                                : isMd
+                                  // Light theme: avoid white wash (“fog”). Use a dark vignette overlay for contrast.
+                                  ? "linear-gradient(to right, transparent, rgba(0,0,0,0.22), rgba(0,0,0,0.60))"
+                                  : "linear-gradient(to top, rgba(0,0,0,0.72), rgba(0,0,0,0.38), rgba(0,0,0,0.12))"
+                              : isDark
+                                ? "linear-gradient(to top, rgba(0,0,0,0.92), rgba(0,0,0,0.60), rgba(0,0,0,0.28))"
+                                : "linear-gradient(to top, rgba(0,0,0,0.88), rgba(0,0,0,0.52), rgba(0,0,0,0.20))"
+                          }}
                         />
+                        {/* Extra top-left scrim for medium tiles to keep headings readable on bright photos */}
+                        {tile.size !== "large" && (
+                          <div
+                            className="absolute inset-0"
+                            style={{
+                              background:
+                                "radial-gradient(900px 520px at 18% 18%, rgba(0,0,0,0.78), rgba(0,0,0,0.34) 52%, transparent 74%)",
+                              opacity: 0.95,
+                            }}
+                          />
+                        )}
                         <div
-                          className="pointer-events-none absolute inset-0 opacity-50"
+                          className="pointer-events-none absolute inset-0"
                           style={{
                             background: `radial-gradient(1000px 600px at 30% 70%, ${tile.accent}, transparent 55%)`,
+                            opacity: isDark ? 0.50 : 0.22,
                           }}
                         />
                       </>
                     )}
                     {tile.minimalOverlay && (
-                      <div className="absolute inset-0 bg-gradient-to-r from-transparent from-30% via-transparent via-60% to-black/45 md:to-black/55" />
+                      <div 
+                        className="absolute inset-0" 
+                        style={{
+                          background: isDark 
+                            ? "linear-gradient(to right, transparent 0%, transparent 30%, transparent 60%, rgba(0,0,0,0.45) 100%)"
+                            // Light theme: keep image crisp; only add a subtle dark edge so text stays readable.
+                            : "linear-gradient(to right, transparent 0%, transparent 40%, rgba(0,0,0,0.18) 75%, rgba(0,0,0,0.45) 100%)"
+                        }}
+                      />
                     )}
                   </div>
 
@@ -151,32 +234,62 @@ export function TonStyleShowcase({ className }: { className?: string }) {
                         : "h-full"
                     )}
                   >
+                    {/* Content scrim: local contrast behind text without making the whole photo muddy */}
+                    {tile.size !== "large" && (
+                      <div
+                        className="pointer-events-none absolute inset-0"
+                        style={{
+                          background:
+                            "radial-gradient(820px 520px at 18% 22%, rgba(0,0,0,0.72), rgba(0,0,0,0.26) 56%, transparent 78%)",
+                          opacity: 0.95,
+                        }}
+                      />
+                    )}
                     {/* Accent glow behind content */}
                     <div
-                      className="pointer-events-none absolute inset-0 opacity-30"
+                      className="pointer-events-none absolute inset-0"
                       style={{
                         background: `radial-gradient(600px 400px at 80% 50%, ${tile.accent}, transparent 50%)`,
+                        opacity: isDark ? 0.30 : 0.18,
                       }}
                     />
 
                     <div className="relative">
                       <h3
                         className={cn(
-                          "font-semibold tracking-tight text-white group-hover:text-[var(--accent)] transition",
+                          "font-semibold tracking-tight group-hover:text-[var(--accent)] transition",
                           tile.size === "large"
                             ? "text-3xl md:text-4xl lg:text-5xl"
                             : "text-2xl md:text-3xl"
                         )}
+                        // In light theme, the large tile has a bright content column (no photo behind),
+                        // so we switch to dark text there for readability.
+                        style={{
+                          color: !isDark && tile.size === "large" ? "#000" : "#fff",
+                          textShadow:
+                            tile.size === "large"
+                              ? "none"
+                              : "0 1px 0 rgba(0,0,0,0.35), 0 18px 46px rgba(0,0,0,0.42)",
+                        }}
                       >
                         {tile.title}
                       </h3>
                       <p
                         className={cn(
-                          "mt-4 leading-7 text-white/60",
+                          "mt-4 leading-7",
                           tile.size === "large"
                             ? "text-base md:text-lg max-w-lg"
                             : "text-sm max-w-md"
                         )}
+                        style={{
+                          color: !isDark && tile.size === "large"
+                            ? "rgba(0,0,0,0.62)"
+                            : "rgba(255,255,255,0.74)",
+                          textShadow:
+                            tile.size === "large"
+                              ? "none"
+                              : "0 1px 0 rgba(0,0,0,0.32), 0 18px 46px rgba(0,0,0,0.40)",
+                        }}
                       >
                         {tile.desc}
                       </p>
@@ -201,7 +314,12 @@ export function TonStyleShowcase({ className }: { className?: string }) {
                   </div>
 
                   {/* Hover ring */}
-                  <div className="pointer-events-none absolute inset-0 rounded-[32px] md:rounded-[48px] ring-1 ring-inset ring-white/5 group-hover:ring-[var(--accent)]/30 transition" />
+                  <div 
+                    className="pointer-events-none absolute inset-0 rounded-[32px] md:rounded-[48px] transition" 
+                    style={{ 
+                      boxShadow: `inset 0 0 0 1px ${isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.05)"}`,
+                    }}
+                  />
                 </motion.article>
               </Link>
             </Reveal>

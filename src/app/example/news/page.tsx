@@ -5,29 +5,32 @@ import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 import { SiteFooter } from "@/components/SiteFooter";
 import { MODULR_ASSETS } from "@/config/assets";
+import { ExampleMegaNav } from "@/components/example/ExampleMegaNav";
 import { newsPosts } from "@/content/news";
 
 const sidebarNav = [
   { label: "Home", href: "/example" },
-  { label: "Research", href: "/research" },
+  { label: "Research", href: "/example/research" },
   { label: "News", href: "/example/news", active: true },
-  { label: "Careers", href: "/careers" },
+  { label: "Careers", href: "/example/careers" },
   { label: "Technology", href: "/technology-overview" },
-  { label: "Team", href: "/team" },
+  { label: "Team", href: "/example/team" },
   { label: "Pricing", href: "/pricing" },
   { label: "For Business", href: "#" },
 ];
 
-const categories = ["All", "Product", "Company", "Publication", "Update"];
+const categories = Array.from(
+  new Set(["All", ...newsPosts.flatMap((p) => [p.category, p.type])]),
+);
 
 /* Search data */
 const searchIndex = [
   { title: "Home", href: "/example", category: "Navigation", keywords: ["main", "home", "start"] },
-  { title: "Research", href: "/research", category: "Navigation", keywords: ["papers", "publications", "studies"] },
+  { title: "Research", href: "/example/research", category: "Navigation", keywords: ["papers", "publications", "studies"] },
   { title: "News", href: "/example/news", category: "Navigation", keywords: ["updates", "announcements", "blog"] },
-  { title: "Careers", href: "/careers", category: "Navigation", keywords: ["jobs", "work", "hiring", "positions"] },
+  { title: "Careers", href: "/example/careers", category: "Navigation", keywords: ["jobs", "work", "hiring", "positions"] },
   { title: "Technology Overview", href: "/technology-overview", category: "Navigation", keywords: ["tech", "platform", "architecture"] },
-  { title: "Team", href: "/team", category: "Navigation", keywords: ["people", "founders", "employees"] },
+  { title: "Team", href: "/example/team", category: "Navigation", keywords: ["people", "founders", "employees"] },
   { title: "Pricing", href: "/pricing", category: "Navigation", keywords: ["cost", "plans", "subscription"] },
 ];
 
@@ -35,8 +38,33 @@ export default function ExampleNewsPage() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [theme, setTheme] = useState<"dark" | "light">(() => {
+    if (typeof window === "undefined") return "light";
+    return (localStorage.getItem("theme") as "dark" | "light" | null) ?? "light";
+  });
   const footerRef = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    const newTheme = theme === "dark" ? "light" : "dark";
+    setTheme(newTheme);
+    localStorage.setItem("theme", newTheme);
+    document.documentElement.setAttribute("data-theme", newTheme);
+  };
+
+  const bgColor = theme === "dark" ? "#000" : "#fff";
+  const textColor = theme === "dark" ? "#fff" : "#000";
+  const mutedTextColor = theme === "dark" ? "rgba(255,255,255,0.6)" : "rgba(0,0,0,0.6)";
+  const mutedTextColor2 = theme === "dark" ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.5)";
+  const mutedTextColor3 = theme === "dark" ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.4)";
+  const borderColor = theme === "dark" ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)";
+  const borderColor2 = theme === "dark" ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.12)";
+  const cardBg = theme === "dark" ? "rgba(255,255,255,0.02)" : "rgba(0,0,0,0.02)";
+  const cardBg2 = theme === "dark" ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.04)";
 
   useEffect(() => {
     if (searchOpen && searchInputRef.current) {
@@ -77,23 +105,28 @@ export default function ExampleNewsPage() {
     <div
       className="min-h-screen animate-fadeIn"
       style={{
-        background: "#000",
+        background: bgColor,
+        color: textColor,
         fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+        transition: "background 0.3s, color 0.3s",
       }}
     >
       {/* ───────────────────────────── HEADER ───────────────────────────── */}
       <header
         className="sticky top-0 z-50"
         style={{
-          background: "rgba(0,0,0,0.85)",
+          background: theme === "dark" ? "rgba(0,0,0,0.85)" : "rgba(255,255,255,0.85)",
           backdropFilter: "blur(20px)",
-          borderBottom: "1px solid rgba(255,255,255,0.08)",
+          borderBottom: `1px solid ${borderColor}`,
         }}
       >
         <div className="mx-auto flex max-w-[1400px] items-center justify-between px-6 py-3">
-          <Link href="/example" className="flex items-center gap-3">
-            <img src={MODULR_ASSETS.LOGO_MARK} alt="Modulr" style={{ height: 28, width: "auto" }} />
-          </Link>
+          <div className="flex items-center gap-6">
+            <Link href="/example" className="flex items-center gap-3">
+              <img src={MODULR_ASSETS.LOGO_MARK} alt="Modulr" style={{ height: 28, width: "auto" }} />
+            </Link>
+            <ExampleMegaNav theme={theme} />
+          </div>
 
           <div className="flex items-center gap-3">
             <button
@@ -102,40 +135,87 @@ export default function ExampleNewsPage() {
                 display: "flex",
                 alignItems: "center",
                 gap: 8,
-                background: "rgba(255,255,255,0.06)",
-                border: "1px solid rgba(255,255,255,0.1)",
+                background: theme === "dark" ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)",
+                border: `1px solid ${theme === "dark" ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)"}`,
                 borderRadius: 8,
                 padding: "6px 12px",
-                color: "rgba(255,255,255,0.5)",
+                color: theme === "dark" ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.5)",
                 fontSize: 13,
                 cursor: "pointer",
                 transition: "border-color 0.2s",
               }}
-              onMouseEnter={(e) => (e.currentTarget.style.borderColor = "rgba(255,255,255,0.2)")}
-              onMouseLeave={(e) => (e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)")}
+              onMouseEnter={(e) => (e.currentTarget.style.borderColor = theme === "dark" ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.2)")}
+              onMouseLeave={(e) => (e.currentTarget.style.borderColor = theme === "dark" ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)")}
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <circle cx="11" cy="11" r="8" />
                 <path d="M21 21l-4.35-4.35" />
               </svg>
               <span className="hidden sm:inline">Search</span>
-              <kbd style={{ marginLeft: 4, padding: "2px 6px", borderRadius: 4, background: "rgba(255,255,255,0.08)", fontSize: 11, fontFamily: "inherit" }}>⌘K</kbd>
+              <kbd style={{ marginLeft: 4, padding: "2px 6px", borderRadius: 4, background: theme === "dark" ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)", fontSize: 11, fontFamily: "inherit" }}>⌘K</kbd>
             </button>
             <Link
-              href="#"
+              href="https://testnet.explorer.modulr.cloud"
+              target="_blank"
+              rel="noreferrer"
               style={{
-                background: "rgba(255,255,255,0.08)",
-                border: "1px solid rgba(255,255,255,0.15)",
+                background: theme === "dark" ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.04)",
+                border: `1px solid ${theme === "dark" ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.12)"}`,
                 borderRadius: 20,
                 padding: "8px 16px",
-                color: "#fff",
+                color: theme === "dark" ? "rgba(255,255,255,0.86)" : "rgba(0,0,0,0.86)",
                 fontSize: 14,
                 fontWeight: 500,
                 textDecoration: "none",
               }}
             >
-              Sign in
+              Explorer
             </Link>
+            <Link
+              href="https://app.modulr.cloud"
+              target="_blank"
+              rel="noreferrer"
+              style={{
+                background: theme === "dark" ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)",
+                border: `1px solid ${theme === "dark" ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.15)"}`,
+                borderRadius: 20,
+                padding: "8px 16px",
+                color: theme === "dark" ? "#fff" : "#000",
+                fontSize: 14,
+                fontWeight: 500,
+                textDecoration: "none",
+              }}
+            >
+              Go to App
+            </Link>
+            <button
+              onClick={toggleTheme}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                width: 36,
+                height: 36,
+                borderRadius: 8,
+                background: theme === "dark" ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)",
+                border: `1px solid ${theme === "dark" ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)"}`,
+                color: theme === "dark" ? "rgba(255,255,255,0.7)" : "rgba(0,0,0,0.7)",
+                cursor: "pointer",
+                transition: "all 0.2s",
+              }}
+              aria-label="Toggle theme"
+            >
+              {theme === "dark" ? (
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <circle cx="12" cy="12" r="5" />
+                  <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+                </svg>
+              ) : (
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                </svg>
+              )}
+            </button>
           </div>
         </div>
       </header>
@@ -153,14 +233,14 @@ export default function ExampleNewsPage() {
                   style={{
                     display: "block",
                     padding: "8px 0",
-                    color: item.active ? "#fff" : "rgba(255,255,255,0.6)",
+                    color: item.active ? textColor : mutedTextColor,
                     fontSize: 14,
                     fontWeight: item.active ? 500 : 400,
                     textDecoration: "none",
                     transition: "color 0.15s",
                   }}
-                  onMouseEnter={(e) => (e.currentTarget.style.color = "#fff")}
-                  onMouseLeave={(e) => (e.currentTarget.style.color = item.active ? "#fff" : "rgba(255,255,255,0.6)")}
+                  onMouseEnter={(e) => (e.currentTarget.style.color = textColor)}
+                  onMouseLeave={(e) => (e.currentTarget.style.color = item.active ? textColor : mutedTextColor)}
                 >
                   {item.label}
                 </Link>
@@ -177,7 +257,7 @@ export default function ExampleNewsPage() {
                   fontSize: 11,
                   letterSpacing: "0.25em",
                   textTransform: "uppercase",
-                  color: "rgba(255,255,255,0.4)",
+                  color: mutedTextColor3,
                   marginBottom: 12,
                 }}
               >
@@ -187,7 +267,7 @@ export default function ExampleNewsPage() {
                 style={{
                   fontSize: 48,
                   fontWeight: 400,
-                  color: "#fff",
+                  color: textColor,
                   letterSpacing: "-0.03em",
                   lineHeight: 1.1,
                 }}
@@ -198,7 +278,7 @@ export default function ExampleNewsPage() {
                 style={{
                   marginTop: 16,
                   fontSize: 17,
-                  color: "rgba(255,255,255,0.55)",
+                  color: mutedTextColor,
                   maxWidth: 560,
                   lineHeight: 1.6,
                 }}
@@ -219,9 +299,9 @@ export default function ExampleNewsPage() {
                     fontSize: 13,
                     fontWeight: 500,
                     border: "1px solid",
-                    borderColor: activeCategory === cat ? "rgba(242,180,0,0.5)" : "rgba(255,255,255,0.12)",
-                    background: activeCategory === cat ? "rgba(242,180,0,0.15)" : "rgba(255,255,255,0.04)",
-                    color: activeCategory === cat ? "#f2b400" : "rgba(255,255,255,0.7)",
+                    borderColor: activeCategory === cat ? "rgba(242,180,0,0.5)" : borderColor2,
+                    background: activeCategory === cat ? "rgba(242,180,0,0.15)" : cardBg2,
+                    color: activeCategory === cat ? "#f2b400" : mutedTextColor,
                     cursor: "pointer",
                     transition: "all 0.2s",
                   }}
@@ -238,7 +318,7 @@ export default function ExampleNewsPage() {
                   fontSize: 11,
                   letterSpacing: "0.2em",
                   textTransform: "uppercase",
-                  color: "rgba(255,255,255,0.4)",
+                  color: mutedTextColor3,
                   marginBottom: 16,
                 }}
               >
@@ -249,8 +329,8 @@ export default function ExampleNewsPage() {
                 className="group block overflow-hidden"
                 style={{
                   borderRadius: 20,
-                  background: "rgba(255,255,255,0.03)",
-                  border: "1px solid rgba(255,255,255,0.08)",
+                  background: theme === "dark" ? "rgba(255,255,255,0.03)" : "rgba(0,0,0,0.02)",
+                  border: `1px solid ${borderColor}`,
                 }}
               >
                 <div className="grid lg:grid-cols-2 gap-0">
@@ -286,7 +366,7 @@ export default function ExampleNewsPage() {
                       >
                         {featured.category}
                       </span>
-                      <span style={{ fontSize: 13, color: "rgba(255,255,255,0.4)" }}>
+                      <span style={{ fontSize: 13, color: mutedTextColor3 }}>
                         {featured.date} · {featured.readingMinutes} min read
                       </span>
                     </div>
@@ -294,7 +374,7 @@ export default function ExampleNewsPage() {
                       style={{
                         fontSize: 28,
                         fontWeight: 500,
-                        color: "#fff",
+                        color: textColor,
                         lineHeight: 1.3,
                         transition: "color 0.2s",
                       }}
@@ -306,7 +386,7 @@ export default function ExampleNewsPage() {
                       style={{
                         marginTop: 14,
                         fontSize: 15,
-                        color: "rgba(255,255,255,0.55)",
+                        color: mutedTextColor,
                         lineHeight: 1.7,
                       }}
                     >
@@ -317,7 +397,7 @@ export default function ExampleNewsPage() {
                         marginTop: 24,
                         fontSize: 14,
                         fontWeight: 500,
-                        color: "#fff",
+                        color: textColor,
                         display: "inline-flex",
                         alignItems: "center",
                         gap: 8,
@@ -340,7 +420,7 @@ export default function ExampleNewsPage() {
                   fontSize: 11,
                   letterSpacing: "0.2em",
                   textTransform: "uppercase",
-                  color: "rgba(255,255,255,0.4)",
+                  color: mutedTextColor3,
                   marginBottom: 20,
                 }}
               >
@@ -354,17 +434,17 @@ export default function ExampleNewsPage() {
                     className="group block overflow-hidden"
                     style={{
                       borderRadius: 16,
-                      background: "rgba(255,255,255,0.02)",
-                      border: "1px solid rgba(255,255,255,0.06)",
+                      background: cardBg,
+                      border: `1px solid ${theme === "dark" ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)"}`,
                       transition: "border-color 0.2s, background 0.2s",
                     }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.borderColor = "rgba(255,255,255,0.12)";
-                      e.currentTarget.style.background = "rgba(255,255,255,0.04)";
+                      e.currentTarget.style.borderColor = theme === "dark" ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.12)";
+                      e.currentTarget.style.background = cardBg2;
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)";
-                      e.currentTarget.style.background = "rgba(255,255,255,0.02)";
+                      e.currentTarget.style.borderColor = theme === "dark" ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)";
+                      e.currentTarget.style.background = cardBg;
                     }}
                   >
                     <div style={{ position: "relative", aspectRatio: "16/10", overflow: "hidden" }}>
@@ -402,14 +482,14 @@ export default function ExampleNewsPage() {
                       </div>
                     </div>
                     <div style={{ padding: "18px 18px 22px" }}>
-                      <div style={{ fontSize: 12, color: "rgba(255,255,255,0.4)", marginBottom: 8 }}>
+                      <div style={{ fontSize: 12, color: mutedTextColor3, marginBottom: 8 }}>
                         {post.date} · {post.readingMinutes} min read
                       </div>
                       <h3
                         style={{
                           fontSize: 16,
                           fontWeight: 500,
-                          color: "#fff",
+                          color: textColor,
                           lineHeight: 1.4,
                           transition: "color 0.2s",
                         }}
@@ -421,7 +501,7 @@ export default function ExampleNewsPage() {
                         style={{
                           marginTop: 8,
                           fontSize: 13,
-                          color: "rgba(255,255,255,0.5)",
+                          color: mutedTextColor,
                           lineHeight: 1.6,
                           display: "-webkit-box",
                           WebkitLineClamp: 2,
@@ -467,15 +547,15 @@ export default function ExampleNewsPage() {
               width: "100%",
               maxWidth: 560,
               margin: "0 24px",
-              background: "rgba(24,24,24,0.98)",
-              border: "1px solid rgba(255,255,255,0.1)",
+              background: theme === "dark" ? "rgba(24,24,24,0.98)" : "rgba(255,255,255,0.98)",
+              border: `1px solid ${theme === "dark" ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)"}`,
               borderRadius: 16,
               overflow: "hidden",
-              boxShadow: "0 24px 80px rgba(0,0,0,0.5)",
+              boxShadow: theme === "dark" ? "0 24px 80px rgba(0,0,0,0.5)" : "0 24px 80px rgba(0,0,0,0.18)",
             }}
           >
-            <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "16px 20px", borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="2">
+            <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "16px 20px", borderBottom: `1px solid ${borderColor}` }}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={mutedTextColor3} strokeWidth="2">
                 <circle cx="11" cy="11" r="8" />
                 <path d="M21 21l-4.35-4.35" />
               </svg>
@@ -485,17 +565,17 @@ export default function ExampleNewsPage() {
                 placeholder="Search..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                style={{ flex: 1, background: "transparent", border: "none", outline: "none", fontSize: 16, color: "#fff" }}
+                style={{ flex: 1, background: "transparent", border: "none", outline: "none", fontSize: 16, color: textColor }}
               />
-              <kbd style={{ padding: "4px 8px", borderRadius: 6, background: "rgba(255,255,255,0.08)", fontSize: 12, color: "rgba(255,255,255,0.5)" }}>ESC</kbd>
+              <kbd style={{ padding: "4px 8px", borderRadius: 6, background: theme === "dark" ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)", fontSize: 12, color: mutedTextColor2 }}>ESC</kbd>
             </div>
             <div style={{ maxHeight: 400, overflowY: "auto" }}>
               {searchQuery.length === 0 ? (
-                <div style={{ padding: "32px 20px", textAlign: "center", color: "rgba(255,255,255,0.4)", fontSize: 14 }}>
+                <div style={{ padding: "32px 20px", textAlign: "center", color: mutedTextColor3, fontSize: 14 }}>
                   Start typing to search...
                 </div>
               ) : filteredResults.length === 0 ? (
-                <div style={{ padding: "32px 20px", textAlign: "center", color: "rgba(255,255,255,0.4)", fontSize: 14 }}>
+                <div style={{ padding: "32px 20px", textAlign: "center", color: mutedTextColor3, fontSize: 14 }}>
                   No results found
                 </div>
               ) : (
@@ -505,15 +585,15 @@ export default function ExampleNewsPage() {
                       key={item.href}
                       href={item.href}
                       onClick={() => { setSearchOpen(false); setSearchQuery(""); }}
-                      style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 20px", color: "#fff", textDecoration: "none" }}
-                      onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.05)")}
+                      style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 20px", color: textColor, textDecoration: "none" }}
+                      onMouseEnter={(e) => (e.currentTarget.style.background = theme === "dark" ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.05)")}
                       onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
                     >
                       <div>
                         <div style={{ fontSize: 15, fontWeight: 500 }}>{item.title}</div>
-                        <div style={{ marginTop: 2, fontSize: 12, color: "rgba(255,255,255,0.4)" }}>{item.category}</div>
+                        <div style={{ marginTop: 2, fontSize: 12, color: mutedTextColor3 }}>{item.category}</div>
                       </div>
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="2">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={mutedTextColor2} strokeWidth="2">
                         <path d="M9 18l6-6-6-6" />
                       </svg>
                     </Link>

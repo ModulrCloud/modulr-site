@@ -15,7 +15,7 @@ function IconButton({
 }) {
   return (
     <a
-      className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-hairline bg-white/5 text-white/80 hover:bg-white/10 hover:text-white transition ring-premium"
+      className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/80 hover:bg-white/10 hover:text-white transition ring-premium"
       href={href}
       target="_blank"
       rel="noreferrer"
@@ -84,7 +84,15 @@ function LinkIcon({ className }: { className?: string }) {
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-hairline bg-section">
+    // Always render footer in dark style (requested), regardless of the page theme.
+    <footer
+      className="border-t"
+      style={{
+        background: "#050506",
+        borderTopColor: "rgba(255,255,255,0.10)",
+        color: "#fff",
+      }}
+    >
       <div className="mx-auto max-w-[1400px] px-6 py-14">
         <div className="grid gap-10 md:grid-cols-5 md:items-start">
           <div className="md:col-span-2">
@@ -93,7 +101,7 @@ export function SiteFooter() {
                 <ModulrLogo variant="footer" />
               </span>
             </Link>
-            <p className="mt-3 max-w-md text-sm text-muted-2">
+            <p className="mt-3 max-w-md text-sm text-white/55">
               The Open Network for Robotics, AI, Data, and Compute
             </p>
 
@@ -224,7 +232,7 @@ export function SiteFooter() {
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col gap-3 border-t border-hairline pt-6 text-xs text-white/35 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-12 flex flex-col gap-3 border-t border-white/10 pt-6 text-xs text-white/35 sm:flex-row sm:items-center sm:justify-between">
           <div>Copyright © {new Date().getFullYear()} Modulr. All rights reserved.</div>
           <div className="text-white/25">Powering the global robot economy.</div>
         </div>
