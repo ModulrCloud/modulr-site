@@ -57,7 +57,7 @@ export default function ResearchPage() {
       <main className="pt-16 flex-1">
         {/* Hero */}
         <section className="relative overflow-hidden border-b border-hairline">
-          <div className="mx-auto max-w-6xl px-6 py-16 md:py-24">
+          <div className="mx-auto max-w-6xl px-6 pt-16 md:pt-24 pb-8 md:pb-12">
             <div className="max-w-3xl">
               <Reveal>
                 <div className="text-xs tracking-[0.28em] uppercase text-white/45">

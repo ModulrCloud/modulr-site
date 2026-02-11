@@ -1,6 +1,13 @@
+import type { Metadata } from "next";
 import { PageShell } from "@/components/PageShell";
 import { Reveal } from "@/components/Reveal";
 import { MODULR_LINKS } from "@/config/links";
+
+export const metadata: Metadata = {
+  title: "Pricing & Billing",
+  description:
+    "Usage-based pricing for the Modulr platform. Clear, upfront pricing in local currency. Book a demo to learn more.",
+};
 
 export default function PricingPage() {
   return (
@@ -9,7 +16,9 @@ export default function PricingPage() {
         <div className="mx-auto max-w-6xl px-6 py-12">
           <Reveal className="bg-card-2 rounded-3xl p-6 shadow-glow">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-              <p className="text-sm text-muted-2">Interested in Learning More?</p>
+              <p className="text-sm font-semibold text-white">
+                Interested in Learning More?
+              </p>
               <a
                 href={MODULR_LINKS.DEMO}
                 target="_blank"

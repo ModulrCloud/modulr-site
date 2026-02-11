@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import {
   motion,
   useScroll,
@@ -74,7 +74,16 @@ export function UseCasesHorizontalScrollSection({
   const reduce = useReducedMotion();
   const containerRef = useRef<HTMLDivElement | null>(null);
   const titleRef = useRef<HTMLDivElement | null>(null);
-  const titleInView = useInView(titleRef, { once: true, margin: "-100px" });
+  const titleInView = useInView(titleRef, { once: true, margin: "0px 0px -20px 0px" });
+  const [isLg, setIsLg] = useState(false);
+  useEffect(() => {
+    const mql = window.matchMedia("(min-width: 1024px)");
+    const set = () => setIsLg(mql.matches);
+    set();
+    mql.addEventListener("change", set);
+    return () => mql.removeEventListener("change", set);
+  }, []);
+  const showTitle = isLg ? titleInView : true;
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -98,92 +107,81 @@ export function UseCasesHorizontalScrollSection({
           <div className="absolute inset-0 k-noise opacity-[0.08]" />
         </div>
 
-        <div
-          ref={titleRef}
-          className="absolute top-0 left-0 right-0 z-20 pt-16 md:pt-24 pointer-events-none"
-        >
-          <div className="px-6 md:px-12">
-            <motion.h2
-              className="text-[18vw] md:text-[14vw] lg:text-[12vw] font-black leading-[0.85] tracking-[-0.04em] uppercase"
+        {/* One title for all breakpoints: responsive font size + margin so it's always visible and never overlaps. */}
+        <div className="flex flex-col h-full lg:contents">
+          <div
+            ref={titleRef}
+            className="relative z-20 flex-shrink-0 overflow-visible pt-20 pb-6 md:pt-24 md:pb-8 px-6 md:px-12 pointer-events-none lg:absolute lg:top-0 lg:left-0 lg:right-0 lg:pt-24 lg:pb-0 lg:px-12"
+          >
+            <h2
+              className="font-black leading-[0.85] tracking-[-0.04em] uppercase text-[14vw] sm:text-[11vw] md:text-[10vw] lg:text-[12vw]"
               style={{ fontFamily: "var(--font-geist-sans), system-ui" }}
-              initial={{ y: 100, opacity: 0 }}
-              animate={
-                titleInView
-                  ? { y: 0, opacity: 1 }
-                  : { y: 100, opacity: 0 }
-              }
-              transition={{
-                duration: reduce ? 0 : 1.2,
-                ease: [0.16, 1, 0.3, 1],
-              }}
             >
-              <motion.span
-                style={{
-                  color: "transparent",
-                  WebkitTextStroke: "2px rgba(255,255,255,0.45)",
-                }}
+              <span
+                className="text-transparent"
+                style={{ WebkitTextStroke: "2px rgba(255,255,255,0.45)" }}
               >
                 USE
-              </motion.span>{" "}
-              <motion.span className="bg-gradient-to-r from-white via-white to-[var(--accent)] bg-clip-text text-transparent">
+              </span>{" "}
+              <span className="bg-gradient-to-r from-white via-white to-[var(--accent)] bg-clip-text text-transparent">
                 CASES
-              </motion.span>
-            </motion.h2>
+              </span>
+            </h2>
           </div>
-        </div>
 
-        <div className="absolute inset-0 flex items-center justify-center pt-32 md:pt-40">
-          <div className="relative w-full max-w-[1600px] mx-auto px-6 md:px-12">
-            <div className="grid gap-8 lg:grid-cols-12 lg:gap-12 items-center">
-              <div className="lg:col-span-4 relative z-10">
-                <div className="space-y-8">
-                  <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={
-                      titleInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }
-                    }
-                    transition={{ duration: 0.8, delay: 0.3 }}
-                  >
-                    <div className="text-xs tracking-[0.28em] uppercase text-white/45 mb-3">
-                      Remote Teleoperation
-                    </div>
-                    <p className="text-lg md:text-xl leading-8 text-white/70 max-w-md">
-                      From agriculture to space exploration, Modulr powers
-                      real-time robotic control in the most demanding
-                      environments.
-                    </p>
-                  </motion.div>
+          <div className="flex-1 min-h-0 flex items-center justify-center px-6 md:px-12 pb-12 lg:pb-0 lg:absolute lg:inset-0 lg:pt-40 lg:flex-none lg:justify-center">
+            <div className="relative w-full max-w-[1600px] mx-auto h-full lg:h-auto">
+              <div className="grid gap-x-8 gap-y-2 lg:grid-cols-12 lg:gap-12 items-center h-full lg:h-auto">
+                <div className="order-1 lg:order-none lg:col-span-4 relative z-10 mb-0">
+                  <div className="space-y-8">
+                    <motion.div
+                      initial={{ opacity: 0, y: 30 }}
+                      animate={
+                        showTitle ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }
+                      }
+                      transition={{ duration: 0.8, delay: 0.3 }}
+                    >
+                      <div className="text-xs tracking-[0.28em] uppercase text-white/45 mb-3">
+                        Remote Teleoperation
+                      </div>
+                      <p className="text-lg md:text-xl leading-8 text-white/70 max-w-md">
+                        From agriculture to space exploration, Modulr powers
+                        real-time robotic control in the most demanding
+                        environments.
+                      </p>
+                    </motion.div>
 
-                  <motion.div
-                    className="flex flex-col gap-2"
-                    initial={{ opacity: 0 }}
-                    animate={titleInView ? { opacity: 1 } : { opacity: 0 }}
-                    transition={{ duration: 0.6, delay: 0.5 }}
-                  >
-                    {useCases.map((_, idx) => (
-                      <ScrollIndicator
-                        key={idx}
+                    <motion.div
+                      className="hidden lg:flex flex-col gap-2"
+                      initial={{ opacity: 0 }}
+                      animate={showTitle ? { opacity: 1 } : { opacity: 0 }}
+                      transition={{ duration: 0.6, delay: 0.5 }}
+                    >
+                      {useCases.map((_, idx) => (
+                        <ScrollIndicator
+                          key={idx}
+                          index={idx}
+                          total={cardCount}
+                          scrollYProgress={scrollYProgress}
+                        />
+                      ))}
+                    </motion.div>
+                  </div>
+                </div>
+
+                <div className="order-2 lg:order-none lg:col-span-8 relative">
+                  <div className="relative h-[50vh] md:h-[55vh] lg:h-[60vh]">
+                    {useCases.map((uc, idx) => (
+                      <UseCaseCard
+                        key={uc.title}
+                        useCase={uc}
                         index={idx}
                         total={cardCount}
                         scrollYProgress={scrollYProgress}
+                        reduce={reduce}
                       />
                     ))}
-                  </motion.div>
-                </div>
-              </div>
-
-              <div className="lg:col-span-8 relative">
-                <div className="relative h-[50vh] md:h-[55vh] lg:h-[60vh]">
-                  {useCases.map((uc, idx) => (
-                    <UseCaseCard
-                      key={uc.title}
-                      useCase={uc}
-                      index={idx}
-                      total={cardCount}
-                      scrollYProgress={scrollYProgress}
-                      reduce={reduce}
-                    />
-                  ))}
+                  </div>
                 </div>
               </div>
             </div>
@@ -193,7 +191,7 @@ export function UseCasesHorizontalScrollSection({
         <motion.div
           className="absolute bottom-8 left-0 right-0 z-10 flex justify-center pointer-events-none"
           initial={{ opacity: 0 }}
-          animate={titleInView ? { opacity: 1 } : { opacity: 0 }}
+          animate={showTitle ? { opacity: 1 } : { opacity: 0 }}
           transition={{ delay: 1 }}
         >
           <motion.div

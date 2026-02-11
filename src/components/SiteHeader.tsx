@@ -15,7 +15,6 @@ const nav = [
   { label: "Careers", href: "/careers" },
   { label: "Technology", href: "/technology-overview" },
   { label: "Team", href: "/team" },
-  { label: "Pricing", href: "/pricing" },
 ];
 
 function MenuIcon({ className }: { className?: string }) {

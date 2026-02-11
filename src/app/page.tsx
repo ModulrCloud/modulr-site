@@ -66,7 +66,7 @@ export default async function Home() {
             <div className="mt-10 text-center">
               <Reveal delayMs={60}>
                 <h1 className="text-premium text-4xl font-semibold leading-[1.03] tracking-tight text-white sm:text-6xl">
-                  Robot Operation, <span className="text-gradient">at Scale.</span>
+                  Robot Operation, <span className="text-gradient whitespace-nowrap">at Scale.</span>
                 </h1>
               </Reveal>
               <Reveal delayMs={140}>

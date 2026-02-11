@@ -149,7 +149,7 @@ html {
   }
 
   .animate-marquee { animation: marquee 22s linear infinite; }
-  .animate-marquee-slow { animation: marquee 45s linear infinite; }
+  .animate-marquee-slow { animation: marquee 30s linear infinite; }
   .animate-rail-scroll { animation: marquee 28s linear infinite; }
 
   .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }

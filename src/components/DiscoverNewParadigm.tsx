@@ -92,95 +92,121 @@ export function DiscoverNewParadigm({ className }: { className?: string }) {
                   whileHover={reduce ? undefined : { y: -6, scale: 1.003 }}
                   transition={{ duration: 0.28, ease: [0.2, 0.8, 0.2, 1] }}
                 >
-                  <div
-                    className={cn(
-                      "absolute inset-0 overflow-hidden",
-                      tile.size === "large" ? "md:relative md:w-[60%]" : ""
-                    )}
-                  >
-                    <SmartImage
-                      src={tile.image}
-                      alt={tile.title}
-                      className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-[1.04]"
-                    />
-                    {!tile.minimalOverlay && (
-                      <>
-                        <div
-                          className={cn(
-                            "absolute inset-0",
-                            tile.size === "large"
-                              ? "bg-gradient-to-t from-black via-black/60 to-black/30 md:bg-gradient-to-r md:from-transparent md:via-black/40 md:to-black"
-                              : "bg-gradient-to-t from-black via-black/70 to-black/30"
-                          )}
+                  {/* Mobile only (large tile): stacked image then separate text block — avoids image text conflicting with paragraph */}
+                  {tile.size === "large" && (
+                    <div className="flex flex-col md:hidden">
+                      <div className="relative aspect-[16/10] w-full shrink-0 overflow-hidden">
+                        <SmartImage
+                          src={tile.image}
+                          alt={tile.title}
+                          className="absolute inset-0 h-full w-full object-cover"
                         />
+                      </div>
+                      <div className="border-t border-white/10 bg-black/95 px-6 py-6">
+                        <h3 className="text-2xl font-semibold tracking-tight text-white">
+                          {tile.title}
+                        </h3>
+                        <p className="mt-3 text-sm leading-7 text-white/80">
+                          {tile.desc}
+                        </p>
+                        {!tile.hideCta && (
+                          <div className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-[var(--accent)]">
+                            <span>{tile.cta}</span>
+                            <span className="transition group-hover:translate-x-0.5">→</span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Desktop large tile: wrapper so image + text only show at md+ (left column image, right column text) */}
+                  {tile.size === "large" && (
+                    <div className="hidden md:flex md:items-stretch flex-1 w-full min-h-0">
+                      <div className="relative w-[55%] shrink-0 overflow-hidden">
+                        <SmartImage
+                          src={tile.image}
+                          alt={tile.title}
+                          className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-[1.04]"
+                        />
+                        <div className="absolute inset-0 md:bg-none bg-gradient-to-r from-transparent from-30% via-transparent via-60% to-black/45" />
+                      </div>
+                      <div className="relative flex w-[45%] shrink-0 flex-col justify-center bg-black/95 border-l border-white/10 p-8 md:p-12">
                         <div
-                          className="pointer-events-none absolute inset-0 opacity-50"
+                          className="pointer-events-none absolute inset-0 opacity-30"
                           style={{
-                            background: `radial-gradient(1000px 600px at 30% 70%, ${tile.accent}, transparent 55%)`,
+                            background: `radial-gradient(600px 400px at 80% 50%, ${tile.accent}, transparent 50%)`,
                           }}
                         />
-                      </>
-                    )}
-                    {tile.minimalOverlay && (
-                      <div className="absolute inset-0 bg-gradient-to-r from-transparent from-30% via-transparent via-60% to-black/45 md:to-black/55" />
-                    )}
-                  </div>
-
-                  <div
-                    className={cn(
-                      "relative flex flex-col justify-end p-8 md:p-12",
-                      tile.size === "large"
-                        ? "md:w-[40%] md:justify-center h-full"
-                        : "h-full"
-                    )}
-                  >
-                    <div
-                      className="pointer-events-none absolute inset-0 opacity-30"
-                      style={{
-                        background: `radial-gradient(600px 400px at 80% 50%, ${tile.accent}, transparent 50%)`,
-                      }}
-                    />
-
-                    <div className="relative">
-                      <h3
-                        className={cn(
-                          "font-semibold tracking-tight text-white group-hover:text-[var(--accent)] transition",
-                          tile.size === "large"
-                            ? "text-3xl md:text-4xl lg:text-5xl"
-                            : "text-2xl md:text-3xl"
-                        )}
-                      >
-                        {tile.title}
-                      </h3>
-                      <p
-                        className={cn(
-                          "mt-4 leading-7 text-white/60",
-                          tile.size === "large"
-                            ? "text-base md:text-lg max-w-lg"
-                            : "text-sm max-w-md"
-                        )}
-                      >
-                        {tile.desc}
-                      </p>
-                      {!tile.hideCta && (
-                        <div className="mt-8 inline-flex items-center gap-4">
-                          <span
-                            className={cn(
-                              "inline-flex items-center justify-center rounded-full border border-white/15 bg-white/5 font-semibold text-white transition group-hover:bg-white/10 group-hover:border-[var(--accent)]/40",
-                              tile.size === "large"
-                                ? "px-7 py-3.5 text-base"
-                                : "px-5 py-2.5 text-sm"
-                            )}
-                          >
-                            {tile.cta}
-                          </span>
-                          <span className="text-white/50 group-hover:text-white transition group-hover:translate-x-2 text-xl">
-                            →
-                          </span>
+                        <div className="relative">
+                          <h3 className="text-3xl font-semibold tracking-tight text-white group-hover:text-[var(--accent)] transition md:text-4xl lg:text-5xl">
+                            {tile.title}
+                          </h3>
+                          <p className="mt-4 text-base leading-7 text-white/60 md:text-lg max-w-lg">
+                            {tile.desc}
+                          </p>
+                          {!tile.hideCta && (
+                            <div className="mt-8 inline-flex items-center gap-4">
+                              <span className="inline-flex items-center justify-center rounded-full border border-white/15 bg-white/5 px-7 py-3.5 text-base font-semibold text-white transition group-hover:bg-white/10 group-hover:border-[var(--accent)]/40">
+                                {tile.cta}
+                              </span>
+                              <span className="text-xl text-white/50 transition group-hover:translate-x-2 group-hover:text-white">
+                                →
+                              </span>
+                            </div>
+                          )}
                         </div>
-                      )}
+                      </div>
                     </div>
-                  </div>
+                  )}
+
+                  {/* Medium tiles + mobile layout for medium: image with overlay text (unchanged) */}
+                  {tile.size !== "large" && (
+                    <>
+                      <div className="absolute inset-0 overflow-hidden">
+                        <SmartImage
+                          src={tile.image}
+                          alt={tile.title}
+                          className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-[1.04]"
+                        />
+                        <>
+                          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-black/30" />
+                          <div
+                            className="pointer-events-none absolute inset-0 opacity-50"
+                            style={{
+                              background: `radial-gradient(1000px 600px at 30% 70%, ${tile.accent}, transparent 55%)`,
+                            }}
+                          />
+                        </>
+                      </div>
+
+                      <div className="relative flex h-full flex-col justify-end p-8 md:p-12">
+                        <div
+                          className="pointer-events-none absolute inset-0 opacity-30"
+                          style={{
+                            background: `radial-gradient(600px 400px at 80% 50%, ${tile.accent}, transparent 50%)`,
+                          }}
+                        />
+                        <div className="relative">
+                          <h3 className="text-2xl font-semibold tracking-tight text-white transition group-hover:text-[var(--accent)] md:text-3xl">
+                            {tile.title}
+                          </h3>
+                          <p className="mt-4 text-sm leading-7 text-white/60 max-w-md">
+                            {tile.desc}
+                          </p>
+                          {!tile.hideCta && (
+                            <div className="mt-8 inline-flex items-center gap-4">
+                              <span className="inline-flex items-center justify-center rounded-full border border-white/15 bg-white/5 px-5 py-2.5 text-sm font-semibold text-white transition group-hover:bg-white/10 group-hover:border-[var(--accent)]/40">
+                                {tile.cta}
+                              </span>
+                              <span className="text-xl text-white/50 transition group-hover:translate-x-2 group-hover:text-white">
+                                →
+                              </span>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </>
+                  )}
 
                   <div className="pointer-events-none absolute inset-0 rounded-[32px] md:rounded-[48px] ring-1 ring-inset ring-white/5 group-hover:ring-[var(--accent)]/30 transition" />
                 </motion.article>

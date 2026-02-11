@@ -68,7 +68,7 @@ export default function CareersPage() {
       <main className="pt-16 flex-1">
         {/* Hero */}
         <section className="relative overflow-hidden border-b border-hairline">
-          <div className="mx-auto max-w-6xl px-6 py-16 md:py-24">
+          <div className="mx-auto max-w-6xl px-6 pt-16 md:pt-24 pb-8 md:pb-12">
             <div className="max-w-3xl">
               <Reveal>
                 <div className="text-xs tracking-[0.28em] uppercase text-white/45">
@@ -88,7 +88,7 @@ export default function CareersPage() {
               <Reveal delayMs={140}>
                 <div className="mt-8 flex flex-wrap gap-3">
                   <a
-                    href="mailto:careers@modulr.cloud"
+                    href="mailto:jobs@modulr.cloud"
                     className="inline-flex items-center justify-center rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-black transition hover:bg-white/90 ring-premium"
                   >
                     Contact HR
@@ -246,7 +246,7 @@ export default function CareersPage() {
                   We're always looking for exceptional talent. Send us your resume and tell us how you'd like to contribute to the robot economy.
                 </p>
                 <a
-                  href="mailto:careers@modulr.cloud?subject=Open Application"
+                  href="mailto:jobs@modulr.cloud?subject=Open Application"
                   className="inline-flex items-center justify-center rounded-full bg-[var(--accent)] px-6 py-3 text-sm font-semibold text-black transition hover:brightness-95 ring-premium mt-6"
                 >
                   Send Open Application

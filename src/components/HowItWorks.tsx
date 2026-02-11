@@ -34,12 +34,24 @@ const clientSteps = [
   },
 ];
 
-export function HowItWorks({ className }: { className?: string }) {
+export function HowItWorks({
+  className,
+  compactTop,
+}: {
+  className?: string;
+  /** When true, reduces top padding for a tighter gap from the section above */
+  compactTop?: boolean;
+}) {
   const ref = useRef<HTMLDivElement | null>(null);
 
   return (
     <section ref={ref} className={cn("border-t border-hairline bg-section", className)}>
-      <div className="mx-auto max-w-6xl px-6 py-16 md:py-24">
+      <div
+        className={cn(
+          "mx-auto max-w-6xl px-6 pb-16 md:pb-24",
+          compactTop ? "pt-8 md:pt-12" : "pt-16 md:pt-24",
+        )}
+      >
         <div className="mb-12 md:mb-14">
           <Reveal>
             <div className="text-xs tracking-[0.22em] uppercase text-white/55">

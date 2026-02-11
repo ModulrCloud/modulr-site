@@ -226,7 +226,7 @@ export function SiteFooter() {
 
         <div className="mt-12 flex flex-col gap-3 border-t border-hairline pt-6 text-xs text-white/35 sm:flex-row sm:items-center sm:justify-between">
           <div>Copyright © {new Date().getFullYear()} Modulr. All rights reserved.</div>
-          <div className="text-white/25">Powering the global robot economy.</div>
+          <div className="text-white/25">Powering the Global Robot Economy</div>
         </div>
       </div>
     </footer>

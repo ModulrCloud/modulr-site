@@ -1,36 +1,66 @@
-import { PageShell } from "@/components/PageShell";
+import type { Metadata } from "next";
+import { SiteHeader } from "@/components/SiteHeader";
+import { SiteFooter } from "@/components/SiteFooter";
 import { Reveal } from "@/components/Reveal";
 import { HowItWorks } from "@/components/HowItWorks";
-import { AppGallery } from "@/components/AppGallery";
 import { MODULR_LINKS } from "@/config/links";
+
+export const metadata: Metadata = {
+  title: "Technology",
+  description:
+    "Discover the architecture and capabilities that power the Modulr network.",
+};
 
 export default function TechnologyOverviewPage() {
   return (
-    <PageShell
-      title="Technology Overview"
-      subtitle="Discover the architecture and capabilities that power the Modulr network."
-      actions={
-        <>
-          <a
-            href={MODULR_LINKS.DEMO}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center justify-center rounded-full px-5 py-3 text-sm font-semibold transition ring-premium btn-primary"
-          >
-            Book a Demo
-          </a>
-          <a
-            href={MODULR_LINKS.GITHUB}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center justify-center rounded-full px-5 py-3 text-sm font-semibold transition ring-premium btn-secondary"
-          >
-            GitHub
-          </a>
-        </>
-      }
-    >
-      <HowItWorks />
+    <div className="min-h-screen flex flex-col">
+      <SiteHeader />
+
+      <main className="pt-16 flex-1">
+        {/* Hero - same style as Research, News, Careers */}
+        <section className="relative overflow-hidden border-b border-hairline">
+          <div className="mx-auto max-w-6xl px-6 pt-16 md:pt-24 pb-8 md:pb-12">
+            <div className="max-w-3xl">
+              <Reveal>
+                <div className="text-xs tracking-[0.28em] uppercase text-white/45">
+                  Technology
+                </div>
+              </Reveal>
+              <Reveal delayMs={60}>
+                <h1 className="mt-4 text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tight text-white">
+                  Technology Overview
+                </h1>
+              </Reveal>
+              <Reveal delayMs={100}>
+                <p className="mt-6 text-lg text-white/60 max-w-2xl">
+                  Discover the architecture and capabilities that power the Modulr network.
+                </p>
+              </Reveal>
+              <Reveal delayMs={140}>
+                <div className="mt-8 flex flex-wrap gap-3">
+                  <a
+                    href={MODULR_LINKS.DEMO}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center justify-center rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-black transition hover:bg-white/90 ring-premium"
+                  >
+                    Book a Demo
+                  </a>
+                  <a
+                    href={MODULR_LINKS.GITHUB}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/[0.03] backdrop-blur-sm px-5 py-2.5 text-sm font-semibold text-white/80 transition hover:bg-white/[0.06] hover:text-white ring-premium"
+                  >
+                    GitHub
+                  </a>
+                </div>
+              </Reveal>
+            </div>
+          </div>
+        </section>
+
+        <HowItWorks compactTop />
 
       <section className="border-t border-hairline bg-section">
         <div className="mx-auto max-w-6xl px-6 py-16 md:py-24">
@@ -98,7 +128,7 @@ export default function TechnologyOverviewPage() {
           </div>
         </div>
       </section>
-
+{/*
       <section className="border-t border-hairline bg-section">
         <div className="mx-auto max-w-6xl px-6 py-16 md:py-24">
           <Reveal>
@@ -122,7 +152,7 @@ export default function TechnologyOverviewPage() {
           </Reveal>
         </div>
       </section>
-
+*/}
       <section className="border-t border-hairline bg-section">
         <div className="mx-auto max-w-6xl px-6 py-16 md:py-24">
           <Reveal>
@@ -188,6 +218,9 @@ export default function TechnologyOverviewPage() {
           </div>
         </div>
       </section>
-    </PageShell>
+      </main>
+
+      <SiteFooter />
+    </div>
   );
 }

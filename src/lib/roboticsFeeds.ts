@@ -166,7 +166,7 @@ export async function fetchRoboticsStories(limit = 3): Promise<RoboticsStoryCard
   }));
 }
 
-/** Same cache key as homepage so News and Home show the same stories. */
+/** Cached stories for homepage (e.g. StoriesSection). */
 export const getCachedStories = unstable_cache(
   async () => {
     try {
@@ -176,6 +176,19 @@ export const getCachedStories = unstable_cache(
     }
   },
   ["robotics-stories-v2"],
+  { revalidate: 86400 },
+);
+
+/** Cached stories for News page: 10 total (1 featured + 9 in Latest rail). */
+export const getCachedStoriesForNews = unstable_cache(
+  async () => {
+    try {
+      return await fetchRoboticsStories(10);
+    } catch {
+      return undefined;
+    }
+  },
+  ["robotics-stories-news-v2"],
   { revalidate: 86400 },
 );
 
