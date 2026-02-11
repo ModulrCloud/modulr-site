@@ -54,23 +54,25 @@ export function TrustedByMarquee({ className }: { className?: string }) {
         <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-32 bg-gradient-to-l from-black to-transparent" />
 
         <div className="flex animate-marquee-slow py-3">
-          {[0, 1].map((setIndex) => (
-            <div key={setIndex} className="flex shrink-0 items-center gap-20 px-10">
-              {companies.map((company, i) => (
-                <div
-                  key={`${setIndex}-${i}`}
-                  className="flex shrink-0 items-center opacity-50 hover:opacity-90 transition-opacity"
-                  title={company.name}
-                >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={company.logo}
-                    alt={company.name}
-                    className="h-5 w-auto min-w-[120px] object-contain"
-                    style={{ filter: "brightness(0) invert(1)" }}
-                  />
-                </div>
-              ))}
+          {[0, 1].map((half) => (
+            <div key={half} className="flex shrink-0">
+              {Array.from({ length: 4 }).map((_, rep) =>
+                companies.map((company, i) => (
+                  <div
+                    key={`${half}-${rep}-${i}`}
+                    className="flex shrink-0 items-center px-10 opacity-50 hover:opacity-90 transition-opacity"
+                    title={company.name}
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={company.logo}
+                      alt={company.name}
+                      className="h-5 w-auto min-w-[120px] object-contain"
+                      style={{ filter: "brightness(0) invert(1)" }}
+                    />
+                  </div>
+                ))
+              )}
             </div>
           ))}
         </div>
