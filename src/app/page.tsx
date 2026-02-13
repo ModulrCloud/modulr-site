@@ -18,6 +18,9 @@ import { MonetizeRobotsGlobally } from "@/components/MonetizeRobotsGlobally";
 import { DiscoverNewParadigm } from "@/components/DiscoverNewParadigm";
 import { TeleoperationSection } from "@/components/TeleoperationSection";
 
+/** Always render on request so homepage news strip gets fresh RSS (not baked in at build). */
+export const dynamic = "force-dynamic";
+
 const ROADMAP_IMG =
   "https://cdn.prod.website-files.com/688b650d15ca6b144341e1f7/690bd13cd22e0860718d9af7_ROADMAP%20(website%20version).png";
 
