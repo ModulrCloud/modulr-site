@@ -128,12 +128,27 @@ function getRelativeTime(d: Date): string {
   return d.toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" });
 }
 
+/** Fetch RSS XML with no caching so feeds always can update (avoids Next.js and any HTTP cache). */
+async function fetchFeedXml(url: string): Promise<string> {
+  const res = await fetch(url, {
+    cache: "no-store",
+    headers: {
+      "User-Agent": "Modulr-Site/1.0 (Robotics News Aggregator)",
+      Accept: "application/rss+xml, application/xml, text/xml",
+    },
+    next: { revalidate: 0 },
+  });
+  if (!res.ok) throw new Error(`Feed ${url} returned ${res.status}`);
+  return res.text();
+}
+
 export async function fetchRoboticsStories(limit = 3): Promise<RoboticsStoryCard[]> {
   const all: { item: Parser.Item; source: string; fallbackImage: string }[] = [];
 
   for (const feed of FEEDS) {
     try {
-      const result = await parser.parseURL(feed.url);
+      const xml = await fetchFeedXml(feed.url);
+      const result = await parser.parseString(xml);
       const items = (result.items ?? []).slice(0, 5);
       for (const item of items) {
         if (item.link && item.title) {
@@ -166,8 +181,10 @@ export async function fetchRoboticsStories(limit = 3): Promise<RoboticsStoryCard
   }));
 }
 
-/** Cached stories for homepage (e.g. StoriesSection). */
-export const getCachedStories = unstable_cache(
+/** Production cache: 6 hours so feed updates without hammering RSS sources. */
+const REVALIDATE_SECONDS = 6 * 60 * 60; // 6 hours
+
+const getCachedStoriesImpl = unstable_cache(
   async () => {
     try {
       return await fetchRoboticsStories(3);
@@ -175,12 +192,11 @@ export const getCachedStories = unstable_cache(
       return undefined;
     }
   },
-  ["robotics-stories-v2"],
-  { revalidate: 86400 },
+  ["robotics-stories-v4"],
+  { revalidate: REVALIDATE_SECONDS },
 );
 
-/** Cached stories for News page: 10 total (1 featured + 9 in Latest rail). */
-export const getCachedStoriesForNews = unstable_cache(
+const getCachedStoriesForNewsImpl = unstable_cache(
   async () => {
     try {
       return await fetchRoboticsStories(10);
@@ -188,9 +204,33 @@ export const getCachedStoriesForNews = unstable_cache(
       return undefined;
     }
   },
-  ["robotics-stories-news-v2"],
-  { revalidate: 86400 },
+  ["robotics-stories-news-v4"],
+  { revalidate: REVALIDATE_SECONDS },
 );
+
+/** Cached stories for homepage (e.g. StoriesSection). In dev, bypasses cache so stories update every load. */
+export async function getCachedStories() {
+  if (process.env.NODE_ENV === "development") {
+    try {
+      return await fetchRoboticsStories(3);
+    } catch {
+      return undefined;
+    }
+  }
+  return getCachedStoriesImpl();
+}
+
+/** Cached stories for News page: 10 total (1 featured + 9 in Latest rail). In dev, bypasses cache so stories update every load. */
+export async function getCachedStoriesForNews() {
+  if (process.env.NODE_ENV === "development") {
+    try {
+      return await fetchRoboticsStories(10);
+    } catch {
+      return undefined;
+    }
+  }
+  return getCachedStoriesForNewsImpl();
+}
 
 /** Proxied image URL so external feed images load (avoids hotlinking blocks). */
 export function proxyImageUrl(externalUrl: string): string {
