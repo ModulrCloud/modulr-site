@@ -128,15 +128,15 @@ function getRelativeTime(d: Date): string {
   return d.toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" });
 }
 
-/** Fetch RSS XML with no caching so feeds always can update (avoids Next.js and any HTTP cache). */
+const REVALIDATE_SECONDS = 6 * 60 * 60; // 6 hours
+
 async function fetchFeedXml(url: string): Promise<string> {
   const res = await fetch(url, {
-    cache: "no-store",
     headers: {
       "User-Agent": "Modulr-Site/1.0 (Robotics News Aggregator)",
       Accept: "application/rss+xml, application/xml, text/xml",
     },
-    next: { revalidate: 0 },
+    next: { revalidate: REVALIDATE_SECONDS },
   });
   if (!res.ok) throw new Error(`Feed ${url} returned ${res.status}`);
   return res.text();
@@ -180,9 +180,6 @@ export async function fetchRoboticsStories(limit = 3): Promise<RoboticsStoryCard
     featured: i === 0,
   }));
 }
-
-/** Production cache: 6 hours so feed updates without hammering RSS sources. */
-const REVALIDATE_SECONDS = 6 * 60 * 60; // 6 hours
 
 const getCachedStoriesImpl = unstable_cache(
   async () => {
