@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     siteName: "Modulr",
     images: [
       {
-        url: "/Modulr_Social_Preview.png",
+        url: "/Modulr_Social_Preview.png?v=2",
         width: 1200,
         height: 630,
         alt: "Modulr - Robot Operation, at Scale",
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Modulr - Robot Operation, at Scale",
     description: "A real-time teleoperation platform built for enterprise performance and an open network economy—connecting robots, AI, data, and compute.",
-    images: ["/Modulr_Social_Preview.png"],
+    images: ["/Modulr_Social_Preview.png?v=2"],
   },
   icons: {
     icon: [{ url: "/favicon.png", type: "image/png" }],
