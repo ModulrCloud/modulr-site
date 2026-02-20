@@ -18,20 +18,20 @@ export const metadata: Metadata = {
     default: "Modulr - Robot Operation, at Scale",
     template: "Modulr - %s",
   },
-  description: "A real-time teleoperation platform built for enterprise performance and an open network economy—connecting robots, AI, data, and compute.",
+  description: "A real-time robot operation platform built for enterprise performance and an open network economy—connecting robots, AI, data, and compute.",
   metadataBase: new URL("https://www.modulr.cloud"),
   alternates: {
     canonical: "/",
   },
   openGraph: {
     title: "Modulr - Robot Operation, at Scale",
-    description: "A real-time teleoperation platform built for enterprise performance and an open network economy—connecting robots, AI, data, and compute.",
+    description: "A real-time robot operation platform built for enterprise performance and an open network economy—connecting robots, AI, data, and compute.",
     type: "website",
     url: "https://www.modulr.cloud/",
     siteName: "Modulr",
     images: [
       {
-        url: "/Modulr_Social_Preview.png?v=2",
+        url: "/Updated_Modulr_Social_Preview.png",
         width: 1200,
         height: 630,
         alt: "Modulr - Robot Operation, at Scale",
@@ -41,8 +41,8 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Modulr - Robot Operation, at Scale",
-    description: "A real-time teleoperation platform built for enterprise performance and an open network economy—connecting robots, AI, data, and compute.",
-    images: ["/Modulr_Social_Preview.png?v=2"],
+    description: "A real-time robot operation platform built for enterprise performance and an open network economy—connecting robots, AI, data, and compute.",
+    images: ["/Updated_Modulr_Social_Preview.png"],
   },
   icons: {
     icon: [{ url: "/favicon.png", type: "image/png" }],

@@ -71,7 +71,7 @@ export default async function Home() {
               </Reveal>
               <Reveal delayMs={140}>
                 <p className="mx-auto mt-6 max-w-2xl text-base leading-7 text-muted sm:text-lg">
-                  A real-time teleoperation platform built for enterprise performance and an open network economy—connecting robots, AI, data, and compute.
+                  A real-time robot operation platform built for enterprise performance and an open network economy—connecting robots, AI, data, and compute.
                 </p>
               </Reveal>
 
