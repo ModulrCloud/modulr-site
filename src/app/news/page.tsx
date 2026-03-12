@@ -147,6 +147,94 @@ const cardGradients = [
   "linear-gradient(145deg, #d97706, #fbbf24, #fde68a)",
 ];
 
+/* ─── abstract SVG overlay patterns for RSS cards ─── */
+function AbstractPattern({ index }: { index: number }) {
+  const variant = index % 6;
+  const strokeColor = "rgba(255,255,255,0.12)";
+  const dotColor = "rgba(255,255,255,0.15)";
+  const shapeColor = "rgba(255,255,255,0.08)";
+
+  return (
+    <svg width="100%" height="100%" viewBox="0 0 400 220" preserveAspectRatio="none" style={{ position: "absolute", inset: 0, zIndex: 2, pointerEvents: "none" }}>
+      {/* Diagonal lines */}
+      {variant === 0 && (
+        <>
+          {Array.from({ length: 18 }).map((_, i) => (
+            <line key={i} x1={-40 + i * 30} y1={0} x2={i * 30 + 60} y2={220} stroke={strokeColor} strokeWidth="0.8" />
+          ))}
+          <circle cx="320" cy="60" r="40" fill="none" stroke={dotColor} strokeWidth="1.2" />
+          <circle cx="320" cy="60" r="24" fill="none" stroke={dotColor} strokeWidth="0.6" />
+          {Array.from({ length: 6 }).map((_, i) => (
+            <circle key={`d${i}`} cx={50 + i * 35} cy={180} r="2.5" fill={dotColor} />
+          ))}
+        </>
+      )}
+      {/* Dot grid */}
+      {variant === 1 && (
+        <>
+          {Array.from({ length: 12 }).map((_, r) =>
+            Array.from({ length: 20 }).map((_, c) => (
+              <circle key={`${r}-${c}`} cx={20 + c * 20} cy={15 + r * 18} r="1.3" fill={dotColor} />
+            ))
+          )}
+          <rect x="240" y="40" width="120" height="80" rx="6" fill="none" stroke={strokeColor} strokeWidth="1" strokeDasharray="6 4" />
+          <polygon points="60,30 90,70 30,70" fill="none" stroke={shapeColor} strokeWidth="1.5" />
+        </>
+      )}
+      {/* Concentric arcs */}
+      {variant === 2 && (
+        <>
+          {Array.from({ length: 6 }).map((_, i) => (
+            <circle key={i} cx="200" cy="280" r={80 + i * 36} fill="none" stroke={strokeColor} strokeWidth="0.7" />
+          ))}
+          <line x1="0" y1="110" x2="400" y2="110" stroke={strokeColor} strokeWidth="0.5" strokeDasharray="3 6" />
+          {Array.from({ length: 5 }).map((_, i) => (
+            <rect key={i} x={30 + i * 80} y="20" width="8" height="8" rx="1" fill={dotColor} transform={`rotate(45, ${34 + i * 80}, 24)`} />
+          ))}
+        </>
+      )}
+      {/* Cross-hatch + hexagons */}
+      {variant === 3 && (
+        <>
+          {Array.from({ length: 12 }).map((_, i) => (
+            <line key={`h${i}`} x1={0} y1={i * 20} x2={400} y2={i * 20} stroke={strokeColor} strokeWidth="0.3" />
+          ))}
+          {Array.from({ length: 12 }).map((_, i) => (
+            <line key={`v${i}`} x1={i * 36} y1={0} x2={i * 36} y2={220} stroke={strokeColor} strokeWidth="0.3" />
+          ))}
+          <polygon points="300,50 325,35 350,50 350,80 325,95 300,80" fill="none" stroke={dotColor} strokeWidth="1.2" />
+          <polygon points="60,130 80,118 100,130 100,155 80,167 60,155" fill="none" stroke={dotColor} strokeWidth="1" />
+        </>
+      )}
+      {/* Flowing curves */}
+      {variant === 4 && (
+        <>
+          {Array.from({ length: 5 }).map((_, i) => (
+            <path key={i} d={`M0 ${60 + i * 30} Q100 ${30 + i * 25},200 ${70 + i * 28} T400 ${50 + i * 32}`} fill="none" stroke={strokeColor} strokeWidth="0.8" />
+          ))}
+          <circle cx="340" cy="40" r="18" fill={shapeColor} />
+          <circle cx="60" cy="180" r="12" fill="none" stroke={dotColor} strokeWidth="1.5" />
+          <circle cx="60" cy="180" r="6" fill={dotColor} />
+        </>
+      )}
+      {/* Circuit-board style */}
+      {variant === 5 && (
+        <>
+          <path d="M0 60 H120 V130 H250 V80 H400" fill="none" stroke={strokeColor} strokeWidth="1" />
+          <path d="M0 160 H80 V100 H180 V180 H300 V120 H400" fill="none" stroke={strokeColor} strokeWidth="0.7" />
+          {[{ x: 120, y: 60 }, { x: 120, y: 130 }, { x: 250, y: 80 }, { x: 80, y: 160 }, { x: 180, y: 100 }, { x: 300, y: 120 }].map((p, i) => (
+            <circle key={i} cx={p.x} cy={p.y} r="3.5" fill={dotColor} />
+          ))}
+          <rect x="290" y="30" width="60" height="40" rx="4" fill="none" stroke={strokeColor} strokeWidth="0.8" />
+          {Array.from({ length: 4 }).map((_, i) => (
+            <line key={i} x1={306 + i * 12} y1="30" x2={306 + i * 12} y2="20" stroke={strokeColor} strokeWidth="0.6" />
+          ))}
+        </>
+      )}
+    </svg>
+  );
+}
+
 const categories = ["All", "Product", "Company", "Developer", "Research"];
 
 type NewsItem = {
@@ -303,10 +391,9 @@ export default function ElevenNewsPage() {
           <Link href={filteredStories[0].href} target="_blank" rel="noreferrer" style={{ textDecoration: "none", color: "inherit" }}>
             <div className="el-g-split-wide" style={{ borderRadius: T.radiusXl, overflow: "hidden", cursor: "pointer", transition: "box-shadow 0.2s" }}>
               <div style={{ background: cardGradients[0], minHeight: 380, position: "relative", overflow: "hidden" }}>
-                {/* Blurred image backdrop */}
-                <img src={filteredStories[0].image} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", filter: "blur(30px) saturate(1.6)", opacity: 0.5, transform: "scale(1.2)" }} />
-                <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.15)" }} />
-                <div style={{ position: "absolute", left: 24, bottom: 24 }}>
+                <div style={{ position: "absolute", inset: 0, background: "repeating-linear-gradient(45deg, transparent, transparent 8px, rgba(255,255,255,0.04) 8px, rgba(255,255,255,0.04) 9px)" }} />
+                <AbstractPattern index={0} />
+                <div style={{ position: "absolute", left: 24, bottom: 24, zIndex: 3 }}>
                   <span style={{ padding: "6px 14px", borderRadius: T.radiusPill, background: "rgba(255,255,255,0.9)", fontSize: 12, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase" as const, color: T.text }}>Featured</span>
                 </div>
               </div>
@@ -334,8 +421,8 @@ export default function ElevenNewsPage() {
                 <div style={{ borderRadius: T.radiusXl, overflow: "hidden", border: sectionBorder, transition: "box-shadow 0.2s", cursor: "pointer", height: "100%" }}>
                   <div style={{ height: 200, position: "relative", overflow: "hidden" }}>
                     <div style={{ position: "absolute", inset: 0, background: cardGradients[(idx + 1) % cardGradients.length] }} />
-                    <img src={story.image} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", filter: "blur(20px) saturate(1.4)", opacity: 0.4, transform: "scale(1.15)" }} />
-                    <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.05)" }} />
+                    <div style={{ position: "absolute", inset: 0, background: "repeating-linear-gradient(45deg, transparent, transparent 8px, rgba(255,255,255,0.04) 8px, rgba(255,255,255,0.04) 9px)" }} />
+                    <AbstractPattern index={idx + 1} />
                   </div>
                   <div style={{ padding: "18px 20px 22px" }}>
                     <div style={{ fontSize: 11, color: T.muted2, marginBottom: 6 }}>{story.meta}</div>

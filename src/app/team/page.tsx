@@ -294,14 +294,14 @@ export default function ElevenTeamPage() {
             We&apos;re always looking for talented engineers, researchers, and operators to help us build the future of robotics.
           </p>
           <div style={{ display: "flex", justifyContent: "center", gap: 12 }}>
-            <Link href="#" style={{ display: "inline-flex", alignItems: "center", height: 48, padding: "0 24px", background: T.accent, color: T.accentFg, borderRadius: T.radiusPill, fontSize: 15, fontWeight: 600, textDecoration: "none" }}>
+            <Link href="/careers" style={{ display: "inline-flex", alignItems: "center", height: 48, padding: "0 24px", background: T.accent, color: T.accentFg, borderRadius: T.radiusPill, fontSize: 15, fontWeight: 600, textDecoration: "none" }}>
               View open positions
             </Link>
             <Link href="#" style={{ display: "inline-flex", alignItems: "center", height: 48, padding: "0 24px", background: T.surface, color: T.text, borderRadius: T.radiusPill, fontSize: 15, fontWeight: 500, textDecoration: "none", border: sectionBorder }}>
               Contact us
             </Link>
           </div>
-        </div>
+                  </div>
       </section>
 
       {/* ════════════ FOOTER ════════════ */}
@@ -312,7 +312,7 @@ export default function ElevenTeamPage() {
             <button style={{ padding: "6px 14px", borderRadius: 8, border: sectionBorder, background: "#fff", fontSize: 13, cursor: "pointer" }}>
               English
             </button>
-          </div>
+                  </div>
           <div className="el-g7">
             {footerCols.map((col) => (
               <div key={col.title}>
