@@ -1,190 +1,449 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
-import { SiteHeader } from "@/components/SiteHeader";
-import { SiteFooter } from "@/components/SiteFooter";
-import { Reveal } from "@/components/Reveal";
-import { cn } from "@/lib/cn";
-import { researchCategories, researchPosts } from "@/content/research";
+import Image from "next/image";
+import { researchPosts } from "@/content/research";
 
-function SearchIcon({ className }: { className?: string }) {
+/* ───────────────────────── DESIGN TOKENS ───────────────────────── */
+const T = {
+  bg: "#ffffff",
+  text: "#000000",
+  muted: "rgba(0,0,0,0.55)",
+  muted2: "rgba(0,0,0,0.38)",
+  border: "rgba(0,0,0,0.08)",
+  surface: "#f5f5f7",
+  accent: "#000",
+  accentFg: "#fff",
+  radius: 16,
+  radiusXl: 32,
+  radiusPill: 999,
+  maxW: 1200,
+};
+
+const sectionBorder = `1px solid ${T.border}`;
+
+/* ───────────────────────── FOOTER COLUMNS ───────────────────────── */
+const footerCols = [
+  {
+    title: "Platform",
+    links: [
+      { label: "Operator Console", href: "https://app.modulr.cloud" },
+      { label: "Fleet Management", href: "/technology-overview" },
+      { label: "Teleoperation", href: "/technology-overview" },
+      { label: "Data Marketplace", href: "#" },
+      { label: "Staking", href: "#" },
+      { label: "Explorer", href: "https://testnet.explorer.modulr.cloud" },
+      { label: "Switchboard", href: "#" },
+      { label: "Games Arena", href: "#" },
+    ],
+  },
+  {
+    title: "Products",
+    links: [
+      { label: "Modulr SDK", href: "https://docs.modulr.cloud" },
+      { label: "Modulr Agent", href: "#" },
+      { label: "Teleoperation API", href: "https://docs.modulr.cloud" },
+      { label: "Fleet API", href: "https://docs.modulr.cloud" },
+      { label: "Network API", href: "https://docs.modulr.cloud" },
+      { label: "Digital Twins", href: "#" },
+      { label: "Compute Credits", href: "#" },
+    ],
+  },
+  {
+    title: "Solutions",
+    links: [
+      { label: "For Enterprise", href: "#" },
+      { label: "For Developers", href: "https://docs.modulr.cloud" },
+      { label: "For Robot Owners", href: "#" },
+      { label: "For Operators", href: "#" },
+      { label: "Industrial", href: "#" },
+      { label: "Entertainment", href: "#" },
+      { label: "Defense & Security", href: "#" },
+      { label: "Healthcare", href: "#" },
+    ],
+  },
+  {
+    title: "Earn",
+    links: [
+      { label: "List Your Robot", href: "#" },
+      { label: "Become a Validator", href: "#" },
+      { label: "Data Provider", href: "#" },
+      { label: "Compute Provider", href: "#" },
+      { label: "Affiliate Program", href: "#" },
+    ],
+  },
+  {
+    title: "Resources",
+    links: [
+      { label: "Documentation", href: "https://docs.modulr.cloud" },
+      { label: "API Reference", href: "https://docs.modulr.cloud" },
+      { label: "Help Center", href: "#" },
+      { label: "Tokenomics", href: "#" },
+      { label: "Governance", href: "#" },
+      { label: "Terms", href: "#" },
+      { label: "Privacy", href: "#" },
+    ],
+  },
+  {
+    title: "Socials",
+    links: [
+      { label: "X (Twitter)", href: "https://x.com/Modulr_Robotics" },
+      { label: "LinkedIn", href: "http://linkedin.com/company/modulrcloud" },
+      { label: "GitHub", href: "https://github.com/ModulrCloud" },
+      { label: "Linktree", href: "https://linktr.ee/modulr.cloud" },
+      { label: "Telegram", href: "https://t.me/Modulr_Robotics" },
+    ],
+  },
+  {
+    title: "Company",
+    links: [
+      { label: "About", href: "/team" },
+      { label: "Research", href: "/research" },
+      { label: "News", href: "/news" },
+      { label: "Careers", href: "/careers" },
+      { label: "Roadmap", href: "/roadmap" },
+      { label: "Brand & Press Kit", href: "#" },
+    ],
+  },
+];
+
+/* ───────────────────────── CARD VISUAL CONFIGS ───────────────────────── */
+type CardVisual = {
+  /* Base background */
+  bg: string;
+  /* Whether card bg is dark (white text) */
+  dark: boolean;
+  /* Overlay text to show large on the visual */
+  overlayText?: string;
+  overlayTextSize?: number;
+  /* Additional CSS pattern layer */
+  pattern?: string;
+  /* SVG overlay for geometric art */
+  svg?: React.ReactNode;
+};
+
+const cardVisuals: CardVisual[] = [
+  {
+    /* Warm noisy gradient — like the ElevenLabs hero */
+    bg: "linear-gradient(145deg, #4a3f8a 0%, #6e5fa8 20%, #a18595 40%, #c49b7a 60%, #8a7bb5 80%, #5f6fb0 100%)",
+    dark: true,
+    pattern: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.15'/%3E%3C/svg%3E\")",
+  },
+  {
+    /* Deep dark with topographic lines */
+    bg: "linear-gradient(160deg, #1a1a2e 0%, #16213e 40%, #0f3460 70%, #1a1a2e 100%)",
+    dark: true,
+    overlayText: "Latency\n< 50ms",
+    overlayTextSize: 48,
+    svg: (
+      <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: 0.12 }} viewBox="0 0 400 400" preserveAspectRatio="none">
+        {Array.from({ length: 20 }, (_, i) => (
+          <ellipse key={i} cx="200" cy="200" rx={40 + i * 16} ry={30 + i * 12} fill="none" stroke="#fff" strokeWidth="0.5" />
+        ))}
+      </svg>
+    ),
+  },
+  {
+    /* Coral-red with wavy mesh (like ElevenLabs Government card) */
+    bg: "linear-gradient(145deg, #dc6b55 0%, #c55a4b 30%, #8b3a3a 60%, #a54a4a 100%)",
+    dark: true,
+    pattern: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.18'/%3E%3C/svg%3E\")",
+    svg: (
+      <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: 0.18 }} viewBox="0 0 400 400" preserveAspectRatio="none">
+        {Array.from({ length: 12 }, (_, i) => (
+          <path
+            key={i}
+            d={`M 0 ${30 + i * 28} Q 100 ${15 + i * 28} 200 ${30 + i * 28} T 400 ${30 + i * 28}`}
+            fill="none"
+            stroke="#fff"
+            strokeWidth="1"
+          />
+        ))}
+      </svg>
+    ),
+  },
+  {
+    /* Amber-teal duotone */
+    bg: "linear-gradient(135deg, #1a3c34 0%, #2d6a4f 25%, #d4a373 55%, #c08552 80%, #8b6914 100%)",
+    dark: true,
+    overlayText: "Market\nDesign",
+    overlayTextSize: 44,
+    pattern: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.14'/%3E%3C/svg%3E\")",
+  },
+  {
+    /* Cool indigo-violet (like ElevenLabs Expressive Mode) */
+    bg: "linear-gradient(145deg, #1e1b4b 0%, #312e81 30%, #4338ca 55%, #6366f1 80%, #818cf8 100%)",
+    dark: true,
+    svg: (
+      <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: 0.1 }} viewBox="0 0 400 400" preserveAspectRatio="none">
+        {Array.from({ length: 8 }, (_, i) => (
+          <circle key={i} cx={100 + (i % 3) * 100} cy={100 + Math.floor(i / 3) * 100} r={20 + i * 8} fill="none" stroke="#fff" strokeWidth="0.8" strokeDasharray="4 4" />
+        ))}
+      </svg>
+    ),
+    pattern: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.12'/%3E%3C/svg%3E\")",
+  },
+  {
+    /* Warm pink-orange sunset */
+    bg: "linear-gradient(135deg, #831843 0%, #be185d 25%, #f97316 55%, #fbbf24 85%, #fde68a 100%)",
+    dark: true,
+    overlayText: "Blockchain\nSafety",
+    overlayTextSize: 42,
+    pattern: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.16'/%3E%3C/svg%3E\")",
+  },
+];
+
+/* Noise overlay inline SVG for grain texture */
+const noiseOverlaySvg = "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.25'/%3E%3C/svg%3E\")";
+
+function CardVisualBlock({ visual, title, height = 420 }: { visual: CardVisual; title: string; height?: number }) {
   return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <circle cx="11" cy="11" r="7" stroke="currentColor" strokeWidth="1.5" />
-      <path
-        d="M21 21l-4.35-4.35"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-      />
-    </svg>
+    <div style={{ position: "relative", height, overflow: "hidden", borderRadius: T.radiusXl }}>
+      {/* Base gradient */}
+      <div style={{ position: "absolute", inset: 0, background: visual.bg }} />
+
+      {/* Noise / grain overlay */}
+      <div style={{ position: "absolute", inset: 0, backgroundImage: noiseOverlaySvg, backgroundSize: "256px 256px", mixBlendMode: "overlay", opacity: 0.7 }} />
+
+      {/* Additional pattern */}
+      {visual.pattern && (
+        <div style={{ position: "absolute", inset: 0, backgroundImage: visual.pattern, backgroundSize: "400px 400px" }} />
+      )}
+
+      {/* SVG geometry */}
+      {visual.svg}
+
+      {/* Overlay text (big centered text) */}
+      {visual.overlayText && (
+        <div style={{
+          position: "absolute",
+          inset: 0,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: 32,
+        }}>
+          <div style={{
+            fontSize: visual.overlayTextSize ?? 48,
+            fontWeight: 700,
+            lineHeight: 1.1,
+            color: "#fff",
+            textAlign: "center",
+            whiteSpace: "pre-line",
+            textShadow: "0 2px 20px rgba(0,0,0,0.25)",
+            letterSpacing: "-0.03em",
+          }}>
+            {visual.overlayText}
+          </div>
+        </div>
+      )}
+
+      {/* If no overlay text, show the title as ambient text */}
+      {!visual.overlayText && (
+        <div style={{
+          position: "absolute",
+          inset: 0,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: 40,
+        }}>
+          <div style={{
+            fontSize: "clamp(28px, 3.5vw, 40px)",
+            fontWeight: 600,
+            lineHeight: 1.15,
+            color: visual.dark ? "#fff" : T.text,
+            textAlign: "center",
+            textShadow: visual.dark ? "0 2px 16px rgba(0,0,0,0.2)" : "none",
+            letterSpacing: "-0.02em",
+            maxWidth: 400,
+          }}>
+            {title}
+          </div>
+        </div>
+      )}
+
+      {/* Category pill — top left */}
+      <div style={{ position: "absolute", top: 16, left: 16 }}>
+        <div style={{
+          padding: "5px 14px",
+          borderRadius: T.radiusPill,
+          background: visual.dark ? "rgba(255,255,255,0.88)" : "rgba(0,0,0,0.08)",
+          fontSize: 11,
+          fontWeight: 700,
+          letterSpacing: "0.06em",
+          textTransform: "uppercase" as const,
+          color: T.text,
+          backdropFilter: "blur(4px)",
+        }}>
+          RESEARCH
+        </div>
+      </div>
+    </div>
   );
 }
 
-function Tag({ children }: { children: string }) {
-  return (
-    <span className="inline-flex items-center rounded-full border border-white/10 bg-white/[0.03] px-2.5 py-0.5 text-[10px] font-medium text-white/60 tracking-wider uppercase">
-      {children}
-    </span>
-  );
-}
+export default function ElevenResearchPage() {
+  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
 
-export default function ResearchPage() {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("All");
-
-  const filtered = useMemo(() => {
-    return researchPosts.filter((post) => {
-      const q = searchQuery.trim().toLowerCase();
-      const matchesSearch =
-        q === "" ||
-        post.title.toLowerCase().includes(q) ||
-        post.excerpt.toLowerCase().includes(q) ||
-        post.tags.some((t) => t.toLowerCase().includes(q));
-
-      const matchesCategory =
-        selectedCategory === "All" || post.category === selectedCategory;
-
-      return matchesSearch && matchesCategory;
-    });
-  }, [searchQuery, selectedCategory]);
+  const navLinks = [
+    { label: "Robots", href: "/robots" },
+    { label: "Web3", href: "/web3" },
+    { label: "Research", href: "/research" },
+    { label: "News", href: "/news" },
+    { label: "Team", href: "/team" },
+    { label: "Brand Kit", href: "/brand-kit" },
+  ];
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <SiteHeader />
-
-      <main className="pt-16 flex-1">
-        {/* Hero */}
-        <section className="relative overflow-hidden border-b border-hairline">
-          <div className="mx-auto max-w-6xl px-6 py-16 md:py-24">
-            <div className="max-w-3xl">
-              <Reveal>
-                <div className="text-xs tracking-[0.28em] uppercase text-white/45">
-                  Research
-                </div>
-              </Reveal>
-              <Reveal delayMs={60}>
-                <h1 className="mt-4 text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tight text-white">
-                  Research & Publications
-                </h1>
-              </Reveal>
-              <Reveal delayMs={100}>
-                <p className="mt-6 text-lg text-white/60 max-w-2xl">
-                  Explore our latest research, whitepapers, and technical documentation on robotics, AI, and decentralized systems.
-                </p>
-              </Reveal>
-              <Reveal delayMs={140}>
-                <div className="mt-8 flex flex-wrap gap-3">
-                  <a
-                    href="mailto:hello@modulr.cloud"
-                    className="inline-flex items-center justify-center rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-black transition hover:bg-white/90 ring-premium"
-                  >
-                    Contact
-                  </a>
-                  <Link
-                    href="/"
-                    className="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/[0.03] backdrop-blur-sm px-5 py-2.5 text-sm font-semibold text-white/80 transition hover:bg-white/[0.06] hover:text-white ring-premium"
-                  >
-                    Home
-                  </Link>
-                </div>
-              </Reveal>
-            </div>
+    <div style={{ background: T.bg, color: T.text, fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' }}>
+      {/* HEADER */}
+      <header style={{ position: "sticky", top: 0, zIndex: 100, background: "rgba(255,255,255,0.82)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)", borderBottom: sectionBorder }}>
+        <div style={{ maxWidth: T.maxW, margin: "0 auto", padding: "0 24px", display: "flex", alignItems: "center", justifyContent: "space-between", height: 64 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 32 }}>
+            <Link href="/" style={{ display: "flex", alignItems: "center", gap: 10, fontWeight: 700, fontSize: 18, color: T.text, textDecoration: "none", letterSpacing: "-0.02em" }}><Image src="/Modulr_logo.png" alt="Modulr" width={28} height={28} style={{ objectFit: "contain" }} unoptimized />Modulr</Link>
+            <nav className="el-desktop-only" style={{ gap: 4 }}>
+              {navLinks.map((item) => (
+                <Link key={item.label} href={item.href} style={{ padding: "6px 12px", fontSize: 14, color: item.href === "/research" ? T.text : T.muted, fontWeight: item.href === "/research" ? 600 : 400, textDecoration: "none", borderRadius: 8 }}>
+                  {item.label}
+                </Link>
+              ))}
+            </nav>
           </div>
-        </section>
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <Link href="https://testnet.explorer.modulr.cloud/" target="_blank" rel="noreferrer" className="el-desktop-only" style={{ padding: "8px 18px", fontSize: 14, fontWeight: 500, color: T.text, textDecoration: "none", borderRadius: T.radiusPill, border: sectionBorder, background: "#fff" }}>Explorer</Link>
+            <Link href="https://app.modulr.cloud/" target="_blank" rel="noreferrer" style={{ padding: "8px 18px", fontSize: 14, fontWeight: 600, color: T.accentFg, background: T.accent, borderRadius: T.radiusPill, textDecoration: "none" }}>Open App</Link>
+            <button className="el-mobile-only" onClick={() => setIsMobileNavOpen(!isMobileNavOpen)} style={{ background: "none", border: "none", padding: 8, cursor: "pointer" }}>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={T.text} strokeWidth="2" strokeLinecap="round"><path d={isMobileNavOpen ? "M6 6l12 12M6 18L18 6" : "M4 7h16M4 12h16M4 17h16"} /></svg>
+            </button>
+          </div>
+        </div>
+        {/* Mobile nav dropdown */}
+        <div className={`el-mobile-menu${isMobileNavOpen ? " open" : ""}`}>
+          {navLinks.map((item) => (
+            <Link key={item.label} href={item.href} onClick={() => setIsMobileNavOpen(false)} style={{ padding: "10px 0", fontSize: 15, color: item.href === "/research" ? T.text : T.muted, fontWeight: item.href === "/research" ? 600 : 400, textDecoration: "none" }}>
+              {item.label}
+            </Link>
+          ))}
+          <Link href="https://testnet.explorer.modulr.cloud/" target="_blank" rel="noreferrer" onClick={() => setIsMobileNavOpen(false)} style={{ padding: "10px 0", fontSize: 15, color: T.muted, textDecoration: "none" }}>Explorer</Link>
+        </div>
+      </header>
 
-        {/* Search & Filter */}
-        <section className="border-b border-hairline">
-          <div className="mx-auto max-w-6xl px-6 py-6">
-            <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-              <div className="relative flex-1 max-w-md">
-                <SearchIcon className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-white/40" />
-                <input
-                  type="text"
-                  placeholder="Search research…"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full rounded-full border border-white/10 bg-white/[0.03] backdrop-blur-sm pl-12 pr-4 py-3 text-sm text-white placeholder:text-white/40 focus:outline-none focus:border-white/20 focus:bg-white/[0.05] transition"
-                />
+      {/* HERO */}
+      <section style={{ padding: "clamp(60px, 8vw, 120px) 24px 60px", maxWidth: T.maxW, margin: "0 auto" }}>
+        <h1 style={{ fontSize: "clamp(40px, 6vw, 64px)", fontWeight: 500, letterSpacing: "-0.04em", lineHeight: 1.06, marginBottom: 16 }}>
+          Research
+        </h1>
+        <p style={{ fontSize: 17, color: T.muted, maxWidth: 640, lineHeight: 1.6 }}>
+          Our vision is to make communication and creation with technology seamless. We build our own foundational models, beginning with the first human-like voice model and now extending far beyond voice.
+        </p>
+      </section>
+
+      {/* FEATURED POST (full-width hero card like ElevenLabs blog) */}
+      {researchPosts.length > 0 && (
+        <section style={{ padding: "0 24px 20px", maxWidth: T.maxW, margin: "0 auto" }}>
+          <Link href={`/research/${researchPosts[0].slug}`} style={{ textDecoration: "none", color: "inherit", display: "block" }}>
+            <div style={{ position: "relative", overflow: "hidden", borderRadius: T.radiusXl, cursor: "pointer", minHeight: 480 }}>
+              {/* Visual */}
+              <div style={{ position: "absolute", inset: 0, background: cardVisuals[0].bg }} />
+              <div style={{ position: "absolute", inset: 0, backgroundImage: noiseOverlaySvg, backgroundSize: "256px 256px", mixBlendMode: "overlay", opacity: 0.7 }} />
+              {cardVisuals[0].pattern && <div style={{ position: "absolute", inset: 0, backgroundImage: cardVisuals[0].pattern, backgroundSize: "400px 400px" }} />}
+              {cardVisuals[0].svg}
+
+              {/* Category pill */}
+              <div style={{ position: "absolute", top: 20, left: 20 }}>
+                <div style={{ padding: "5px 14px", borderRadius: T.radiusPill, background: "rgba(255,255,255,0.88)", fontSize: 11, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase" as const, color: T.text, backdropFilter: "blur(4px)" }}>
+                  {researchPosts[0].category}
+                </div>
               </div>
 
-              <div className="flex flex-wrap gap-2">
-                {researchCategories.map((cat) => (
-                  <button
-                    key={cat}
-                    type="button"
-                    onClick={() => setSelectedCategory(cat)}
-                    className={cn(
-                      "px-4 py-2 rounded-full text-sm font-medium transition cursor-pointer",
-                      selectedCategory === cat
-                        ? "bg-white text-black"
-                        : "border border-white/10 bg-white/[0.03] text-white/70 hover:bg-white/[0.06] hover:text-white",
-                    )}
-                  >
-                    {cat}
-                  </button>
-                ))}
+              {/* Centered title */}
+              <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", padding: 48 }}>
+                <h2 style={{ fontSize: "clamp(32px, 5vw, 52px)", fontWeight: 600, color: "#fff", textAlign: "center", textShadow: "0 2px 20px rgba(0,0,0,0.2)", letterSpacing: "-0.03em", lineHeight: 1.1, maxWidth: 700 }}>
+                  {researchPosts[0].title}
+                </h2>
+              </div>
+
+              {/* Bottom bar */}
+              <div style={{ position: "absolute", bottom: 20, left: 20, right: 20, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                <div style={{ display: "flex", gap: 8 }}>
+                  {researchPosts[0].tags.slice(0, 3).map((tag) => (
+                    <span key={tag} style={{ padding: "4px 12px", borderRadius: T.radiusPill, background: "rgba(255,255,255,0.2)", backdropFilter: "blur(8px)", fontSize: 12, color: "#fff", fontWeight: 500 }}>{tag}</span>
+                  ))}
+                </div>
+                <span style={{ fontSize: 13, color: "rgba(255,255,255,0.7)" }}>{researchPosts[0].date} · {researchPosts[0].readingMinutes} min read</span>
               </div>
             </div>
-          </div>
+
+            {/* Below-card info */}
+            <div style={{ padding: "16px 4px 0", display: "flex", alignItems: "flex-start", justifyContent: "space-between" }}>
+              <div>
+                <div style={{ fontSize: 13, color: T.muted2, marginBottom: 2 }}>{researchPosts[0].date}</div>
+              </div>
+              <span style={{
+                padding: "8px 20px",
+                borderRadius: T.radiusPill,
+                background: T.accent,
+                color: T.accentFg,
+                fontSize: 14,
+                fontWeight: 600,
+                textDecoration: "none",
+              }}>
+                READ ARTICLE
+              </span>
+            </div>
+          </Link>
         </section>
+      )}
 
-        {/* Posts Grid */}
-        <section>
-          <div className="mx-auto max-w-6xl px-6 py-16 md:py-24">
-            {filtered.length > 0 ? (
-              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                {filtered.map((post, i) => (
-                  <Reveal key={post.slug} delayMs={60 + i * 40}>
-                    <Link href={`/research/${post.slug}`}>
-                      <article className="group relative h-full rounded-[24px] border border-white/10 bg-white/[0.02] backdrop-blur-sm p-6 transition hover:bg-white/[0.04] hover:border-white/15 cursor-pointer">
-                        <div className="inline-flex items-center rounded-full bg-[var(--accent)]/10 border border-[var(--accent)]/20 px-3 py-1 text-[10px] font-semibold text-[var(--accent)] tracking-wider uppercase mb-4">
-                          {post.category}
-                        </div>
+      {/* POSTS GRID (2-column like ElevenLabs blog) */}
+      <section style={{ maxWidth: T.maxW, margin: "0 auto" }} className="el-section-pad">
+        <div className="el-g2">
+          {researchPosts.slice(1).map((post, idx) => {
+            const visual = cardVisuals[(idx + 1) % cardVisuals.length];
+            return (
+              <Link key={post.slug} href={`/research/${post.slug}`} style={{ textDecoration: "none", color: "inherit", display: "block" }}>
+                <div>
+                  <CardVisualBlock visual={visual} title={post.title} height={420} />
 
-                        <div className="flex items-center gap-3 text-xs text-white/50">
-                          <span>{post.date}</span>
-                          <span className="text-white/20">•</span>
-                          <span>{post.readingMinutes} min read</span>
-                        </div>
+                  {/* Below-card meta */}
+                  <div style={{ padding: "16px 4px 0" }}>
+                    <h3 style={{ fontSize: 18, fontWeight: 600, letterSpacing: "-0.01em", lineHeight: 1.35, marginBottom: 4 }}>{post.title}</h3>
+                    <div style={{ fontSize: 13, color: T.muted2 }}>{post.date} · {post.readingMinutes} min read</div>
+                  </div>
+                </div>
+              </Link>
+            );
+          })}
+        </div>
+      </section>
 
-                        <h2 className="mt-4 text-xl font-semibold tracking-tight text-white group-hover:text-[var(--accent)] transition-colors">
-                          {post.title}
-                        </h2>
-
-                        <p className="mt-3 text-sm text-white/60 leading-relaxed">
-                          {post.excerpt}
-                        </p>
-
-                        <div className="mt-6 flex flex-wrap gap-2">
-                          {post.tags.map((tag) => (
-                            <Tag key={tag}>{tag}</Tag>
-                          ))}
-                        </div>
-
-                        <div className="mt-6 flex items-center gap-2 text-sm text-white/60 group-hover:text-[var(--accent)] transition-colors">
-                          <span>Read paper</span>
-                          <span className="group-hover:translate-x-1 transition-transform">
-                            →
-                          </span>
-                        </div>
-                      </article>
+      {/* ════════════ FOOTER ════════════ */}
+      <footer style={{ borderTop: sectionBorder, padding: "60px 24px 40px", background: "#fff" }}>
+        <div style={{ maxWidth: T.maxW, margin: "0 auto" }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 40 }}>
+            <span style={{ fontWeight: 700, fontSize: 18, letterSpacing: "-0.02em" }}>Modulr</span>
+            <button style={{ padding: "6px 14px", borderRadius: 8, border: sectionBorder, background: "#fff", fontSize: 13, cursor: "pointer" }}>
+              English
+            </button>
+          </div>
+          <div className="el-g7">
+            {footerCols.map((col) => (
+              <div key={col.title}>
+                <div style={{ fontSize: 13, fontWeight: 600, color: T.text, marginBottom: 12 }}>{col.title}</div>
+                <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                  {col.links.map((link) => (
+                    <Link key={link.label} href={link.href} target={link.href.startsWith("http") ? "_blank" : undefined} rel={link.href.startsWith("http") ? "noreferrer" : undefined} style={{ fontSize: 13, color: T.muted, textDecoration: "none", transition: "color 0.15s" }}>
+                      {link.label}
                     </Link>
-                  </Reveal>
-                ))}
+                  ))}
+                </div>
               </div>
-            ) : (
-              <div className="text-center py-16">
-                <div className="text-white/40 text-lg">No research found</div>
-                <p className="mt-2 text-white/30 text-sm">Try adjusting your search</p>
-              </div>
-            )}
+            ))}
           </div>
-        </section>
-      </main>
-
-      <SiteFooter />
+        </div>
+      </footer>
     </div>
   );
 }

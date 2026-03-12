@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { PointerGlow } from "@/components/PointerGlow";
+import { CookieToast } from "@/components/CookieToast";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -57,6 +58,7 @@ export default function RootLayout({
       >
         <PointerGlow />
         <div id="app-root">{children}</div>
+        <CookieToast />
       </body>
     </html>
   );

@@ -301,7 +301,7 @@ html {
   --bg-section: #050506;
 }
 
-/* ═══════════ /eleven/* responsive layout utilities ═══════════ */
+/* ═══════════ Responsive layout utilities ═══════════ */
 .el-section-pad { padding: 80px 24px; }
 .el-hero-pad { padding: 80px 24px 60px; }
 .el-g1 { display: grid; grid-template-columns: 1fr; gap: 20px; }

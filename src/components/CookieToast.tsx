@@ -1,278 +1,142 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect } from "react";
 
-export function CookieToast({ theme }: { theme: "dark" | "light" }) {
+export function CookieToast() {
   const [show, setShow] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    // Check if user has already accepted cookies
-    const cookieConsent = localStorage.getItem("cookieConsent");
-    if (!cookieConsent) {
-      // Show after a short delay for better UX
-      const timer = setTimeout(() => setShow(true), 2000);
-      return () => clearTimeout(timer);
-    }
-  }, []);
-
-  useEffect(() => {
-    // Auto-play video when toast appears
-    if (show && videoRef.current) {
-      videoRef.current.play().catch(() => {
-        // Ignore autoplay errors
-      });
-    }
-  }, [show]);
-
-  useEffect(() => {
-    // Add CSS animation for cookie gradient fallback
-    const styleId = "cookie-toast-styles";
-    if (!document.getElementById(styleId)) {
-      const style = document.createElement("style");
-      style.id = styleId;
-      style.textContent = `
-        @keyframes cookieGradient {
-          0% {
-            background-position: 0% 50%;
-          }
-          50% {
-            background-position: 100% 50%;
-          }
-          100% {
-            background-position: 0% 50%;
-          }
-        }
-        .cookie-video-fallback {
-          animation: cookieGradient 3s ease infinite;
-        }
-      `;
-      document.head.appendChild(style);
-    }
-    return () => {
-      const style = document.getElementById(styleId);
-      if (style) {
-        style.remove();
+    try {
+      const consent = localStorage.getItem("cookieConsent");
+      if (!consent) {
+        const timer = setTimeout(() => setShow(true), 2200);
+        return () => clearTimeout(timer);
       }
-    };
+    } catch {
+      /* SSR / incognito */
+    }
   }, []);
 
   const handleAccept = () => {
-    localStorage.setItem("cookieConsent", "accepted");
+    try { localStorage.setItem("cookieConsent", "accepted"); } catch {}
     setShow(false);
   };
 
   const handleDecline = () => {
-    localStorage.setItem("cookieConsent", "declined");
+    try { localStorage.setItem("cookieConsent", "declined"); } catch {}
     setShow(false);
   };
 
-  const bgColor = theme === "dark" ? "rgba(0,0,0,0.95)" : "rgba(255,255,255,0.95)";
-  const borderColor = theme === "dark" ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)";
-  const textColor = theme === "dark" ? "#fff" : "#000";
-  const mutedTextColor = theme === "dark" ? "rgba(255,255,255,0.6)" : "rgba(0,0,0,0.6)";
-  const buttonBg = theme === "dark" ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)";
-  const buttonHoverBg = theme === "dark" ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.15)";
-  const primaryButtonBg = "#f2b400";
-  const primaryButtonHoverBg = "#e0a500";
+  if (!show) return null;
 
   return (
-    <AnimatePresence>
-      {show && (
-        <motion.div
-          initial={{ y: 100, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          exit={{ y: 100, opacity: 0 }}
-          transition={{ type: "spring", damping: 25, stiffness: 200 }}
+    <div
+      style={{
+        position: "fixed",
+        bottom: 24,
+        left: 24,
+        zIndex: 9999,
+        maxWidth: 420,
+        borderRadius: 20,
+        background: "rgba(255,255,255,0.92)",
+        backdropFilter: "blur(24px)",
+        WebkitBackdropFilter: "blur(24px)",
+        border: "1px solid rgba(0,0,0,0.08)",
+        boxShadow: "0 20px 60px rgba(0,0,0,0.12), 0 0 0 1px rgba(0,0,0,0.04)",
+        padding: "22px 24px",
+        animation: "cookieSlideUp 0.45s cubic-bezier(0.16, 1, 0.3, 1)",
+        fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+      }}
+    >
+      {/* Close */}
+      <button
+        onClick={handleDecline}
+        aria-label="Close"
+        style={{
+          position: "absolute", top: 12, right: 12,
+          width: 28, height: 28, borderRadius: 8,
+          background: "transparent", border: "none",
+          color: "rgba(0,0,0,0.35)", cursor: "pointer",
+          display: "flex", alignItems: "center", justifyContent: "center",
+        }}
+      >
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6L6 18M6 6l12 12" /></svg>
+      </button>
+
+      {/* Icon + title */}
+      <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
+        <div style={{
+          width: 36, height: 36, borderRadius: 10,
+          background: "linear-gradient(135deg, #f2b400 0%, #e09800 100%)",
+          display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
+        }}>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="12" cy="12" r="10" />
+            <circle cx="8" cy="9" r="1.2" fill="#000" stroke="none" />
+            <circle cx="15" cy="9" r="1.2" fill="#000" stroke="none" />
+            <circle cx="10" cy="15" r="1.2" fill="#000" stroke="none" />
+            <circle cx="15.5" cy="13" r="1" fill="#000" stroke="none" />
+            <circle cx="7" cy="13" r="0.8" fill="#000" stroke="none" />
+          </svg>
+        </div>
+        <span style={{ fontSize: 15, fontWeight: 600, color: "#000", letterSpacing: "-0.01em" }}>
+          We use cookies
+        </span>
+      </div>
+
+      <p style={{ fontSize: 13, lineHeight: 1.6, color: "rgba(0,0,0,0.55)", marginBottom: 18, paddingRight: 16 }}>
+        We use cookies to enhance your experience, analyze traffic, and personalize content.
+        Read our <a href="/privacy-policy" style={{ color: "#000", textDecoration: "underline", textUnderlineOffset: 2 }}>Privacy Policy</a>.
+      </p>
+
+      {/* Buttons */}
+      <div style={{ display: "flex", gap: 10 }}>
+        <button
+          onClick={handleAccept}
           style={{
-            position: "fixed",
-            bottom: 24,
-            left: 24,
-            right: 24,
-            zIndex: 1000,
-            maxWidth: 600,
-            margin: "0 auto",
+            flex: 1,
+            height: 40,
+            borderRadius: 10,
+            background: "#000",
+            color: "#fff",
+            fontSize: 13,
+            fontWeight: 600,
+            border: "none",
+            cursor: "pointer",
+            transition: "opacity 0.15s",
           }}
+          onMouseEnter={(e) => { e.currentTarget.style.opacity = "0.85"; }}
+          onMouseLeave={(e) => { e.currentTarget.style.opacity = "1"; }}
         >
-          <div
-            style={{
-              background: bgColor,
-              border: `1px solid ${borderColor}`,
-              borderRadius: 20,
-              padding: 24,
-              backdropFilter: "blur(20px)",
-              boxShadow: theme === "dark" 
-                ? "0 24px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.05)"
-                : "0 24px 80px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.05)",
-            }}
-          >
-            <div style={{ display: "flex", gap: 16, alignItems: "flex-start" }}>
-              {/* Video Background */}
-              <div
-                style={{
-                  width: 120,
-                  height: 120,
-                  borderRadius: 16,
-                  overflow: "hidden",
-                  position: "relative",
-                  flexShrink: 0,
-                  background: theme === "dark" ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.05)",
-                }}
-              >
-                <video
-                  ref={videoRef}
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                    position: "absolute",
-                    inset: 0,
-                    zIndex: 1,
-                  }}
-                  onError={() => {
-                    // Hide video if it fails to load, show fallback
-                    if (videoRef.current) {
-                      videoRef.current.style.display = "none";
-                    }
-                  }}
-                >
-                  {/* Replace with your actual cookie consent video URL */}
-                  {/* Using a sample video for demonstration - replace with your own */}
-                  <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4" />
-                </video>
-                {/* Fallback gradient animation if video doesn't load */}
-                <div
-                  className="cookie-video-fallback"
-                  style={{
-                    position: "absolute",
-                    inset: 0,
-                    background: `linear-gradient(135deg, rgba(242,180,0,0.2), rgba(242,180,0,0.4), rgba(242,180,0,0.2))`,
-                    backgroundSize: "200% 200%",
-                    zIndex: 0,
-                  }}
-                />
-                {/* Cookie icon overlay */}
-                <div
-                  style={{
-                    position: "absolute",
-                    inset: 0,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    background: "rgba(0,0,0,0.3)",
-                  }}
-                >
-                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2">
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" />
-                    <circle cx="8.5" cy="8.5" r="1.5" fill="#fff" />
-                    <circle cx="15.5" cy="8.5" r="1.5" fill="#fff" />
-                    <circle cx="8.5" cy="15.5" r="1.5" fill="#fff" />
-                    <circle cx="15.5" cy="15.5" r="1.5" fill="#fff" />
-                  </svg>
-                </div>
-              </div>
+          Accept all
+        </button>
+        <button
+          onClick={handleDecline}
+          style={{
+            flex: 1,
+            height: 40,
+            borderRadius: 10,
+            background: "rgba(0,0,0,0.05)",
+            color: "#000",
+            fontSize: 13,
+            fontWeight: 500,
+            border: "1px solid rgba(0,0,0,0.08)",
+            cursor: "pointer",
+            transition: "background 0.15s",
+          }}
+          onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(0,0,0,0.08)"; }}
+          onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(0,0,0,0.05)"; }}
+        >
+          Decline
+        </button>
+      </div>
 
-              {/* Content */}
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <h3 style={{ fontSize: 16, fontWeight: 600, color: textColor, marginBottom: 6 }}>
-                  We use cookies
-                </h3>
-                <p style={{ fontSize: 13, color: mutedTextColor, lineHeight: 1.6, marginBottom: 16 }}>
-                  We use cookies to enhance your browsing experience, analyze site traffic, and personalize content. By clicking &quot;Accept&quot;, you consent to our use of cookies.
-                </p>
-
-                {/* Buttons */}
-                <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-                  <button
-                    onClick={handleAccept}
-                    style={{
-                      padding: "10px 20px",
-                      borderRadius: 10,
-                      background: primaryButtonBg,
-                      color: "#000",
-                      fontSize: 13,
-                      fontWeight: 600,
-                      border: "none",
-                      cursor: "pointer",
-                      transition: "background 0.2s, transform 0.2s",
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.background = primaryButtonHoverBg;
-                      e.currentTarget.style.transform = "translateY(-1px)";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.background = primaryButtonBg;
-                      e.currentTarget.style.transform = "translateY(0)";
-                    }}
-                  >
-                    Accept
-                  </button>
-                  <button
-                    onClick={handleDecline}
-                    style={{
-                      padding: "10px 20px",
-                      borderRadius: 10,
-                      background: buttonBg,
-                      color: textColor,
-                      fontSize: 13,
-                      fontWeight: 500,
-                      border: `1px solid ${borderColor}`,
-                      cursor: "pointer",
-                      transition: "background 0.2s, border-color 0.2s",
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.background = buttonHoverBg;
-                      e.currentTarget.style.borderColor = theme === "dark" ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.2)";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.background = buttonBg;
-                      e.currentTarget.style.borderColor = borderColor;
-                    }}
-                  >
-                    Decline
-                  </button>
-                </div>
-              </div>
-
-              {/* Close button */}
-              <button
-                onClick={handleDecline}
-                style={{
-                  width: 32,
-                  height: 32,
-                  borderRadius: 8,
-                  background: "transparent",
-                  border: "none",
-                  color: mutedTextColor,
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  flexShrink: 0,
-                  transition: "color 0.2s, background 0.2s",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.color = textColor;
-                  e.currentTarget.style.background = buttonBg;
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.color = mutedTextColor;
-                  e.currentTarget.style.background = "transparent";
-                }}
-              >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M18 6L6 18M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
-          </div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+      <style>{`
+        @keyframes cookieSlideUp {
+          from { opacity: 0; transform: translateY(24px) scale(0.97); }
+          to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+      `}</style>
+    </div>
   );
 }

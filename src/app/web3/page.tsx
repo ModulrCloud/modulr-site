@@ -27,12 +27,12 @@ const sectionBorder = `1px solid ${T.border}`;
 
 /* ───────────────────────── NAV ITEMS ───────────────────────── */
 const navItems = [
-  { label: "Robots", href: "/eleven/robots" },
-  { label: "Web3", href: "/eleven/web3" },
-  { label: "Research", href: "/eleven/research" },
-  { label: "News", href: "/eleven/news" },
-  { label: "Team", href: "/eleven/team" },
-  { label: "Brand Kit", href: "/eleven/brand-kit" },
+  { label: "Robots", href: "/robots" },
+  { label: "Web3", href: "/web3" },
+  { label: "Research", href: "/research" },
+  { label: "News", href: "/news" },
+  { label: "Team", href: "/team" },
+  { label: "Brand Kit", href: "/brand-kit" },
 ];
 
 /* ───────────────────────── HERO FEATURES GRID ───────────────────────── */
@@ -200,21 +200,19 @@ const footerCols = [
   {
     title: "Socials",
     links: [
-      { label: "X (Twitter)", href: "https://twitter.com/aspect_build" },
-      { label: "LinkedIn", href: "#" },
-      { label: "GitHub", href: "https://github.com/aspect-build" },
-      { label: "YouTube", href: "#" },
-      { label: "Discord", href: "#" },
-      { label: "Telegram", href: "#" },
-      { label: "Reddit", href: "#" },
+      { label: "X (Twitter)", href: "https://x.com/Modulr_Robotics" },
+      { label: "LinkedIn", href: "http://linkedin.com/company/modulrcloud" },
+      { label: "GitHub", href: "https://github.com/ModulrCloud" },
+      { label: "Linktree", href: "https://linktr.ee/modulr.cloud" },
+      { label: "Telegram", href: "https://t.me/Modulr_Robotics" },
     ],
   },
   {
     title: "Company",
     links: [
-      { label: "About", href: "/eleven/team" },
-      { label: "Research", href: "/eleven/research" },
-      { label: "News", href: "/eleven/news" },
+      { label: "About", href: "/team" },
+      { label: "Research", href: "/research" },
+      { label: "News", href: "/news" },
       { label: "Careers", href: "/careers" },
       { label: "Roadmap", href: "/roadmap" },
       { label: "Brand & Press Kit", href: "#" },
@@ -504,10 +502,10 @@ export default function Web3Page() {
       <header style={{ position: "sticky", top: 0, zIndex: 100, background: "rgba(255,255,255,0.82)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)", borderBottom: sectionBorder }}>
         <div style={{ maxWidth: T.maxW, margin: "0 auto", padding: "0 24px", display: "flex", alignItems: "center", justifyContent: "space-between", height: 64 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 32 }}>
-            <Link href="/eleven" style={{ display: "flex", alignItems: "center", gap: 10, fontWeight: 700, fontSize: 18, color: T.text, textDecoration: "none", letterSpacing: "-0.02em" }}><Image src="/Modulr_logo.png" alt="Modulr" width={28} height={28} style={{ objectFit: "contain" }} unoptimized />Modulr</Link>
+            <Link href="/" style={{ display: "flex", alignItems: "center", gap: 10, fontWeight: 700, fontSize: 18, color: T.text, textDecoration: "none", letterSpacing: "-0.02em" }}><Image src="/Modulr_logo.png" alt="Modulr" width={28} height={28} style={{ objectFit: "contain" }} unoptimized />Modulr</Link>
             <nav className="el-desktop-only" style={{ gap: 4 }}>
               {navItems.map((item) => (
-                <Link key={item.label} href={item.href} style={{ padding: "6px 12px", fontSize: 14, color: item.href === "/eleven/web3" ? T.text : T.muted, fontWeight: item.href === "/eleven/web3" ? 600 : 400, textDecoration: "none", borderRadius: 8 }}>
+                <Link key={item.label} href={item.href} style={{ padding: "6px 12px", fontSize: 14, color: item.href === "/web3" ? T.text : T.muted, fontWeight: item.href === "/web3" ? 600 : 400, textDecoration: "none", borderRadius: 8 }}>
                   {item.label}
                 </Link>
               ))}
@@ -523,7 +521,7 @@ export default function Web3Page() {
         </div>
         <div className={`el-mobile-menu${mobileNav ? " open" : ""}`}>
           {navItems.map((item) => (
-            <Link key={item.label} href={item.href} onClick={() => setMobileNav(false)} style={{ padding: "10px 0", fontSize: 15, fontWeight: item.href === "/eleven/web3" ? 600 : 400, color: item.href === "/eleven/web3" ? T.text : T.muted, textDecoration: "none" }}>
+            <Link key={item.label} href={item.href} onClick={() => setMobileNav(false)} style={{ padding: "10px 0", fontSize: 15, fontWeight: item.href === "/web3" ? 600 : 400, color: item.href === "/web3" ? T.text : T.muted, textDecoration: "none" }}>
               {item.label}
             </Link>
           ))}

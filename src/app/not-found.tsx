@@ -23,7 +23,7 @@ export default function NotFound() {
       {/* Header */}
       <header style={{ background: "rgba(255,255,255,0.82)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)", borderBottom: sectionBorder }}>
         <div style={{ maxWidth: T.maxW, margin: "0 auto", padding: "0 24px", display: "flex", alignItems: "center", height: 64 }}>
-          <Link href="/eleven" style={{ fontWeight: 700, fontSize: 18, color: T.text, textDecoration: "none", letterSpacing: "-0.02em" }}>
+          <Link href="/" style={{ fontWeight: 700, fontSize: 18, color: T.text, textDecoration: "none", letterSpacing: "-0.02em" }}>
             Modulr
           </Link>
         </div>
@@ -71,7 +71,7 @@ export default function NotFound() {
           <p style={{ fontSize: 17, color: T.muted, lineHeight: 1.6, maxWidth: 480, margin: "0 auto 40px" }}>
             The page you&apos;re looking for doesn&apos;t exist, has been moved, or the connection was interrupted.
           </p>
-          <Link href="/eleven" style={{ display: "inline-flex", alignItems: "center", height: 48, padding: "0 24px", background: T.accent, color: T.accentFg, borderRadius: T.radiusPill, fontSize: 15, fontWeight: 600, textDecoration: "none" }}>
+          <Link href="/" style={{ display: "inline-flex", alignItems: "center", height: 48, padding: "0 24px", background: T.accent, color: T.accentFg, borderRadius: T.radiusPill, fontSize: 15, fontWeight: 600, textDecoration: "none" }}>
             Go home
           </Link>
 
