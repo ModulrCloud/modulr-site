@@ -5,6 +5,7 @@ import { useState, useMemo, useRef, useEffect } from "react";
 import { SiteFooter } from "@/components/SiteFooter";
 import { MODULR_ASSETS } from "@/config/assets";
 import { careerDepartments, careerPosts } from "@/content/careers";
+import { ScrollToTopButton } from "@/components/example/ScrollToTopButton";
 
 /* ─────────────────────────────────────────────────────────────────────────────
    Careers page in new design style
@@ -21,11 +22,20 @@ const sidebarNav = [
   { label: "For Business", href: "#" },
 ];
 
-const typeColors: Record<string, { bg: string; text: string; border: string }> = {
-  "Full-time": { bg: "rgba(34,197,94,0.12)", text: "#4ade80", border: "rgba(34,197,94,0.25)" },
-  "Part-time": { bg: "rgba(59,130,246,0.12)", text: "#60a5fa", border: "rgba(59,130,246,0.25)" },
-  Contract: { bg: "rgba(249,115,22,0.12)", text: "#fb923c", border: "rgba(249,115,22,0.25)" },
-};
+function getTypeColors(theme: "dark" | "light"): Record<string, { bg: string; text: string; border: string }> {
+  if (theme === "dark") {
+    return {
+      "Full-time": { bg: "rgba(34,197,94,0.12)", text: "#4ade80", border: "rgba(34,197,94,0.25)" },
+      "Part-time": { bg: "rgba(59,130,246,0.12)", text: "#60a5fa", border: "rgba(59,130,246,0.25)" },
+      Contract: { bg: "rgba(249,115,22,0.12)", text: "#fb923c", border: "rgba(249,115,22,0.25)" },
+    };
+  }
+  return {
+    "Full-time": { bg: "rgba(22,163,74,0.10)", text: "#15803d", border: "rgba(22,163,74,0.30)" },
+    "Part-time": { bg: "rgba(37,99,235,0.10)", text: "#1d4ed8", border: "rgba(37,99,235,0.30)" },
+    Contract: { bg: "rgba(234,88,12,0.10)", text: "#c2410c", border: "rgba(234,88,12,0.30)" },
+  };
+}
 
 /* Search data */
 const searchIndex = [
@@ -219,13 +229,13 @@ export default function ExampleCareersPage() {
               {/* Stats */}
               <section style={{ display: "grid", gap: 16, gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))" }}>
                 {[
-                  { value: "50+", label: "Team members" },
-                  { value: "12", label: "Countries" },
-                  { value: "100%", label: "Remote-friendly" },
-                  { value: careerPosts.length.toString(), label: "Open positions" },
+                  { value: 50, suffix: "+", label: "Team members" },
+                  { value: 12, suffix: "", label: "Countries" },
+                  { value: 100, suffix: "%", label: "Remote-friendly" },
+                  { value: careerPosts.length, suffix: "", label: "Open positions" },
                 ].map((stat) => (
                   <div key={stat.label} style={{ padding: 20, borderRadius: 14, background: cardBg, border: `1px solid ${cardBorder}` }}>
-                    <div style={{ fontSize: 28, fontWeight: 600, color: textColor }}>{stat.value}</div>
+                    <AnimatedCounter value={stat.value} suffix={stat.suffix} style={{ fontSize: 28, fontWeight: 600, color: textColor }} />
                     <div style={{ marginTop: 4, fontSize: 13, color: mutedTextColor2 }}>{stat.label}</div>
                   </div>
                 ))}
@@ -271,7 +281,8 @@ export default function ExampleCareersPage() {
               <section>
                 <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
                   {filteredPosts.map((post) => {
-                    const colors = typeColors[post.type] || { bg: "rgba(255,255,255,0.08)", text: "#fff", border: "rgba(255,255,255,0.15)" };
+                    const tc = getTypeColors(theme);
+                    const colors = tc[post.type] || { bg: theme === "dark" ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)", text: theme === "dark" ? "#fff" : "#000", border: theme === "dark" ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.15)" };
                     return (
                       <Link
                         key={post.slug}
@@ -347,6 +358,9 @@ export default function ExampleCareersPage() {
 
       <SiteFooter />
 
+      {/* SCROLL TO TOP */}
+      <ScrollToTopButton theme={theme} />
+
       {/* SEARCH MODAL */}
       {searchOpen && (
         <div style={{ position: "fixed", inset: 0, zIndex: 100, display: "flex", alignItems: "flex-start", justifyContent: "center", paddingTop: 100 }}>
@@ -378,6 +392,63 @@ export default function ExampleCareersPage() {
           </div>
         </div>
       )}
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* ANIMATED COUNTER — counts up from 0 when the element scrolls into view    */
+/* ═══════════════════════════════════════════════════════════════════════════ */
+
+function AnimatedCounter({
+  value,
+  suffix = "",
+  style,
+}: {
+  value: number;
+  suffix?: string;
+  style?: React.CSSProperties;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [display, setDisplay] = useState(0);
+  const [started, setStarted] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !started) {
+          setStarted(true);
+        }
+      },
+      { threshold: 0.3 },
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [started]);
+
+  useEffect(() => {
+    if (!started) return;
+    const duration = 1200; // ms
+    let raf = 0;
+    let t0 = 0;
+    const step = (t: number) => {
+      if (!t0) t0 = t;
+      const progress = Math.min((t - t0) / duration, 1);
+      // easeOutExpo curve
+      const eased = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+      setDisplay(Math.round(eased * value));
+      if (progress < 1) raf = requestAnimationFrame(step);
+    };
+    raf = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(raf);
+  }, [started, value]);
+
+  return (
+    <div ref={ref} style={style}>
+      {display}
+      {suffix}
     </div>
   );
 }

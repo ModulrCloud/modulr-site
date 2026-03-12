@@ -6,6 +6,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { MODULR_ASSETS } from "@/config/assets";
 import { ExampleMegaNav } from "@/components/example/ExampleMegaNav";
 import { researchCategories, researchPosts } from "@/content/research";
+import { ScrollToTopButton } from "@/components/example/ScrollToTopButton";
 
 /* ─────────────────────────────────────────────────────────────────────────────
    Research page in new design style
@@ -355,6 +356,9 @@ export default function ExampleResearchPage() {
       </main>
 
       <SiteFooter />
+
+      {/* SCROLL TO TOP */}
+      <ScrollToTopButton theme={theme} />
 
       {/* SEARCH MODAL */}
       {searchOpen && (

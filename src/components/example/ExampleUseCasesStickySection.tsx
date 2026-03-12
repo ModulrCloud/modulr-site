@@ -1,407 +1,141 @@
 "use client";
 
-import Image from "next/image";
-import { useEffect, useMemo, useRef, useState } from "react";
-import {
-  AnimatePresence,
-  motion,
-  useMotionValueEvent,
-  useReducedMotion,
-  useScroll,
-  useTransform,
-} from "framer-motion";
+import { motion } from "framer-motion";
+import Link from "next/link";
 
 type UseCase = {
   title: string;
   desc: string;
-  image: string;
   stat: string;
   statLabel: string;
+  accent: string;
 };
 
 const USE_CASES: UseCase[] = [
   {
     title: "Entertainment & Gaming",
     desc: "Control telepresence robots in theme parks, arcades, and immersive experiences from anywhere in the world.",
-    image: "/entertainment-gaming.png",
     stat: "10ms",
     statLabel: "Latency",
+    accent: "radial-gradient(220px 140px at 28% 42%, rgba(96,175,255,0.82), transparent 62%), radial-gradient(260px 160px at 78% 35%, rgba(255,175,95,0.68), transparent 62%), #eff1f5",
   },
   {
     title: "Defense & Security",
     desc: "Operate unmanned ground and aerial vehicles for reconnaissance, patrol, and hazardous environment inspection with military‑grade reliability.",
-    image: "/defense_robots.jpg",
     stat: "99.9%",
     statLabel: "Uptime",
+    accent: "radial-gradient(220px 140px at 30% 46%, rgba(98,230,170,0.78), transparent 62%), radial-gradient(260px 160px at 76% 35%, rgba(90,150,255,0.62), transparent 60%), #eef2f1",
   },
   {
     title: "Industrial Automation",
     desc: "Remotely manage robotic arms, AGVs, and factory floor equipment with sub‑second latency. Scale operations without physical presence.",
-    image: "/agriculture-industrial.png",
     stat: "500+",
     statLabel: "Robots",
+    accent: "radial-gradient(230px 150px at 28% 48%, rgba(255,146,93,0.76), transparent 58%), radial-gradient(260px 160px at 78% 34%, rgba(248,82,82,0.66), transparent 60%), #f3efef",
   },
   {
     title: "Space & Extreme Environments",
     desc: "Control rovers, orbital manipulators, and deep‑sea exploration robots across vast distances with real‑time feedback loops.",
-    image: "/drones.png",
     stat: "∞",
     statLabel: "Range",
+    accent: "radial-gradient(240px 160px at 30% 40%, rgba(145,132,255,0.74), transparent 62%), radial-gradient(260px 160px at 76% 35%, rgba(98,190,255,0.62), transparent 60%), #eceef5",
   },
 ];
-
-function clamp01(v: number) {
-  return Math.max(0, Math.min(1, v));
-}
 
 export function ExampleUseCasesStickySection({
   theme,
 }: {
   theme: "dark" | "light";
 }) {
-  // Match the “second screenshot” structure, but stay theme-aware for /example theme toggle.
-  const isDark = theme !== "light";
-  const reduce = useReducedMotion();
-  const containerRef = useRef<HTMLDivElement | null>(null);
-
-  const cardCount = USE_CASES.length;
-  const sectionHeightVh = 100 + cardCount * 100;
-
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"],
-  });
-
-  const [active, setActive] = useState(0);
-  useMotionValueEvent(scrollYProgress, "change", (v) => {
-    const next = Math.min(cardCount - 1, Math.max(0, Math.floor(v * cardCount)));
-    setActive(next);
-  });
-
-  // scroll hint fades out when entering last segment
-  const hintOpacity = useTransform(
-    scrollYProgress,
-    [0, 0.08, (cardCount - 1) / cardCount, 1],
-    [0, 1, 1, 0],
-  );
-
-  const bars = useMemo(() => new Array(cardCount).fill(0), [cardCount]);
-
-  const textColor = isDark ? "#fff" : "#000";
-  const muted = isDark ? "rgba(255,255,255,0.65)" : "rgba(0,0,0,0.62)";
-  const hairline = isDark ? "rgba(255,255,255,0.10)" : "rgba(0,0,0,0.10)";
-  const accent = "#f2b400";
-  const bg = isDark ? "#000" : "#fff";
-  // Use-cases card should stay readable in light theme: keep white text + dark scrim on media.
-  const cardText = "#fff";
-  const cardMuted = "rgba(255,255,255,0.74)";
-  const cardHairline = "rgba(255,255,255,0.14)";
+  const isDark = theme === "dark";
+  const textColor = isDark ? "#f4f4f5" : "#111215";
+  const muted = isDark ? "rgba(255,255,255,0.62)" : "rgba(0,0,0,0.58)";
+  const soft = isDark ? "rgba(255,255,255,0.42)" : "rgba(0,0,0,0.42)";
+  const panelBg = isDark ? "#111214" : "#efeff0";
+  const tileBg = isDark ? "#15161a" : "#f7f7f8";
+  const panelBorder = isDark ? "rgba(255,255,255,0.11)" : "rgba(0,0,0,0.10)";
+  const tileBorder = isDark ? "rgba(255,255,255,0.10)" : "rgba(0,0,0,0.09)";
 
   return (
     <section
-      ref={containerRef}
       style={{
-        position: "relative",
-        height: `${sectionHeightVh}vh`,
-        background: bg,
-        borderTop: `1px solid ${hairline}`,
+        borderTop: `1px solid ${tileBorder}`,
+        padding: "82px 0 76px",
+        background: isDark ? "#0a0a0b" : "#f3f3f5",
       }}
     >
-      <div className="sticky top-0 h-screen w-full overflow-hidden">
-        {/* Background glow */}
+      <div className="mx-auto max-w-[1400px] px-6">
         <div
-          className="absolute inset-0"
           style={{
-            background: isDark
-              ? "radial-gradient(1000px 600px at 70% 65%, rgba(242,180,0,0.12), transparent 60%), radial-gradient(900px 500px at 25% 20%, rgba(255,255,255,0.06), transparent 60%), linear-gradient(to bottom, #000, #050508, #000)"
-              : "radial-gradient(1000px 600px at 70% 65%, rgba(242,180,0,0.10), transparent 60%), radial-gradient(900px 500px at 25% 20%, rgba(0,0,0,0.05), transparent 60%), linear-gradient(to bottom, #fff, #fafafa, #fff)",
+            borderRadius: 28,
+            border: `1px solid ${panelBorder}`,
+            background: panelBg,
+            padding: 24,
           }}
-        />
-        <div className="absolute inset-0 k-noise" style={{ opacity: isDark ? 0.10 : 0.06 }} />
-
-        {/* Giant title */}
-        <div className="absolute top-0 left-0 right-0 z-20 pt-10 md:pt-14 pointer-events-none">
-          <div className="px-6 md:px-12">
-            <div
+        >
+          <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <div style={{ fontSize: 13, color: soft }}>Use cases</div>
+              <h2 style={{ marginTop: 8, fontSize: 52 / 2, lineHeight: 1.08, letterSpacing: "-0.03em", color: textColor, fontWeight: 520 }}>
+                Real deployments across industries
+              </h2>
+              <p style={{ marginTop: 10, fontSize: 15, lineHeight: 1.7, color: muted, maxWidth: 740 }}>
+                Modulr powers teleoperation workflows from entertainment to heavy industry with consistent low-latency control and enterprise safety.
+              </p>
+            </div>
+            <Link
+              href="/technology-overview"
               style={{
-                fontFamily: "system-ui",
-                fontWeight: 900,
-                lineHeight: 0.85,
-                letterSpacing: "-0.04em",
-                textTransform: "uppercase",
-                fontSize: "clamp(64px, 12vw, 180px)",
+                height: 44,
+                borderRadius: 999,
+                border: `1px solid ${tileBorder}`,
+                background: tileBg,
+                color: textColor,
+                textDecoration: "none",
+                display: "inline-flex",
+                alignItems: "center",
+                padding: "0 16px",
+                fontSize: 14,
               }}
             >
-              <span
+              Explore use cases
+            </Link>
+          </div>
+
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            {USE_CASES.map((item, idx) => (
+              <motion.article
+                key={item.title}
+                initial={{ opacity: 0, y: 14 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.42, delay: idx * 0.06 }}
                 style={{
-                  color: "transparent",
-                  WebkitTextStroke: isDark
-                    ? "2px rgba(255,255,255,0.18)"
-                    : "2px rgba(0,0,0,0.14)",
+                  borderRadius: 20,
+                  border: `1px solid ${tileBorder}`,
+                  background: tileBg,
+                  overflow: "hidden",
                 }}
               >
-                USE
-              </span>{" "}
-              <span
-                style={{
-                  display: "inline-block",
-                  backgroundImage: isDark
-                    ? "linear-gradient(90deg, #fff 0%, #fff 55%, #f2b400 100%)"
-                    : "linear-gradient(90deg, #000 0%, #000 55%, #f2b400 100%)",
-                  WebkitBackgroundClip: "text",
-                  backgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  color: "transparent",
-                }}
-              >
-                CASES
-              </span>
-            </div>
+                <div
+                  style={{
+                    height: 150,
+                    borderBottom: `1px solid ${tileBorder}`,
+                    background: item.accent,
+                  }}
+                />
+                <div style={{ padding: 16 }}>
+                  <div className="mb-2 inline-flex items-center gap-2 rounded-full border px-2.5 py-1" style={{ borderColor: tileBorder, color: muted, fontSize: 11 }}>
+                    <strong style={{ color: textColor }}>{item.stat}</strong>
+                    <span>{item.statLabel}</span>
+                  </div>
+                  <h3 style={{ fontSize: 18, lineHeight: 1.3, color: textColor, fontWeight: 520 }}>{item.title}</h3>
+                  <p style={{ marginTop: 8, fontSize: 14, lineHeight: 1.6, color: muted }}>{item.desc}</p>
+                </div>
+              </motion.article>
+            ))}
           </div>
         </div>
-
-        {/* Content */}
-        <div className="absolute inset-0 flex items-center justify-center pt-28 md:pt-32">
-          <div className="relative w-full max-w-[1600px] mx-auto px-6 md:px-12">
-            <div className="grid gap-8 lg:grid-cols-12 lg:gap-12 items-center">
-              {/* Left */}
-              <div className="lg:col-span-4 relative z-10">
-                <div className="space-y-10">
-                  <div>
-                    <div
-                      style={{
-                        fontSize: 11,
-                        letterSpacing: "0.28em",
-                        textTransform: "uppercase",
-                        color: isDark ? "rgba(255,255,255,0.38)" : "rgba(0,0,0,0.40)",
-                        marginBottom: 14,
-                      }}
-                    >
-                      Remote Teleoperation
-                    </div>
-                    <p
-                      style={{
-                        fontSize: 18,
-                        lineHeight: 1.7,
-                        color: muted,
-                        maxWidth: 420,
-                      }}
-                    >
-                      From agriculture to space exploration, Modulr powers real‑time robotic control in the most demanding environments.
-                    </p>
-                  </div>
-
-                  {/* Progress bars (like your screenshot) */}
-                  <div className="flex flex-col gap-3">
-                    {bars.map((_, idx) => {
-                      const seg = 1 / cardCount;
-                      const start = idx * seg;
-                      const end = (idx + 1) * seg;
-                      const fill = useTransform(scrollYProgress, (v: number) =>
-                        clamp01((v - start) / (end - start)),
-                      );
-
-                      return (
-                        <div
-                          key={idx}
-                          style={{
-                            position: "relative",
-                            height: 4,
-                            width: 96,
-                            borderRadius: 999,
-                            background: isDark
-                              ? "rgba(255,255,255,0.16)"
-                              : "rgba(0,0,0,0.12)",
-                            overflow: "hidden",
-                          }}
-                        >
-                          <motion.div
-                            style={{
-                              position: "absolute",
-                              inset: 0,
-                              background: accent,
-                              borderRadius: 999,
-                              scaleX: fill,
-                              transformOrigin: "left",
-                              opacity: idx === active ? 1 : 0.75,
-                            }}
-                          />
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              </div>
-
-              {/* Right card */}
-              <div className="lg:col-span-8 relative">
-                <div className="relative h-[52vh] md:h-[56vh] lg:h-[60vh]">
-                  <AnimatePresence mode="wait">
-                    <motion.article
-                      key={active}
-                      initial={reduce ? { opacity: 1 } : { opacity: 0, y: 18, scale: 0.99 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={reduce ? { opacity: 1 } : { opacity: 0, y: -14, scale: 0.995 }}
-                      transition={{ duration: 0.32, ease: [0.2, 0.8, 0.2, 1] }}
-                      style={{
-                        position: "absolute",
-                        inset: 0,
-                        overflow: "hidden",
-                        borderRadius: 28,
-                        border: `1px solid ${hairline}`,
-                        background: isDark ? "rgba(0,0,0,0.55)" : "rgba(0,0,0,0.18)",
-                        boxShadow:
-                          isDark
-                            ? "0 0 0 1px rgba(255,255,255,0.04), 0 30px 120px rgba(0,0,0,0.55)"
-                            : "0 0 0 1px rgba(0,0,0,0.04), 0 30px 120px rgba(0,0,0,0.12)",
-                      }}
-                    >
-                      <div className="absolute inset-0">
-                        <Image
-                          src={USE_CASES[active].image}
-                          alt={USE_CASES[active].title}
-                          fill
-                          sizes="(max-width: 1024px) 100vw, 60vw"
-                          style={{
-                            objectFit: "cover",
-                            // Counter the light overlay so photos don't look foggy.
-                            filter: isDark ? "none" : "saturate(1.06) contrast(1.10) brightness(0.86)",
-                          }}
-                        />
-                        <div
-                          className="absolute inset-0"
-                          style={{
-                            background: isDark
-                              ? "linear-gradient(to top, rgba(0,0,0,0.88), rgba(0,0,0,0.60), rgba(0,0,0,0.25))"
-                              // Light theme: darker scrim so text is always readable on bright photos.
-                              : "linear-gradient(to top, rgba(0,0,0,0.86), rgba(0,0,0,0.52), rgba(0,0,0,0.12))",
-                          }}
-                        />
-                        {!isDark && (
-                          <div
-                            className="absolute inset-0"
-                            style={{
-                              background:
-                                "radial-gradient(900px 560px at 20% 22%, rgba(0,0,0,0.70), rgba(0,0,0,0.22) 55%, transparent 78%)",
-                              opacity: 0.95,
-                            }}
-                          />
-                        )}
-                        <div
-                          className="pointer-events-none absolute inset-0"
-                          style={{
-                            background:
-                              "radial-gradient(900px 600px at 70% 70%, rgba(242,180,0,0.20), transparent 55%)",
-                            opacity: isDark ? 0.85 : 0.55,
-                          }}
-                        />
-                      </div>
-
-                      <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-10 lg:p-12">
-                        <div className="mb-6 inline-flex self-start items-center gap-3">
-                          <div
-                            style={{
-                              borderRadius: 16,
-                              border: `1px solid ${isDark ? "rgba(255,255,255,0.14)" : cardHairline}`,
-                              background: isDark ? "rgba(0,0,0,0.55)" : "rgba(0,0,0,0.42)",
-                              backdropFilter: "blur(10px)",
-                              padding: "10px 14px",
-                              display: "inline-flex",
-                              alignItems: "baseline",
-                              gap: 10,
-                            }}
-                          >
-                            <div style={{ fontSize: 20, fontWeight: 800, color: cardText }}>
-                              {USE_CASES[active].stat}
-                            </div>
-                            <div
-                              style={{
-                                fontSize: 10,
-                                letterSpacing: "0.2em",
-                                textTransform: "uppercase",
-                                color: isDark ? "rgba(255,255,255,0.45)" : "rgba(255,255,255,0.55)",
-                              }}
-                            >
-                              {USE_CASES[active].statLabel}
-                            </div>
-                          </div>
-                        </div>
-
-                        <h3
-                          style={{
-                            fontSize: 34,
-                            fontWeight: 700,
-                            color: cardText,
-                            letterSpacing: "-0.02em",
-                            textShadow: "0 1px 0 rgba(0,0,0,0.35), 0 18px 56px rgba(0,0,0,0.45)",
-                          }}
-                        >
-                          {USE_CASES[active].title}
-                        </h3>
-                        <p
-                          style={{
-                            marginTop: 12,
-                            fontSize: 15,
-                            lineHeight: 1.75,
-                            color: isDark ? muted : cardMuted,
-                            maxWidth: 640,
-                            textShadow: "0 1px 0 rgba(0,0,0,0.30), 0 18px 56px rgba(0,0,0,0.42)",
-                          }}
-                        >
-                          {USE_CASES[active].desc}
-                        </p>
-
-                        <div style={{ marginTop: 22, display: "inline-flex", alignItems: "center", gap: 12 }}>
-                          <span
-                            style={{
-                              display: "inline-flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              borderRadius: 999,
-                              border: `1px solid ${isDark ? "rgba(255,255,255,0.14)" : cardHairline}`,
-                              background: "rgba(255,255,255,0.08)",
-                              padding: "10px 18px",
-                              fontSize: 14,
-                              fontWeight: 600,
-                              color: cardText,
-                              backdropFilter: "blur(10px)",
-                            }}
-                          >
-                            Learn More
-                          </span>
-                          <span style={{ color: isDark ? "rgba(255,255,255,0.50)" : "rgba(255,255,255,0.55)", fontSize: 18 }}>→</span>
-                        </div>
-                      </div>
-                    </motion.article>
-                  </AnimatePresence>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Scroll hint */}
-        <motion.div
-          className="absolute bottom-8 left-0 right-0 z-10 flex justify-center pointer-events-none"
-          style={{ opacity: hintOpacity }}
-          initial={false}
-        >
-          <motion.div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 12,
-              fontSize: 11,
-              letterSpacing: "0.3em",
-              textTransform: "uppercase",
-              color: isDark ? "rgba(255,255,255,0.28)" : "rgba(0,0,0,0.28)",
-            }}
-            animate={reduce ? undefined : { y: [0, 8, 0] }}
-            transition={reduce ? undefined : { duration: 2, repeat: Infinity }}
-          >
-            Scroll to explore <span>↓</span>
-          </motion.div>
-        </motion.div>
       </div>
     </section>
   );

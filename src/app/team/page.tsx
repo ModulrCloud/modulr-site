@@ -28,7 +28,7 @@ const team: TeamMember[] = [
     role: "Lead Blockchain Developer",
     bio: "Vlad, a top 1% TryHackMe cybersecurity expert, has secured major blockchain projects including Ethereum, MetaMask, and Aptos. With five years of experience in Python, Golang, and Node.js, he authored a perfect-scoring dissertation on smart contract execution and has served as a SOC analyst at MHP.",
     imageSrc:
-      "https://cdn.prod.website-files.com/688b650d15ca6b144341e1f7/6893cb16c3a320231f3ad9ae_Frame%201948754903%20(2).png",
+      "/VladChernenko.jpg",
   },
   {
     name: "Kenneth Fox",

@@ -7,12 +7,15 @@ import { motion, useScroll, useTransform, useReducedMotion, useInView } from "fr
 import { SiteFooter } from "@/components/SiteFooter";
 import { MODULR_ASSETS } from "@/config/assets";
 import { MODULR_LINKS } from "@/config/links";
+import { researchPosts } from "@/content/research";
 import { TonStyleShowcase } from "@/components/TonStyleShowcase";
 import { CookieToast } from "@/components/CookieToast";
 import { ExampleUseCasesStickySection } from "@/components/example/ExampleUseCasesStickySection";
 import { AntigravityParticleTile } from "@/components/example/AntigravityParticleTile";
 import { ScrollExpandingVideoTile } from "@/components/example/ScrollExpandingVideoTile";
 import { ExampleMegaNav } from "@/components/example/ExampleMegaNav";
+import { TeleopShowcase } from "@/components/example/TeleopShowcase";
+import { ElevenInspiredSections } from "@/components/example/ElevenInspiredSections";
 
 const sidebarNav = [
   { label: "Home", href: "/example" },
@@ -51,24 +54,86 @@ const sideCards = [
     title: "Modulr Blockchain",
     tag: "Dev track",
     readTime: "5 min read",
-    // Abstract network lines read well as "blockchain"
-    image: "/vibrant-wires-bg.png",
+    // Premium real screenshot (requested)
+    image: "/explorer.png",
   },
 ];
 
-const recentNews = [
+type RoboticsStory = {
+  href: string;
+  title: string;
+  meta: string;
+  image: string;
+};
+
+const NEWS_COMPARISON_STYLES = [
   {
-    title: "Our approach to decentralized robotics",
-    tag: "Company",
-    date: "16 Jan 2026",
-    media: { type: "video" as const, src: "https://cdn.modulr.cloud/videos/robot-arm-assembly.mp4", poster: "/robot_touching_human.png" },
+    title: "Flash v2.5",
+    subtitle: "Our lowest latency teleoperation model",
+    light:
+      "radial-gradient(340px 220px at 18% 78%, rgba(255,183,99,0.78), transparent 58%), radial-gradient(420px 250px at 44% 62%, rgba(86,196,223,0.82), transparent 62%), radial-gradient(340px 220px at 84% 20%, rgba(157,140,255,0.66), transparent 58%), #334265",
+    dark:
+      "radial-gradient(340px 220px at 18% 78%, rgba(255,168,82,0.62), transparent 58%), radial-gradient(420px 250px at 44% 62%, rgba(61,168,194,0.60), transparent 62%), radial-gradient(340px 220px at 84% 20%, rgba(125,108,232,0.52), transparent 58%), #1e2742",
   },
-  { title: "Providers can now list robots on Modulr", tag: "Product", date: "17 Dec 2025", media: { type: "image" as const, src: "/operate_any_robot3.png" } },
-  { title: "Introducing usage-based pricing", tag: "Product", date: "11 Dec 2025", media: { type: "image" as const, src: "/earnings.png" } },
-  { title: "Modulr for Healthcare", tag: "Product", date: "8 Jan 2026", media: { type: "image" as const, src: "/agriculture-industrial.png" } },
-  { title: "Advancing Robotics with AI", tag: "Publication", date: "11 Dec 2025", media: { type: "image" as const, src: "/defense_robots.jpg" } },
-  { title: "Ten Years of Innovation", tag: "Company", date: "11 Dec 2025", media: { type: "image" as const, src: "/vibrant-wires-bg.png" } },
-];
+  {
+    title: "Turbo v2.5",
+    subtitle: "Balanced quality and latency",
+    light:
+      "radial-gradient(330px 220px at 52% 76%, rgba(252,124,99,0.74), transparent 58%), radial-gradient(360px 220px at 65% 38%, rgba(193,151,255,0.74), transparent 58%), radial-gradient(420px 260px at 18% 44%, rgba(77,132,255,0.82), transparent 64%), #254284",
+    dark:
+      "radial-gradient(330px 220px at 52% 76%, rgba(228,99,74,0.58), transparent 58%), radial-gradient(360px 220px at 65% 38%, rgba(160,120,228,0.56), transparent 58%), radial-gradient(420px 260px at 18% 44%, rgba(58,108,212,0.62), transparent 64%), #1c2f67",
+  },
+  {
+    title: "Multilingual v2",
+    subtitle: "Consistent quality across environments",
+    light:
+      "radial-gradient(320px 210px at 22% 30%, rgba(83,213,168,0.82), transparent 58%), radial-gradient(360px 240px at 74% 40%, rgba(87,138,255,0.74), transparent 60%), radial-gradient(260px 170px at 60% 85%, rgba(255,173,95,0.70), transparent 60%), #2b4d6d",
+    dark:
+      "radial-gradient(320px 210px at 22% 30%, rgba(58,181,138,0.62), transparent 58%), radial-gradient(360px 240px at 74% 40%, rgba(64,108,214,0.58), transparent 60%), radial-gradient(260px 170px at 60% 85%, rgba(229,142,68,0.52), transparent 60%), #1f374f",
+  },
+  {
+    title: "Eleven v3",
+    subtitle: "Most expressive operator-assist model",
+    light:
+      "radial-gradient(330px 220px at 24% 74%, rgba(255,140,92,0.76), transparent 58%), radial-gradient(370px 250px at 70% 32%, rgba(120,171,255,0.76), transparent 62%), radial-gradient(300px 190px at 84% 70%, rgba(226,110,168,0.66), transparent 58%), #3a3e73",
+    dark:
+      "radial-gradient(330px 220px at 24% 74%, rgba(229,108,62,0.58), transparent 58%), radial-gradient(370px 250px at 70% 32%, rgba(93,136,216,0.58), transparent 62%), radial-gradient(300px 190px at 84% 70%, rgba(190,88,140,0.50), transparent 58%), #2a2d59",
+  },
+] as const;
+
+function proxiedImage(src: string) {
+  if (!src.startsWith("http")) return src;
+  if (src.startsWith("/api/proxy-image?url=")) return src;
+  try {
+    const host = new URL(src).hostname;
+    const shouldProxy =
+      host === "www.therobotreport.com" ||
+      host === "therobotreport.com" ||
+      host === "spectrum.ieee.org" ||
+      host === "robohub.org" ||
+      host === "i0.wp.com" ||
+      host === "i1.wp.com" ||
+      host === "i2.wp.com" ||
+      host === "c0.wp.com" ||
+      host === "c1.wp.com" ||
+      host === "c2.wp.com" ||
+      host === "secure.gravatar.com" ||
+      host === "www.gravatar.com";
+    return shouldProxy ? `/api/proxy-image?url=${encodeURIComponent(src)}` : src;
+  } catch {
+    return src;
+  }
+}
+
+function hashValue(input: string): number {
+  let hash = 0;
+  for (let i = 0; i < input.length; i += 1) hash = (hash * 31 + input.charCodeAt(i)) >>> 0;
+  return hash;
+}
+
+function styleForStory(seed: string) {
+  return NEWS_COMPARISON_STYLES[hashValue(seed) % NEWS_COMPARISON_STYLES.length];
+}
 
 const trustedCompanies = [
   { name: "Company 1", logo: "https://cdn.brandfetch.io/idtu7CFTG5/theme/dark/logo.svg?c=1bxid64Mup7aczewSAYMX&t=1764834273757" },
@@ -122,25 +187,34 @@ const useCasesData = [
   },
 ];
 
-const research = [
+const whyModulrPanels = [
   {
-    title: "Evaluating real-time control latency",
-    tag: "Research",
-    date: "18 Dec 2025",
-    media: { type: "image" as const, src: "/coordination-bg.png" },
+    kicker: "Customizability",
+    title: "Operate any robot with any interface",
+    desc: "Modulr works across robot manufacturers and control inputs including keyboards, joysticks, VR/AR, haptics, and custom controllers.",
+    bg: "/vibrant-wires-bg.png",
   },
   {
-    title: "Assessing AI capabilities for robotic tasks",
-    tag: "Research",
-    date: "16 Dec 2025",
-    media: { type: "image" as const, src: "/robot arms.png" },
+    kicker: "Coordination",
+    title: "Designed for human-in-the-loop operations",
+    desc: "Coordinate live robot operations with safe interventions, clear handoffs, and detailed logs, so responsibility and oversight never get lost.",
+    bg: "/coordination-bg.png",
   },
   {
-    title: "Accelerating biological research with robotics",
-    tag: "Research",
-    date: "16 Dec 2025",
-    media: { type: "image" as const, src: "/modulr_vision_image.jpg" },
+    kicker: "Scale",
+    title: "Built to grow with your organization",
+    desc: "Easily add robots, deployments, and team members as your organization grows, while keeping operations consistent, safe, and manageable over time.",
+    bg: "/expansion-2.png",
   },
+];
+
+/* teleopFeatures moved to <TeleopShowcase /> component */
+
+const networkStats = [
+  { label: "Robots connected", value: "1,200+" },
+  { label: "Countries", value: "60+" },
+  { label: "Operators", value: "340+" },
+  { label: "Avg latency", value: "120ms" },
 ];
 
 /* ═══════════════════════════════════════════════════════════════════════════ */
@@ -169,12 +243,34 @@ export default function ExamplePage() {
     if (typeof window === "undefined") return "light";
     return (localStorage.getItem("theme") as "dark" | "light" | null) ?? "light";
   });
+  const [stories, setStories] = useState<RoboticsStory[]>([]);
+  const [storiesStatus, setStoriesStatus] = useState<"idle" | "loading" | "ready" | "error">("idle");
   const footerRef = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
   }, [theme]);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        setStoriesStatus("loading");
+        const res = await fetch("/api/robotics-news?limit=6", { cache: "no-store" });
+        const json = (await res.json()) as { stories?: RoboticsStory[] };
+        if (cancelled) return;
+        setStories(Array.isArray(json.stories) ? json.stories : []);
+        setStoriesStatus("ready");
+      } catch {
+        if (cancelled) return;
+        setStoriesStatus("error");
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const toggleTheme = () => {
     const newTheme = theme === "dark" ? "light" : "dark";
@@ -240,6 +336,15 @@ export default function ExamplePage() {
   const cardBg2 = theme === "dark" ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.04)";
   const inputBg = theme === "dark" ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.04)";
   const buttonBg = theme === "dark" ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)";
+  const premiumPageBg = theme === "dark" ? "#0a0a0b" : "#f3f3f5";
+  const premiumPanelBg = theme === "dark" ? "#111214" : "#efeff0";
+  const premiumTileBg = theme === "dark" ? "#15161a" : "#f7f7f8";
+  const premiumPanelBorder = theme === "dark" ? "rgba(255,255,255,0.11)" : "rgba(0,0,0,0.10)";
+  const premiumTileBorder = theme === "dark" ? "rgba(255,255,255,0.10)" : "rgba(0,0,0,0.09)";
+  const premiumPanelRadius = 28;
+  const premiumTileRadius = 20;
+  const premiumPanelPadding = 24;
+  const premiumPillHeight = 44;
 
   return (
     <div
@@ -748,318 +853,390 @@ export default function ExamplePage() {
           <div className="flex-1 space-y-20 min-w-0">
             {/* RECENT NEWS */}
             <section>
+              <div
+                style={{
+                  borderRadius: premiumPanelRadius,
+                  border: `1px solid ${premiumPanelBorder}`,
+                  background: premiumPanelBg,
+                  padding: premiumPanelPadding,
+                }}
+              >
               <div className="mb-8 flex items-center justify-between">
-                <h2 style={{ fontSize: 20, fontWeight: 400, color: textColor }}>Recent news</h2>
+                <h2 style={{ fontSize: 26 / 1.05, fontWeight: 520, color: textColor, letterSpacing: "-0.02em" }}>Recent news</h2>
                 <Link href="/example/news" style={{ fontSize: 14, color: mutedTextColor, textDecoration: "none" }}>View more</Link>
               </div>
-              <div className="grid gap-8 lg:grid-cols-2">
-                <div className="space-y-6">
-                  {recentNews.slice(0, 3).map((item, idx) => (
+              {stories.length > 0 ? (
+                <div className="grid gap-4 lg:grid-cols-[1.12fr_0.88fr]">
+                  <Link href={stories[0]?.href || "#"} target="_blank" rel="noreferrer" className="group block">
                     <motion.div
-                      key={item.title}
-                      initial={{ opacity: 0, y: 20 }}
+                      initial={{ opacity: 0, y: 18 }}
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true, margin: "-50px" }}
-                      transition={{ duration: 0.5, delay: idx * 0.1 }}
+                      transition={{ duration: 0.45 }}
+                      style={{
+                        position: "relative",
+                        borderRadius: premiumTileRadius,
+                        minHeight: 360,
+                        overflow: "hidden",
+                        border: `1px solid ${premiumTileBorder}`,
+                        background: premiumTileBg,
+                      }}
                     >
-                      <Link href="#" className="group flex gap-5">
-                        <motion.div
-                          style={{
-                            width: 140,
-                            height: 100,
-                            borderRadius: 12,
-                            background: theme === "dark" ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.04)",
-                            flexShrink: 0,
-                            position: "relative",
-                            overflow: "hidden",
-                            border: `1px solid ${borderColor}`,
-                          }}
-                          whileHover={{ scale: 1.05, transition: { duration: 0.3 } }}
-                        >
-                          {/* Mock media */}
-                          {"media" in item && (item as any).media?.type === "image" ? (
-                            <Image src={(item as any).media.src} alt="" fill sizes="140px" style={{ objectFit: "cover" }} />
-                          ) : null}
-                          {"media" in item && (item as any).media?.type === "video" ? (
-                            <video
-                              autoPlay
-                              muted
-                              loop
-                              playsInline
-                              preload="metadata"
-                              poster={(item as any).media.poster}
-                              style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
-                            >
-                              <source src={(item as any).media.src} type="video/mp4" />
-                            </video>
-                          ) : null}
-                          <div
-                            aria-hidden="true"
-                            style={{
-                              position: "absolute",
-                              inset: 0,
-                              background: theme === "dark" ? "linear-gradient(to top, rgba(0,0,0,0.45), transparent)" : "linear-gradient(to top, rgba(0,0,0,0.12), transparent)",
-                            }}
-                          />
-                          {/* Shimmer effect */}
-                          <div
-                            style={{
-                              position: "absolute",
-                              inset: 0,
-                              background: "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.2) 50%, transparent 100%)",
-                              transform: "translateX(-100%)",
-                              transition: "transform 0.6s",
-                            }}
-                            className="group-hover:translate-x-full"
-                          />
-                        </motion.div>
-                        <div>
-                          <h3 style={{ fontSize: 17, fontWeight: 400, color: textColor, lineHeight: 1.4, transition: "color 0.2s" }} className="group-hover:text-[var(--accent)]">
-                            {item.title}
-                          </h3>
-                          <p style={{ marginTop: 8, fontSize: 13, color: mutedTextColor2 }}>{item.tag} · {item.date}</p>
-                        </div>
-                      </Link>
+                      {(() => {
+                        const style = styleForStory(`${stories[0].title}-${stories[0].meta}`);
+                        return (
+                          <>
+                            <div
+                              style={{
+                                position: "absolute",
+                                inset: 0,
+                                background: theme === "dark" ? style.dark : style.light,
+                              }}
+                            />
+                            <div
+                              style={{
+                                position: "absolute",
+                                inset: 0,
+                                background:
+                                  "repeating-radial-gradient(circle at 0 0, rgba(255,255,255,0.10), rgba(255,255,255,0.10) 1px, transparent 1px, transparent 4px)",
+                                mixBlendMode: "soft-light",
+                                opacity: 0.22,
+                              }}
+                            />
+                            <div style={{ position: "absolute", left: 18, top: 16 }}>
+                              <h3 style={{ color: "rgba(255,255,255,0.96)", fontSize: 56 / 2, lineHeight: 1.08, letterSpacing: "-0.02em", fontWeight: 500 }}>
+                                {style.title}
+                              </h3>
+                              <p style={{ marginTop: 6, color: "rgba(255,255,255,0.78)", fontSize: 16 / 1.05 }}>
+                                {style.subtitle}
+                              </p>
+                            </div>
+                          </>
+                        );
+                      })()}
+                      <div style={{ position: "absolute", left: 18, right: 18, bottom: 16 }}>
+                        <p style={{ marginTop: 8, color: "rgba(255,255,255,0.82)", fontSize: 13 }}>{stories[0].meta}</p>
+                      </div>
                     </motion.div>
-                  ))}
-                </div>
-                <div className="space-y-6">
-                  {recentNews.slice(3, 6).map((item, idx) => (
-                    <motion.div
-                      key={item.title}
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true, margin: "-50px" }}
-                      transition={{ duration: 0.5, delay: (idx + 3) * 0.1 }}
-                    >
-                      <Link href="#" className="group flex gap-5">
+                  </Link>
+
+                  <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
+                    {stories.slice(1, 4).map((item, idx) => (
+                      <Link key={item.title} href={item.href} target="_blank" rel="noreferrer" className="group block">
                         <motion.div
+                          initial={{ opacity: 0, y: 18 }}
+                          whileInView={{ opacity: 1, y: 0 }}
+                          viewport={{ once: true, margin: "-50px" }}
+                          transition={{ duration: 0.45, delay: idx * 0.06 }}
                           style={{
-                            width: 140,
-                            height: 100,
-                            borderRadius: 12,
-                            background: theme === "dark" ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.04)",
-                            flexShrink: 0,
-                            position: "relative",
+                            borderRadius: premiumTileRadius - 2,
+                            border: `1px solid ${premiumTileBorder}`,
+                            background: premiumTileBg,
                             overflow: "hidden",
-                            border: `1px solid ${borderColor}`,
                           }}
-                          whileHover={{ scale: 1.05, transition: { duration: 0.3 } }}
                         >
-                          {/* Mock media */}
-                          {"media" in item && (item as any).media?.type === "image" ? (
-                            <Image src={(item as any).media.src} alt="" fill sizes="140px" style={{ objectFit: "cover" }} />
-                          ) : null}
-                          {"media" in item && (item as any).media?.type === "video" ? (
-                            <video
-                              autoPlay
-                              muted
-                              loop
-                              playsInline
-                              preload="metadata"
-                              poster={(item as any).media.poster}
-                              style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
-                            >
-                              <source src={(item as any).media.src} type="video/mp4" />
-                            </video>
-                          ) : null}
-                          <div
-                            aria-hidden="true"
-                            style={{
-                              position: "absolute",
-                              inset: 0,
-                              background: theme === "dark" ? "linear-gradient(to top, rgba(0,0,0,0.45), transparent)" : "linear-gradient(to top, rgba(0,0,0,0.12), transparent)",
-                            }}
-                          />
-                          {/* Shimmer effect */}
-                          <div
-                            style={{
-                              position: "absolute",
-                              inset: 0,
-                              background: "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.2) 50%, transparent 100%)",
-                              transform: "translateX(-100%)",
-                              transition: "transform 0.6s",
-                            }}
-                            className="group-hover:translate-x-full"
-                          />
+                          <div style={{ position: "relative", height: 130 }}>
+                            {(() => {
+                              const style = styleForStory(`${item.title}-${item.meta}`);
+                              return (
+                                <>
+                                  <div
+                                    style={{
+                                      position: "absolute",
+                                      inset: 0,
+                                      background: theme === "dark" ? style.dark : style.light,
+                                    }}
+                                  />
+                                  <div
+                                    style={{
+                                      position: "absolute",
+                                      inset: 0,
+                                      background:
+                                        "repeating-radial-gradient(circle at 0 0, rgba(255,255,255,0.10), rgba(255,255,255,0.10) 1px, transparent 1px, transparent 4px)",
+                                      mixBlendMode: "soft-light",
+                                      opacity: 0.2,
+                                    }}
+                                  />
+                                  <div style={{ position: "absolute", left: 12, top: 10 }}>
+                                    <div style={{ color: "rgba(255,255,255,0.95)", fontSize: 20 / 1.05, lineHeight: 1.08, letterSpacing: "-0.02em", fontWeight: 500 }}>
+                                      {style.title}
+                                    </div>
+                                    <div style={{ marginTop: 3, color: "rgba(255,255,255,0.78)", fontSize: 11, lineHeight: 1.2 }}>
+                                      {style.subtitle}
+                                    </div>
+                                  </div>
+                                </>
+                              );
+                            })()}
+                          </div>
+                          <div style={{ padding: 14 }}>
+                            <div style={{ color: textColor, fontSize: 16, lineHeight: 1.35, fontWeight: 510 }}>{item.title}</div>
+                            <div style={{ marginTop: 6, color: mutedTextColor2, fontSize: 12 }}>{item.meta}</div>
+                          </div>
                         </motion.div>
-                        <div>
-                          <h3 style={{ fontSize: 17, fontWeight: 400, color: textColor, lineHeight: 1.4, transition: "color 0.2s" }} className="group-hover:text-[var(--accent)]">
-                            {item.title}
-                          </h3>
-                          <p style={{ marginTop: 8, fontSize: 13, color: mutedTextColor2 }}>{item.tag} · {item.date}</p>
-                        </div>
                       </Link>
-                    </motion.div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
+              ) : (
+                <div style={{ fontSize: 13, color: mutedTextColor2 }}>
+                  {storiesStatus === "error" ? "Failed to load the news feed." : storiesStatus === "loading" ? "Loading news..." : "No stories available."}
+                </div>
+              )}
               </div>
             </section>
 
             {/* LATEST RESEARCH */}
             <section>
+              <div
+                style={{
+                  borderRadius: premiumPanelRadius,
+                  border: `1px solid ${premiumPanelBorder}`,
+                  background: premiumPanelBg,
+                  padding: premiumPanelPadding,
+                }}
+              >
               <div className="mb-8 flex items-center justify-between">
-                <h2 style={{ fontSize: 20, fontWeight: 400, color: textColor }}>Latest research</h2>
-                <Link href="/research" style={{ fontSize: 14, color: mutedTextColor, textDecoration: "none" }}>View all</Link>
+                <h2 style={{ fontSize: 26 / 1.05, fontWeight: 520, color: textColor, letterSpacing: "-0.02em" }}>Latest research</h2>
+                <Link href="/example/research" style={{ fontSize: 14, color: mutedTextColor, textDecoration: "none" }}>View all</Link>
               </div>
-              <div className="grid gap-6 lg:grid-cols-3">
-                {research.map((item, idx) => (
-                  <motion.div
-                    key={item.title}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-50px" }}
-                    transition={{ duration: 0.5, delay: idx * 0.1 }}
+              <div className="grid gap-6 lg:grid-cols-[1fr_1.06fr] lg:items-start">
+                <Link href={`/research/${researchPosts[0]?.slug}`} className="group block">
+                  <div
+                    style={{
+                      borderRadius: premiumTileRadius,
+                      border: `1px solid ${premiumTileBorder}`,
+                      background: premiumTileBg,
+                      overflow: "hidden",
+                    }}
                   >
-                    <Link href="#" className="group block">
-                      <motion.div
-                        style={{
-                          borderRadius: 14,
-                          overflow: "hidden",
-                          aspectRatio: "4/3",
-                          background: theme === "dark" ? "rgba(255,255,255,0.03)" : "rgba(0,0,0,0.03)",
-                          position: "relative",
-                          border: `1px solid ${borderColor}`,
-                        }}
-                        whileHover={{ scale: 1.03, y: -4, transition: { duration: 0.3 } }}
-                      >
-                        {"media" in item && (item as any).media?.type === "image" ? (
-                          <Image src={(item as any).media.src} alt="" fill sizes="(max-width: 1024px) 100vw, 33vw" style={{ objectFit: "cover", opacity: theme === "dark" ? 0.72 : 0.82 }} />
-                        ) : null}
-                        {"media" in item && (item as any).media?.type === "video" ? (
-                          <video
-                            autoPlay
-                            muted
-                            loop
-                            playsInline
-                            preload="metadata"
-                            poster={(item as any).media.poster}
-                            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", opacity: theme === "dark" ? 0.72 : 0.82 }}
-                          >
-                            <source src={(item as any).media.src} type="video/mp4" />
-                          </video>
-                        ) : null}
-                        <div
-                          aria-hidden="true"
-                          style={{
-                            position: "absolute",
-                            inset: 0,
-                            background: theme === "dark"
-                              ? "linear-gradient(to top, rgba(0,0,0,0.72), rgba(0,0,0,0.18), rgba(0,0,0,0.12))"
-                              : "linear-gradient(to top, rgba(255,255,255,0.55), rgba(255,255,255,0.16), rgba(255,255,255,0.10))",
-                          }}
-                        />
-                        {/* Animated gradient overlay */}
-                        <div
-                          style={{
-                            position: "absolute",
-                            inset: 0,
-                            background: "linear-gradient(135deg, rgba(242,180,0,0.15) 0%, transparent 50%)",
-                            opacity: 0,
-                            transition: "opacity 0.4s",
-                          }}
-                          className="group-hover:opacity-100"
-                        />
-                        
-                        {/* Glassmorphism icon */}
-                        <motion.div
-                          style={{
-                            position: "absolute",
-                            top: "50%",
-                            left: "50%",
-                            transform: "translate(-50%, -50%)",
-                            width: 48,
-                            height: 48,
-                            background: theme === "dark"
-                              ? "rgba(255,255,255,0.2)"
-                              : "rgba(255,255,255,0.8)",
-                            backdropFilter: "blur(10px)",
-                            borderRadius: 12,
-                            boxShadow: theme === "dark"
-                              ? "0 4px 16px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.1)"
-                              : "0 4px 16px rgba(0,0,0,0.1), 0 0 0 1px rgba(0,0,0,0.05)",
-                          }}
-                          whileHover={{ scale: 1.2, rotate: 10, transition: { duration: 0.3 } }}
-                        />
-                      </motion.div>
-                      <h3 style={{ marginTop: 14, fontSize: 17, fontWeight: 400, color: textColor, lineHeight: 1.4, transition: "color 0.2s" }} className="group-hover:text-[var(--accent)]">
-                        {item.title}
+                    <div
+                      style={{
+                        height: 170,
+                        borderBottom: `1px solid ${premiumTileBorder}`,
+                        background:
+                          "radial-gradient(520px 240px at 22% 35%, rgba(109,189,255,0.58), transparent 56%), radial-gradient(620px 290px at 80% 55%, rgba(242,180,0,0.42), transparent 58%)",
+                      }}
+                    />
+                    <div style={{ padding: 18 }}>
+                      <div style={{ fontSize: 12, color: mutedTextColor2, letterSpacing: "0.05em", textTransform: "uppercase" }}>
+                        {researchPosts[0]?.category}
+                      </div>
+                      <h3 style={{ marginTop: 10, color: textColor, fontSize: 22 / 1.05, lineHeight: 1.25, letterSpacing: "-0.01em" }}>
+                        {researchPosts[0]?.title}
                       </h3>
-                      <p style={{ marginTop: 6, fontSize: 13, color: mutedTextColor2 }}>{item.tag} · {item.date}</p>
+                      <p style={{ marginTop: 9, color: mutedTextColor, fontSize: 14, lineHeight: 1.65 }}>
+                        {researchPosts[0]?.excerpt}
+                      </p>
+                    </div>
+                  </div>
+                </Link>
+
+                <div>
+                  {researchPosts.slice(1, 5).map((post) => (
+                    <Link key={post.slug} href={`/research/${post.slug}`} style={{ textDecoration: "none" }}>
+                      <div
+                        className="flex items-center justify-between"
+                        style={{ borderTop: `1px dashed ${premiumTileBorder}`, padding: "16px 0" }}
+                      >
+                        <div>
+                          <div style={{ color: textColor, fontSize: 34 / 2, lineHeight: 1.3 }}>{post.title}</div>
+                          <div style={{ marginTop: 5, color: mutedTextColor2, fontSize: 12 }}>
+                            {post.date} · {post.readingMinutes} min read
+                          </div>
+                        </div>
+                        <span style={{ color: mutedTextColor2, fontSize: 34 / 2 }}>+</span>
+                      </div>
                     </Link>
-                  </motion.div>
-                ))}
+                  ))}
+                  <div style={{ borderTop: `1px dashed ${premiumTileBorder}` }} />
+                </div>
+              </div>
               </div>
             </section>
 
-            {/* FOR BUSINESS */}
-            <section>
-              <div className="mb-8 flex items-center justify-between">
-                <h2 style={{ fontSize: 20, fontWeight: 400, color: textColor }}>Modulr for Business</h2>
-                <Link href="#" style={{ fontSize: 14, color: mutedTextColor, textDecoration: "none" }}>View all</Link>
-              </div>
-              <div className="grid gap-6 lg:grid-cols-3">
-                {[
-                  { title: "Enterprise solutions", media: { type: "image" as const, src: "/scale-bg.png" } },
-                  { title: "Robotics at scale", media: { type: "video" as const, src: "https://cdn.modulr.cloud/videos/robot-arm-assembly.mp4", poster: "/robot_touching_human.png" } },
-                  { title: "Custom integrations", media: { type: "image" as const, src: "/vibrant-wires-bg.png" } },
-                ].map((item) => (
-                  <Link key={item.title} href="#" className="group block">
-                    <div
-                      style={{
-                        borderRadius: 14,
-                        overflow: "hidden",
-                        aspectRatio: "16/9",
-                        background: theme === "dark" ? "rgba(255,255,255,0.03)" : "rgba(0,0,0,0.03)",
-                        border: `1px solid ${borderColor}`,
-                        position: "relative",
-                      }}
-                    >
-                      {item.media.type === "image" ? (
-                        <Image src={item.media.src} alt="" fill sizes="(max-width: 1024px) 100vw, 33vw" style={{ objectFit: "cover", opacity: theme === "dark" ? 0.78 : 0.86 }} />
-                      ) : (
-                        <video
-                          autoPlay
-                          muted
-                          loop
-                          playsInline
-                          preload="metadata"
-                          poster={item.media.poster}
-                          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", opacity: theme === "dark" ? 0.78 : 0.86 }}
-                        >
-                          <source src={item.media.src} type="video/mp4" />
-                        </video>
-                      )}
-                      <div
-                        aria-hidden="true"
-                        style={{
-                          position: "absolute",
-                          inset: 0,
-                          background: theme === "dark"
-                            ? "linear-gradient(to top, rgba(0,0,0,0.65), rgba(0,0,0,0.20), rgba(0,0,0,0.10))"
-                            : "linear-gradient(to top, rgba(255,255,255,0.55), rgba(255,255,255,0.18), rgba(255,255,255,0.10))",
-                        }}
-                      />
-                      <div
-                        aria-hidden="true"
-                        style={{
-                          position: "absolute",
-                          inset: 0,
-                          opacity: 0,
-                          transition: "opacity 0.35s",
-                          background: "linear-gradient(135deg, rgba(242,180,0,0.18), transparent 55%)",
-                        }}
-                        className="group-hover:opacity-100"
-                      />
-                    </div>
-                    <h3 style={{ marginTop: 14, fontSize: 17, fontWeight: 400, color: textColor }}>{item.title}</h3>
-                  </Link>
-                ))}
-              </div>
-            </section>
+            {/* Modulr for Business removed (requested) */}
           </div>
         </div>
       </div>
+
+      {/* ═══════════ PORTED CONTENT FROM HOME (premium /example styling) ═══════════ */}
+      <section
+        style={{
+          borderTop: `1px solid ${borderColor}`,
+          padding: "82px 0 70px",
+          background: premiumPageBg,
+        }}
+      >
+        <div className="mx-auto max-w-[1400px] px-6">
+          <div
+            style={{
+              borderRadius: premiumPanelRadius,
+              border: `1px solid ${premiumPanelBorder}`,
+              background: premiumPanelBg,
+              padding: premiumPanelPadding,
+            }}
+          >
+            <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <div style={{ fontSize: 13, letterSpacing: "0.03em", color: mutedTextColor2 }}>Why Modulr</div>
+                <h2 style={{ marginTop: 10, fontSize: 52 / 2, fontWeight: 520, color: textColor, letterSpacing: "-0.03em", lineHeight: 1.08 }}>
+                  Built for speed. Built for operators.
+                </h2>
+                <p style={{ marginTop: 10, fontSize: 16 / 1.1, color: mutedTextColor, maxWidth: 760, lineHeight: 1.68 }}>
+                  Modulr is intuitive for first-time operators, yet deeply customizable for advanced robotics teams running critical missions.
+                </p>
+              </div>
+              <Link
+                href="/technology-overview"
+                style={{
+                  height: premiumPillHeight,
+                  borderRadius: 999,
+                  padding: "0 16px",
+                  border: `1px solid ${theme === "dark" ? "rgba(255,255,255,0.14)" : "rgba(0,0,0,0.12)"}`,
+                  display: "inline-flex",
+                  alignItems: "center",
+                  fontSize: 14,
+                  color: textColor,
+                  textDecoration: "none",
+                  background: theme === "dark" ? "rgba(255,255,255,0.03)" : "rgba(255,255,255,0.6)",
+                }}
+              >
+                Explore technology
+              </Link>
+            </div>
+
+            <div className="grid gap-4 lg:grid-cols-3">
+              {whyModulrPanels.map((p, idx) => (
+                <motion.div
+                  key={p.title}
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-80px" }}
+                  transition={{ duration: 0.45, delay: idx * 0.07 }}
+                  style={{
+                    borderRadius: premiumTileRadius,
+                    border: `1px solid ${premiumTileBorder}`,
+                    background: premiumTileBg,
+                    overflow: "hidden",
+                  }}
+                >
+                  <div
+                    style={{
+                      position: "relative",
+                      height: 132,
+                      borderBottom: `1px solid ${theme === "dark" ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)"}`,
+                      overflow: "hidden",
+                    }}
+                  >
+                    <Image
+                      src={p.bg}
+                      alt=""
+                      fill
+                      sizes="(max-width: 1024px) 100vw, 33vw"
+                      style={{
+                        objectFit: "cover",
+                        opacity: theme === "dark" ? 0.42 : 0.30,
+                        filter: "grayscale(1) contrast(1.05)",
+                      }}
+                    />
+                    <div
+                      aria-hidden="true"
+                      style={{
+                        position: "absolute",
+                        inset: 0,
+                        background:
+                          theme === "dark"
+                            ? "linear-gradient(to bottom, rgba(0,0,0,0.35), rgba(0,0,0,0.58))"
+                            : "linear-gradient(to bottom, rgba(255,255,255,0.22), rgba(255,255,255,0.65))",
+                      }}
+                    />
+                  </div>
+                  <div style={{ padding: 18 }}>
+                    <div style={{ fontSize: 12, color: mutedTextColor2, fontWeight: 500 }}>{p.kicker}</div>
+                    <div style={{ marginTop: 9, fontSize: 18, fontWeight: 520, color: textColor, lineHeight: 1.35 }}>
+                      {p.title}
+                    </div>
+                    <div style={{ marginTop: 8, fontSize: 14 / 1.04, color: mutedTextColor, lineHeight: 1.64 }}>
+                      {p.desc}
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Teleoperation — ElevenLabs-inspired interactive showcase */}
+      <TeleopShowcase theme={theme} />
+
+      {/* Additional screenshot-inspired premium sections */}
+      <ElevenInspiredSections theme={theme} />
+
+      {/* Network stats (ported core content) */}
+      <section
+        style={{
+          borderTop: `1px solid ${borderColor}`,
+          padding: "82px 0 76px",
+          background: premiumPageBg,
+        }}
+      >
+        <div className="mx-auto max-w-[1400px] px-6">
+          <div
+            style={{
+              borderRadius: premiumPanelRadius,
+              border: `1px solid ${premiumPanelBorder}`,
+              background: premiumPanelBg,
+              padding: premiumPanelPadding,
+            }}
+          >
+            <div className="grid gap-5 lg:grid-cols-[1fr_360px] lg:items-end">
+              <div>
+                <div style={{ fontSize: 13, color: mutedTextColor2 }}>Network stats</div>
+                <h2 style={{ marginTop: 10, fontSize: 52 / 2, fontWeight: 520, color: textColor, letterSpacing: "-0.03em", lineHeight: 1.08 }}>
+                  Proof that it feels real
+                </h2>
+                <p style={{ marginTop: 10, fontSize: 16 / 1.1, color: mutedTextColor, maxWidth: 720, lineHeight: 1.68 }}>
+                  These numbers reflect live robot operations, global coverage, and low-latency control in production environments.
+                </p>
+              </div>
+              <div
+                style={{
+                  borderRadius: premiumTileRadius - 2,
+                  border: `1px solid ${premiumTileBorder}`,
+                  background: premiumTileBg,
+                  padding: 14,
+                }}
+              >
+                <div style={{ color: mutedTextColor2, fontSize: 13 }}>Latency profile</div>
+                <div style={{ marginTop: 10, height: 94, borderRadius: 10, border: `1px solid ${theme === "dark" ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)"}`, background: "linear-gradient(180deg, rgba(73,114,255,0.13), rgba(73,114,255,0.04))" }}>
+                  <svg viewBox="0 0 320 70" style={{ width: "100%", height: "100%" }}>
+                    <path d="M0 40 C30 33, 55 46, 82 37 C106 29, 132 41, 159 33 C182 27, 210 39, 236 31 C260 24, 290 35, 320 30" stroke="#4e6de6" strokeWidth="2.4" fill="none" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {networkStats.map((s) => (
+                <div
+                  key={s.label}
+                  style={{
+                    borderRadius: 16,
+                    border: `1px solid ${premiumTileBorder}`,
+                    background: premiumTileBg,
+                    padding: 18,
+                  }}
+                >
+                  <div style={{ fontSize: 28 / 1.05, fontWeight: 650, color: textColor, letterSpacing: "-0.02em" }}>{s.value}</div>
+                  <div style={{ marginTop: 6, fontSize: 13, color: mutedTextColor2 }}>{s.label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* ═══════════ USE CASES SECTION (same as Home) ═══════════ */}
       <ExampleUseCasesStickySection theme={theme} />
@@ -1093,18 +1270,32 @@ export default function ExamplePage() {
 
           {/* CONTINUATION CONTENT */}
           <div className="flex-1 space-y-20">
-            {/* ECOSYSTEM - with animated icons */}
+            {/* APIs BUILT FOR PRODUCTION (inspired by /developers) */}
             <section>
+              <div
+                style={{
+                  borderRadius: premiumPanelRadius,
+                  border: `1px solid ${premiumPanelBorder}`,
+                  background: premiumPanelBg,
+                  padding: premiumPanelPadding,
+                }}
+              >
               <div className="mb-8 flex items-center justify-between">
-                <h2 style={{ fontSize: 20, fontWeight: 400, color: textColor }}>Ecosystem</h2>
-                <Link href="#" style={{ fontSize: 14, color: mutedTextColor, textDecoration: "none" }}>View all</Link>
+                <h2 style={{ fontSize: 26 / 1.05, fontWeight: 520, color: textColor, letterSpacing: "-0.02em" }}>
+                  APIs built for production
+                </h2>
+                <Link href="/technology-overview" style={{ fontSize: 14, color: mutedTextColor, textDecoration: "none" }}>
+                  Explore architecture
+                </Link>
               </div>
-              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                 {[
-                  { title: "Research", desc: "Leading robotics labs", icon: <ResearchIcon theme={theme} /> },
-                  { title: "Infrastructure", desc: "Cloud & edge computing", icon: <InfraIcon theme={theme} /> },
-                  { title: "Hardware", desc: "Robotic platforms & OEMs", icon: <HardwareIcon theme={theme} /> },
-                  { title: "Academia", desc: "Universities & research", icon: <AcademiaIcon theme={theme} /> },
+                  { title: "Teleoperation API", desc: "Sub-150ms control channels for mission-critical robot sessions.", icon: <InfraIcon theme={theme} /> },
+                  { title: "Fleet Management API", desc: "Dispatch, monitor, and coordinate robot fleets from one endpoint.", icon: <HardwareIcon theme={theme} /> },
+                  { title: "Safety & Policy API", desc: "Declarative guardrails and automatic intervention hooks.", icon: <AcademiaIcon theme={theme} /> },
+                  { title: "Session Replay API", desc: "Command and video timeline export for forensic-grade auditing.", icon: <ResearchIcon theme={theme} /> },
+                  { title: "Voice Agent API", desc: "Natural operator copilots for support and incident response.", icon: <InfraIcon theme={theme} /> },
+                  { title: "Analytics API", desc: "Operational metrics, latency profiling, and performance reports.", icon: <HardwareIcon theme={theme} /> },
                 ].map((item, idx) => (
                   <motion.div
                     key={item.title}
@@ -1122,19 +1313,47 @@ export default function ExamplePage() {
                   </motion.div>
                 ))}
               </div>
+              </div>
             </section>
 
-            {/* DEVELOPER RESOURCES - Terminal-style cards */}
+            {/* SAFETY, BUILT IN (inspired by /safety) */}
             <section>
+              <div
+                style={{
+                  borderRadius: premiumPanelRadius,
+                  border: `1px solid ${premiumPanelBorder}`,
+                  background: premiumPanelBg,
+                  padding: premiumPanelPadding,
+                }}
+              >
               <div className="mb-8 flex items-center justify-between">
-                <h2 style={{ fontSize: 20, fontWeight: 400, color: textColor }}>For Developers</h2>
-                <Link href="#" style={{ fontSize: 14, color: mutedTextColor, textDecoration: "none" }}>Documentation</Link>
+                <h2 style={{ fontSize: 26 / 1.05, fontWeight: 520, color: textColor, letterSpacing: "-0.02em" }}>
+                  Safety, built in
+                </h2>
+                <Link href="/technology-overview" style={{ fontSize: 14, color: mutedTextColor, textDecoration: "none" }}>
+                  Learn more
+                </Link>
               </div>
               <div className="grid gap-4 lg:grid-cols-3">
                 {[
-                  { title: "API Reference", cmd: "curl api.modulr.cloud/v1", desc: "RESTful APIs and WebSocket endpoints", accent: "#22d3ee" },
-                  { title: "SDK Libraries", cmd: "npm install @modulr/sdk", desc: "Python, TypeScript, Rust, and Go", accent: "#a78bfa" },
-                  { title: "Quick Start", cmd: "npx create-modulr-app", desc: "Production-ready starter templates", accent: "#f2b400" },
+                  {
+                    title: "Moderation",
+                    desc: "We actively monitor generated outputs and operational behavior to detect misuse early.",
+                    visual:
+                      "radial-gradient(140px 100px at 25% 40%, rgba(89,183,255,0.86), transparent 60%), radial-gradient(220px 140px at 78% 35%, rgba(255,173,85,0.72), transparent 60%), #f0f1f3",
+                  },
+                  {
+                    title: "Accountability",
+                    desc: "Operator actions are tracked end-to-end with secure audit trails and clear ownership.",
+                    visual:
+                      "linear-gradient(150deg, #ffffff 0%, #f1f3f7 100%)",
+                  },
+                  {
+                    title: "Provenance",
+                    desc: "Telemetry, commands, and generated media carry verifiable metadata where applicable.",
+                    visual:
+                      "radial-gradient(140px 90px at 28% 48%, rgba(255,128,93,0.78), transparent 58%), radial-gradient(200px 120px at 75% 50%, rgba(248,67,67,0.72), transparent 60%), #efeef2",
+                  },
                 ].map((item, idx) => (
                   <motion.div
                     key={item.title}
@@ -1148,100 +1367,117 @@ export default function ExamplePage() {
                       href="#"
                       className="group block"
                       style={{
-                        borderRadius: 16,
-                        background: theme === "dark" ? "#0a0a0a" : "#fafafa",
-                        border: borderColor,
+                        borderRadius: premiumTileRadius - 2,
+                        background: premiumTileBg,
+                        border: `1px solid ${premiumTileBorder}`,
                         overflow: "hidden",
                         transition: "border-color 0.2s, transform 0.2s",
-                        position: "relative",
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.borderColor = borderColor2;
-                        // Add glow effect
-                        const glow = e.currentTarget.querySelector(".terminal-glow") as HTMLElement;
-                        if (glow) glow.style.opacity = "1";
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.borderColor = borderColor;
-                        const glow = e.currentTarget.querySelector(".terminal-glow") as HTMLElement;
-                        if (glow) glow.style.opacity = "0";
+                        position: "relative"
                       }}
                     >
-                      {/* Glow effect */}
                       <div
-                        className="terminal-glow"
                         style={{
-                          position: "absolute",
-                          inset: 0,
-                          background: `radial-gradient(circle at 50% 0%, ${item.accent}20, transparent 70%)`,
-                          opacity: 0,
-                          transition: "opacity 0.3s",
-                          pointerEvents: "none",
+                          height: 168,
+                          borderBottom: `1px solid ${premiumTileBorder}`,
+                          background: item.visual,
                         }}
                       />
-                      
-                      {/* Terminal header */}
-                      <div style={{ display: "flex", alignItems: "center", gap: 6, padding: "10px 14px", background: cardBg2, borderBottom: borderColor, position: "relative", zIndex: 1 }}>
-                        <motion.div
-                          style={{ width: 8, height: 8, borderRadius: "50%", background: "#ff5f56" }}
-                          whileHover={{ scale: 1.2 }}
-                        />
-                        <motion.div
-                          style={{ width: 8, height: 8, borderRadius: "50%", background: "#ffbd2e" }}
-                          whileHover={{ scale: 1.2 }}
-                        />
-                        <motion.div
-                          style={{ width: 8, height: 8, borderRadius: "50%", background: "#27ca40" }}
-                          whileHover={{ scale: 1.2 }}
-                        />
-                        <span style={{ marginLeft: 8, fontSize: 11, color: mutedTextColor3 }}>terminal</span>
-                      </div>
-                      {/* Command */}
-                      <div style={{ padding: "16px 14px", fontFamily: "monospace", fontSize: 13, position: "relative", zIndex: 1 }}>
-                        <span style={{ color: item.accent }}>$</span>{" "}
-                        <span style={{ color: theme === "dark" ? "rgba(255,255,255,0.8)" : "rgba(0,0,0,0.8)" }}>{item.cmd}</span>
-                      </div>
-                      {/* Info */}
-                      <div style={{ padding: "0 14px 20px", position: "relative", zIndex: 1 }}>
-                        <h3 style={{ fontSize: 16, fontWeight: 600, color: textColor, transition: "color 0.2s" }} className="group-hover:text-[var(--accent)]">
+                      <div style={{ padding: "16px 16px 18px" }}>
+                        <h3 style={{ fontSize: 32 / 2, fontWeight: 530, color: textColor, letterSpacing: "-0.01em" }}>
                           {item.title}
                         </h3>
-                        <p style={{ marginTop: 6, fontSize: 13, color: mutedTextColor2 }}>{item.desc}</p>
+                        <p style={{ marginTop: 8, fontSize: 14, lineHeight: 1.6, color: mutedTextColor }}>{item.desc}</p>
                       </div>
                     </Link>
                   </motion.div>
                 ))}
               </div>
+              </div>
             </section>
 
-            {/* MINIMAL CTA */}
+            {/* LATEST UPDATES (inspired by /blog) */}
             <section style={{ paddingTop: 20, paddingBottom: 40 }}>
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 24 }}>
-                <div>
-                  <h2 style={{ fontSize: 22, fontWeight: 400, color: textColor, letterSpacing: "-0.01em" }}>
-                    Start building today
-                  </h2>
-                  <p style={{ marginTop: 6, fontSize: 15, color: mutedTextColor2 }}>
-                    Free tier available. No credit card required.
-                  </p>
+              <div
+                style={{
+                  borderRadius: premiumPanelRadius,
+                  border: `1px solid ${premiumPanelBorder}`,
+                  background: premiumPanelBg,
+                  padding: premiumPanelPadding,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  flexWrap: "wrap",
+                  gap: 24,
+                }}
+              >
+                <div style={{ width: "100%" }}>
+                  <div className="mb-7 flex flex-wrap items-end justify-between gap-3">
+                    <div>
+                      <div style={{ color: mutedTextColor2, fontSize: 13, letterSpacing: "0.05em", textTransform: "uppercase" }}>
+                        Latest updates
+                      </div>
+                      <h2 style={{ marginTop: 8, fontSize: 56 / 2, lineHeight: 1.1, fontWeight: 520, color: textColor, letterSpacing: "-0.02em" }}>
+                        Platform, research, and product announcements
+                      </h2>
+                    </div>
+                    <Link href="#" style={{ fontSize: 14, color: mutedTextColor, textDecoration: "none" }}>
+                      All posts
+                    </Link>
+                  </div>
+
+                  <div className="grid gap-4 lg:grid-cols-3">
+                    {[
+                      ["Introducing Modulr for Government", "Secure teleoperation for public infrastructure programs."],
+                      ["Expressive Mode for Agents", "More natural voice agents for real customer conversations."],
+                      ["$500M Series D milestone", "Accelerating global robotics and AI infrastructure roadmap."],
+                    ].map(([title, desc], idx) => (
+                      <div
+                        key={title}
+                        style={{
+                          borderRadius: premiumTileRadius - 2,
+                          border: `1px solid ${premiumTileBorder}`,
+                          background: premiumTileBg,
+                          overflow: "hidden",
+                        }}
+                      >
+                        <div
+                          style={{
+                            height: 148,
+                            borderBottom: `1px solid ${premiumTileBorder}`,
+                            background:
+                              idx === 0
+                                ? "linear-gradient(145deg, #ece6ff 0%, #d7d1ff 45%, #cbc5ff 100%)"
+                                : idx === 1
+                                  ? "linear-gradient(145deg, #dff4ff 0%, #b9e7ff 45%, #9ad9ff 100%)"
+                                  : "linear-gradient(145deg, #fff0d6 0%, #ffd596 45%, #ffc36e 100%)",
+                          }}
+                        />
+                        <div style={{ padding: 16 }}>
+                          <h3 style={{ color: textColor, fontSize: 18, lineHeight: 1.34, fontWeight: 520 }}>{title}</h3>
+                          <p style={{ marginTop: 8, color: mutedTextColor, fontSize: 14, lineHeight: 1.6 }}>{desc}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-                <div style={{ display: "flex", gap: 12 }}>
+                <div style={{ display: "flex", gap: 12, width: "100%" }}>
                   <Link
                     href="#"
                     style={{
                       display: "inline-flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      borderRadius: 10,
+                      height: premiumPillHeight,
+                      borderRadius: 999,
                       background: "#f2b400",
                       color: "#000",
-                      padding: "10px 22px",
+                      padding: "0 22px",
                       fontSize: 14,
                       fontWeight: 600,
                       textDecoration: "none",
                     }}
                   >
-                    Get Started
+                    Talk to sales
                   </Link>
                   <Link
                     href="#"
@@ -1249,17 +1485,18 @@ export default function ExamplePage() {
                       display: "inline-flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      borderRadius: 10,
-                      background: "transparent",
-                      border: "1px solid rgba(255,255,255,0.15)",
-                      color: "rgba(255,255,255,0.8)",
-                      padding: "10px 22px",
+                      height: premiumPillHeight,
+                      borderRadius: 999,
+                      background: premiumTileBg,
+                      border: `1px solid ${premiumTileBorder}`,
+                      color: textColor,
+                      padding: "0 22px",
                       fontSize: 14,
                       fontWeight: 500,
                       textDecoration: "none",
                     }}
                   >
-                    Contact Sales
+                    Create an AI agent
                   </Link>
                 </div>
               </div>
@@ -1491,11 +1728,11 @@ function TrustedByMarquee({ theme }: { theme: "dark" | "light" }) {
 
 function EcosystemCard({ title, desc, icon, theme }: { title: string; desc: string; icon: React.ReactNode; theme: "dark" | "light" }) {
   const textColor = theme === "dark" ? "#fff" : "#000";
-  const mutedTextColor = theme === "dark" ? "rgba(255,255,255,0.45)" : "rgba(0,0,0,0.45)";
-  const cardBg = theme === "dark" ? "rgba(255,255,255,0.02)" : "rgba(0,0,0,0.02)";
-  const cardBgHover = theme === "dark" ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.04)";
-  const borderColor = theme === "dark" ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)";
-  const borderColorHover = theme === "dark" ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.12)";
+  const mutedTextColor = theme === "dark" ? "rgba(255,255,255,0.52)" : "rgba(0,0,0,0.52)";
+  const cardBg = theme === "dark" ? "#15161a" : "#f7f7f8";
+  const cardBgHover = theme === "dark" ? "#171920" : "#ffffff";
+  const borderColor = theme === "dark" ? "rgba(255,255,255,0.10)" : "rgba(0,0,0,0.09)";
+  const borderColorHover = theme === "dark" ? "rgba(255,255,255,0.14)" : "rgba(0,0,0,0.13)";
 
   return (
     <Link

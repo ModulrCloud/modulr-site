@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
 import { SiteFooter } from "@/components/SiteFooter";
 import { MODULR_ASSETS } from "@/config/assets";
+import { ScrollToTopButton } from "@/components/example/ScrollToTopButton";
 
 /* ─────────────────────────────────────────────────────────────────────────────
    Team page in new design style
@@ -38,7 +39,7 @@ const team = [
     name: "Vlad Chernenko",
     role: "Lead Blockchain Developer",
     bio: "Top 1% TryHackMe cybersecurity expert. Secured major projects including Ethereum, MetaMask, and Aptos.",
-    imageSrc: "https://cdn.prod.website-files.com/688b650d15ca6b144341e1f7/6893cb16c3a320231f3ad9ae_Frame%201948754903%20(2).png",
+    imageSrc: "/VladChernenko.jpg",
   },
   {
     name: "Kenneth Fox",
@@ -348,6 +349,9 @@ export default function ExampleTeamPage() {
       </main>
 
       <SiteFooter />
+
+      {/* SCROLL TO TOP */}
+      <ScrollToTopButton theme={theme} />
 
       {/* SEARCH MODAL */}
       {searchOpen && (
