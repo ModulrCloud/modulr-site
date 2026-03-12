@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { careerDepartments, careerPosts } from "@/content/careers";
+import { ModulrFooter } from "@/components/ModulrFooter";
 
 /* ───────────────────────── DESIGN TOKENS ───────────────────────── */
 const T = {
@@ -33,50 +34,6 @@ const navLinks = [
   { label: "Brand Kit", href: "/brand-kit" },
 ];
 
-/* ───────────────────────── FOOTER ───────────────────────── */
-const footerCols = [
-  {
-    title: "Platform",
-    links: [
-      { label: "Operator Console", href: "https://app.modulr.cloud" },
-      { label: "Fleet Management", href: "/technology-overview" },
-      { label: "Teleoperation", href: "/technology-overview" },
-      { label: "Data Marketplace", href: "#" },
-      { label: "Staking", href: "#" },
-      { label: "Explorer", href: "https://testnet.explorer.modulr.cloud" },
-    ],
-  },
-  {
-    title: "Resources",
-    links: [
-      { label: "Docs", href: "https://modulr.gitbook.io/modulr.cloud" },
-      { label: "Brand Kit", href: "/brand-kit" },
-      { label: "Pricing", href: "/pricing" },
-      { label: "Roadmap", href: "/roadmap" },
-      { label: "Privacy Policy", href: "/privacy-policy" },
-    ],
-  },
-  {
-    title: "Community",
-    links: [
-      { label: "X (Twitter)", href: "https://x.com/Modulr_Robotics" },
-      { label: "LinkedIn", href: "http://linkedin.com/company/modulrcloud" },
-      { label: "GitHub", href: "https://github.com/ModulrCloud" },
-      { label: "Linktree", href: "https://linktr.ee/modulr.cloud" },
-      { label: "Telegram", href: "https://t.me/Modulr_Robotics" },
-    ],
-  },
-  {
-    title: "Company",
-    links: [
-      { label: "About", href: "/team" },
-      { label: "Research", href: "/research" },
-      { label: "News", href: "/news" },
-      { label: "Careers", href: "/careers" },
-      { label: "Roadmap", href: "/roadmap" },
-    ],
-  },
-];
 
 function TypeBadge({ type }: { type: string }) {
   const colors: Record<string, { bg: string; text: string; border: string }> = {
@@ -290,30 +247,7 @@ export default function CareersPage() {
           </a>
         </div>
       </section>
-
-      {/* ═══ FOOTER ═══ */}
-      <footer style={{ borderTop: sectionBorder, padding: "60px 24px 40px", background: "#fff" }}>
-        <div style={{ maxWidth: T.maxW, margin: "0 auto" }}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 40 }}>
-            <span style={{ fontWeight: 700, fontSize: 18, letterSpacing: "-0.02em" }}>Modulr</span>
-          </div>
-          <div className="el-g7">
-            {footerCols.map((col) => (
-              <div key={col.title}>
-                <div style={{ fontSize: 13, fontWeight: 600, color: T.text, marginBottom: 12 }}>{col.title}</div>
-                <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                  {col.links.map((link) => (
-                    <Link key={link.label} href={link.href} target={link.href.startsWith("http") ? "_blank" : undefined} rel={link.href.startsWith("http") ? "noreferrer" : undefined} style={{ fontSize: 13, color: T.muted, textDecoration: "none" }}>{link.label}</Link>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-          <div style={{ marginTop: 48, paddingTop: 24, borderTop: sectionBorder, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
-            <span style={{ fontSize: 12, color: T.muted2 }}>© {new Date().getFullYear()} Modulr. All rights reserved.</span>
-          </div>
-        </div>
-      </footer>
+      <ModulrFooter />
     </div>
   );
 }

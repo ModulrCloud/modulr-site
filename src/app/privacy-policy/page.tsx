@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { ModulrFooter } from "@/components/ModulrFooter";
 
 /* ───────────────────────── DESIGN TOKENS ───────────────────────── */
 const T = {
@@ -231,18 +232,7 @@ export default function PrivacyPolicyPage() {
         </div>
       </section>
 
-      {/* ═══ FOOTER ═══ */}
-      <footer style={{ borderTop: sectionBorder, padding: "60px 24px 40px", background: "#fff" }}>
-        <div style={{ maxWidth: T.maxW, margin: "0 auto" }}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 40 }}>
-            <span style={{ fontWeight: 700, fontSize: 18, letterSpacing: "-0.02em" }}>Modulr</span>
-          </div>
-          <div style={{ marginTop: 24, paddingTop: 24, borderTop: sectionBorder, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
-            <span style={{ fontSize: 12, color: T.muted2 }}>© {new Date().getFullYear()} Modulr. All rights reserved.</span>
-            <Link href="/" style={{ fontSize: 13, color: T.muted, textDecoration: "none" }}>← Back to home</Link>
-          </div>
-        </div>
-      </footer>
+      <ModulrFooter />
     </div>
   );
 }

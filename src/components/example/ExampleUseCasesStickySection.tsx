@@ -84,7 +84,7 @@ export function ExampleUseCasesStickySection({
               </p>
             </div>
             <Link
-              href="/technology-overview"
+              href="/robots"
               style={{
                 height: 44,
                 borderRadius: 999,

@@ -3,6 +3,8 @@
 import { useState, useRef, useEffect, lazy, Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { ModulrFooter } from "@/components/ModulrFooter";
+import { Reveal } from "@/components/Reveal";
 
 /* ── Mobile nav state hook ── */
 function useMobileNav() {
@@ -130,90 +132,6 @@ const latestUpdates: { title: string; gradient: string; pattern: string; overlay
   },
 ];
 
-/* ───────────────────────── FOOTER COLUMNS ───────────────────────── */
-const footerCols = [
-  {
-    title: "Platform",
-    links: [
-      { label: "Operator Console", href: "https://app.modulr.cloud" },
-      { label: "Fleet Management", href: "/technology-overview" },
-      { label: "Teleoperation", href: "/technology-overview" },
-      { label: "Data Marketplace", href: "#" },
-      { label: "Staking", href: "#" },
-      { label: "Explorer", href: "https://testnet.explorer.modulr.cloud" },
-      { label: "Switchboard", href: "#" },
-      { label: "Games Arena", href: "#" },
-    ],
-  },
-  {
-    title: "Products",
-    links: [
-      { label: "Modulr SDK", href: "https://docs.modulr.cloud" },
-      { label: "Modulr Agent", href: "#" },
-      { label: "Teleoperation API", href: "https://docs.modulr.cloud" },
-      { label: "Fleet API", href: "https://docs.modulr.cloud" },
-      { label: "Network API", href: "https://docs.modulr.cloud" },
-      { label: "Digital Twins", href: "#" },
-      { label: "Compute Credits", href: "#" },
-    ],
-  },
-  {
-    title: "Solutions",
-    links: [
-      { label: "For Enterprise", href: "#" },
-      { label: "For Developers", href: "https://docs.modulr.cloud" },
-      { label: "For Robot Owners", href: "#" },
-      { label: "For Operators", href: "#" },
-      { label: "Industrial", href: "#" },
-      { label: "Entertainment", href: "#" },
-      { label: "Defense & Security", href: "#" },
-      { label: "Healthcare", href: "#" },
-    ],
-  },
-  {
-    title: "Earn",
-    links: [
-      { label: "List Your Robot", href: "#" },
-      { label: "Become a Validator", href: "#" },
-      { label: "Data Provider", href: "#" },
-      { label: "Compute Provider", href: "#" },
-      { label: "Affiliate Program", href: "#" },
-    ],
-  },
-  {
-    title: "Resources",
-    links: [
-      { label: "Documentation", href: "https://docs.modulr.cloud" },
-      { label: "API Reference", href: "https://docs.modulr.cloud" },
-      { label: "Help Center", href: "#" },
-      { label: "Tokenomics", href: "#" },
-      { label: "Governance", href: "#" },
-      { label: "Terms", href: "#" },
-      { label: "Privacy", href: "#" },
-    ],
-  },
-  {
-    title: "Socials",
-    links: [
-      { label: "X (Twitter)", href: "https://x.com/Modulr_Robotics" },
-      { label: "LinkedIn", href: "http://linkedin.com/company/modulrcloud" },
-      { label: "GitHub", href: "https://github.com/ModulrCloud" },
-      { label: "Linktree", href: "https://linktr.ee/modulr.cloud" },
-      { label: "Telegram", href: "https://t.me/Modulr_Robotics" },
-    ],
-  },
-  {
-    title: "Company",
-    links: [
-      { label: "About", href: "/team" },
-      { label: "Research", href: "/research" },
-      { label: "News", href: "/news" },
-      { label: "Careers", href: "/careers" },
-      { label: "Roadmap", href: "/roadmap" },
-      { label: "Brand & Press Kit", href: "#" },
-    ],
-  },
-];
 
 /* ───────────────────────── ROBOTICS CAPABILITIES ───────────────────────── */
 const roboticsCapabilities = [
@@ -339,25 +257,31 @@ export default function ElevenPage() {
               {item.label}
             </Link>
           ))}
-        </div>
+              </div>
       </header>
 
       {/* ════════════ HERO ════════════ */}
       <section style={{ padding: `${T.sectionPy} 24px 60px`, maxWidth: T.maxW, margin: "0 auto", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center" }}>
-        <h1 style={{ fontSize: "clamp(48px, 7vw, 80px)", fontWeight: 500, letterSpacing: "-0.04em", lineHeight: 1.02, maxWidth: 800 }}>
-        Robot Operation<br />at Scale
-        </h1>
-        <p style={{ marginTop: 24, fontSize: 17, color: T.muted, maxWidth: 640, lineHeight: 1.6 }}>
-        A real-time robot operations platform built for enterprise performance and an open network economy—connecting robots, AI, data, and compute.
-        </p>
-        <div style={{ marginTop: 32, display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "center" }}>
-          <Link href="https://app.modulr.cloud" style={{ display: "inline-flex", alignItems: "center", height: 48, padding: "0 24px", background: T.accent, color: T.accentFg, borderRadius: T.radiusPill, fontSize: 15, fontWeight: 600, textDecoration: "none" }}>
-            Launch App
-          </Link>
-          <Link href="https://calendly.com/d/cxn4-g4x-5sh/modulr-20min-product-demo" style={{ display: "inline-flex", alignItems: "center", height: 48, padding: "0 24px", background: T.surface, color: T.text, borderRadius: T.radiusPill, fontSize: 15, fontWeight: 500, textDecoration: "none", border: sectionBorder }}>
-            Book a Demo
-          </Link>
-        </div>
+        <Reveal>
+          <h1 className="text-shimmer" style={{ fontSize: "clamp(48px, 7vw, 80px)", fontWeight: 500, letterSpacing: "-0.04em", lineHeight: 1.02, maxWidth: 800 }}>
+          Robot Operation<br />at Scale
+                  </h1>
+        </Reveal>
+        <Reveal delayMs={120}>
+          <p style={{ marginTop: 24, fontSize: 17, color: T.muted, maxWidth: 640, lineHeight: 1.6 }}>
+          A real-time robot operations platform built for enterprise performance and an open network economy—connecting robots, AI, data, and compute.
+          </p>
+        </Reveal>
+        <Reveal delayMs={240}>
+          <div style={{ marginTop: 32, display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "center" }}>
+            <Link href="https://app.modulr.cloud" style={{ display: "inline-flex", alignItems: "center", height: 48, padding: "0 24px", background: T.accent, color: T.accentFg, borderRadius: T.radiusPill, fontSize: 15, fontWeight: 600, textDecoration: "none" }}>
+              Launch App
+            </Link>
+            <Link href="https://calendly.com/d/cxn4-g4x-5sh/modulr-20min-product-demo" style={{ display: "inline-flex", alignItems: "center", height: 48, padding: "0 24px", background: T.surface, color: T.text, borderRadius: T.radiusPill, fontSize: 15, fontWeight: 500, textDecoration: "none", border: sectionBorder }}>
+              Book a Demo
+            </Link>
+          </div>
+        </Reveal>
       </section>
 
       {/* ════════════ 3D VISUAL ════════════ */}
@@ -372,10 +296,15 @@ export default function ElevenPage() {
       {/* ════════════ TRUSTED BY ════════════ */}
       <section style={{ padding: "64px 24px 72px" }}>
         <div style={{ maxWidth: T.maxW, margin: "0 auto" }}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 40 }}>
-            <h2 style={{ fontSize: 20, fontWeight: 500, color: T.text }}>Trusted by leading developers and enterprises</h2>
-            <Link href="#" style={{ fontSize: 14, color: T.muted, textDecoration: "none" }}>Read all stories</Link>
-          </div>
+          <Reveal>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 40 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                <span className="pulse-dot" />
+                <h2 style={{ fontSize: 20, fontWeight: 500, color: T.text }}>Trusted by leading developers and enterprises</h2>
+              </div>
+              <Link href="/research" className="link-underline" style={{ fontSize: 14, color: T.muted, textDecoration: "none" }}>Read all stories</Link>
+            </div>
+          </Reveal>
           <div style={{
             display: "grid",
             gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))",
@@ -611,35 +540,38 @@ export default function ElevenPage() {
             <Link href="https://app.modulr.cloud" target="_blank" rel="noreferrer" style={{ display: "inline-flex", alignItems: "center", height: 40, padding: "0 18px", background: T.accent, color: T.accentFg, borderRadius: T.radiusPill, fontSize: 14, fontWeight: 600, textDecoration: "none", marginLeft: 12 }}>
               Get started
             </Link>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
       {/* ════════════ A NEW ROBOTICS PARADIGM ════════════ */}
+      <div className="section-divider" style={{ maxWidth: T.maxW, margin: "0 auto" }} />
       <section style={{ padding: `${T.sectionPy} 24px`, maxWidth: T.maxW, margin: "0 auto" }}>
-        <div style={{ marginBottom: 48 }}>
-          <div style={{ fontSize: 13, color: T.muted2, marginBottom: 8 }}>Discover</div>
-          <h2 style={{ fontSize: "clamp(32px, 5vw, 52px)", fontWeight: 500, letterSpacing: "-0.03em", lineHeight: 1.08 }}>
-            A New Robotics Paradigm
-          </h2>
-          <p style={{ marginTop: 16, fontSize: 16, color: T.muted, maxWidth: 640, lineHeight: 1.65 }}>
-            Built for today&apos;s operators and tomorrow&apos;s decentralized machine economy. Modular controls, real-time network telemetry, and enterprise-grade governance in one stack.
-          </p>
-        </div>
+        <Reveal>
+          <div style={{ marginBottom: 48 }}>
+            <div style={{ fontSize: 13, color: T.muted2, marginBottom: 8 }}>Discover</div>
+            <h2 style={{ fontSize: "clamp(32px, 5vw, 52px)", fontWeight: 500, letterSpacing: "-0.03em", lineHeight: 1.08 }}>
+              A New Robotics Paradigm
+            </h2>
+            <p style={{ marginTop: 16, fontSize: 16, color: T.muted, maxWidth: 640, lineHeight: 1.65 }}>
+              Built for today&apos;s operators and tomorrow&apos;s decentralized machine economy. Modular controls, real-time network telemetry, and enterprise-grade governance in one stack.
+            </p>
+          </div>
+        </Reveal>
         <div className="el-g2">
           {[
             { name: "Operator Console", desc: "Control robots, monitor missions, and manage handoffs in one unified interface.", gradient: "linear-gradient(135deg, #ffecd2, #fcb69f)", href: "https://app.modulr.cloud", image: "/session-history-screenshot.png" },
             { name: "Modulr Network", desc: "Stake, trade data, govern the protocol, and access decentralized compute for robot AI.", gradient: "linear-gradient(135deg, #a8edea, #d1c4e9)" , href: "/web3" },
-          ].map((p) => (
+          ].map((p, i) => (
+            <Reveal key={p.name} delayMs={i * 120}>
             <Link
-              key={p.name}
               href={p.href}
+              className="hover-lift card-shine"
               style={{
                 borderRadius: T.radiusXl,
                 border: sectionBorder,
                 overflow: "hidden",
                 cursor: "pointer",
-                transition: "box-shadow 0.2s",
                 textDecoration: "none",
                 color: "inherit",
                 display: "block",
@@ -654,18 +586,22 @@ export default function ElevenPage() {
                 <div style={{ marginTop: 16, fontSize: 14, fontWeight: 500, color: T.text }}>Explore {p.name} →</div>
               </div>
             </Link>
+            </Reveal>
           ))}
         </div>
       </section>
 
       {/* ════════════ PLATFORM CARDS (Monetize robots. Globally.) ════════════ */}
+      <div className="section-divider" style={{ maxWidth: T.maxW, margin: "0 auto" }} />
       <section style={{ padding: `${T.sectionPy} 24px`, maxWidth: T.maxW, margin: "0 auto" }}>
-        <h2 style={{ fontSize: "clamp(28px, 4vw, 42px)", fontWeight: 500, letterSpacing: "-0.03em", textAlign: "center", marginBottom: 12 }}>
-          Monetize robots. <span style={{ color: T.muted }}>Globally.</span>
-        </h2>
-        <p style={{ fontSize: 16, color: T.muted, textAlign: "center", maxWidth: 600, margin: "0 auto 48px", lineHeight: 1.6 }}>
-          From sourcing global robot liquidity to earning from idle assets — everything you need to build a robotics business on one platform.
-        </p>
+        <Reveal>
+          <h2 style={{ fontSize: "clamp(28px, 4vw, 42px)", fontWeight: 500, letterSpacing: "-0.03em", textAlign: "center", marginBottom: 12 }}>
+            Monetize robots. <span style={{ color: T.muted }}>Globally.</span>
+          </h2>
+          <p style={{ fontSize: 16, color: T.muted, textAlign: "center", maxWidth: 600, margin: "0 auto 48px", lineHeight: 1.6 }}>
+            From sourcing global robot liquidity to earning from idle assets — everything you need to build a robotics business on one platform.
+          </p>
+        </Reveal>
 
         <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 32 }}>
           {platformCards.map((card, idx) => (
@@ -702,26 +638,35 @@ export default function ElevenPage() {
       </section>
 
       {/* ════════════ TELEOPERATION SECTION ════════════ */}
-      <section style={{ borderTop: sectionBorder, padding: `${T.sectionPy} 24px`, maxWidth: T.maxW, margin: "0 auto" }}>
-        <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 48, flexWrap: "wrap", gap: 20 }}>
-          <div>
-            <div style={{ fontSize: 13, color: T.muted2, marginBottom: 8 }}>Teleoperation</div>
-            <h2 style={{ fontSize: "clamp(32px, 5vw, 52px)", fontWeight: 500, letterSpacing: "-0.03em", lineHeight: 1.08 }}>
-              A new standard<br />of control
-            </h2>
+      <div className="section-divider" style={{ maxWidth: T.maxW, margin: "0 auto" }} />
+      <section style={{ padding: `${T.sectionPy} 24px`, maxWidth: T.maxW, margin: "0 auto" }}>
+        <Reveal>
+          <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 48, flexWrap: "wrap", gap: 20 }}>
+            <div>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
+                <span className="pulse-dot" />
+                <span style={{ fontSize: 13, color: T.muted2 }}>Teleoperation</span>
+              </div>
+              <h2 style={{ fontSize: "clamp(32px, 5vw, 52px)", fontWeight: 500, letterSpacing: "-0.03em", lineHeight: 1.08 }}>
+                A new standard<br />of control
+              </h2>
+            </div>
+            <Link href="https://app.modulr.cloud" target="_blank" rel="noreferrer" style={{ display: "inline-flex", alignItems: "center", height: 44, padding: "0 22px", background: T.accent, color: T.accentFg, borderRadius: T.radiusPill, fontSize: 14, fontWeight: 600, textDecoration: "none" }}>
+              Launch App
+            </Link>
           </div>
-          <Link href="https://app.modulr.cloud" target="_blank" rel="noreferrer" style={{ display: "inline-flex", alignItems: "center", height: 44, padding: "0 22px", background: T.accent, color: T.accentFg, borderRadius: T.radiusPill, fontSize: 14, fontWeight: 600, textDecoration: "none" }}>
-            Launch App
-          </Link>
-        </div>
-        <p style={{ fontSize: 16, color: T.muted, maxWidth: 720, lineHeight: 1.65, marginBottom: 48 }}>
-          Real-time robot operation built for enterprise reliability and security. Operate any robot from anywhere with precise control inputs, real-time video streaming, and sub-500ms latency.
-        </p>
+        </Reveal>
+        <Reveal delayMs={100}>
+          <p style={{ fontSize: 16, color: T.muted, maxWidth: 720, lineHeight: 1.65, marginBottom: 48 }}>
+            Real-time robot operation built for enterprise reliability and security. Operate any robot from anywhere with precise control inputs, real-time video streaming, and sub-500ms latency.
+          </p>
+        </Reveal>
 
         {/* Feature cards */}
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 16, marginBottom: 40 }}>
-          {teleopFeatures.map((f) => (
-            <div key={f.title} style={{ padding: 24, borderRadius: T.radiusXl, border: sectionBorder, background: T.surface, minHeight: 200, display: "flex", flexDirection: "column" }}>
+          {teleopFeatures.map((f, fIdx) => (
+            <Reveal key={f.title} delayMs={fIdx * 80}>
+            <div className="hover-lift" style={{ padding: 24, borderRadius: T.radiusXl, border: sectionBorder, background: T.surface, minHeight: 200, display: "flex", flexDirection: "column" }}>
               <div style={{ width: 48, height: 48, borderRadius: 14, background: "#fff", border: sectionBorder, display: "flex", alignItems: "center", justifyContent: "center", color: T.text, marginBottom: "auto" }}>
                 {f.icon === "globe" && <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="12" cy="12" r="10" /><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" /></svg>}
                 {f.icon === "bolt" && <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" /></svg>}
@@ -733,6 +678,7 @@ export default function ElevenPage() {
                 <p style={{ fontSize: 14, color: T.muted, lineHeight: 1.55 }}>{f.desc}</p>
               </div>
             </div>
+            </Reveal>
           ))}
         </div>
 
@@ -779,21 +725,26 @@ export default function ElevenPage() {
       </section>
 
       {/* ════════════ HOW IT WORKS (ElevenAgents style) ════════════ */}
-      <section style={{ borderTop: sectionBorder, padding: `${T.sectionPy} 24px`, maxWidth: T.maxW, margin: "0 auto" }}>
-        <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 48, flexWrap: "wrap", gap: 20 }}>
-          <div>
-            <div style={{ fontSize: 13, color: T.muted2, marginBottom: 8 }}>How it works</div>
-            <h2 style={{ fontSize: "clamp(32px, 5vw, 52px)", fontWeight: 500, letterSpacing: "-0.03em", lineHeight: 1.08 }}>
-              One platform to operate<br />and monetize robots
-            </h2>
+      <div className="section-divider" style={{ maxWidth: T.maxW, margin: "0 auto" }} />
+      <section style={{ padding: `${T.sectionPy} 24px`, maxWidth: T.maxW, margin: "0 auto" }}>
+        <Reveal>
+          <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 48, flexWrap: "wrap", gap: 20 }}>
+            <div>
+              <div style={{ fontSize: 13, color: T.muted2, marginBottom: 8 }}>How it works</div>
+              <h2 style={{ fontSize: "clamp(32px, 5vw, 52px)", fontWeight: 500, letterSpacing: "-0.03em", lineHeight: 1.08 }}>
+                One platform to operate<br />and monetize robots
+              </h2>
+            </div>
+            <Link href="https://docs.modulr.cloud" target="_blank" rel="noreferrer" style={{ display: "inline-flex", alignItems: "center", height: 44, padding: "0 22px", background: T.accent, color: T.accentFg, borderRadius: T.radiusPill, fontSize: 14, fontWeight: 600, textDecoration: "none" }}>
+              Learn more
+            </Link>
           </div>
-          <Link href="https://docs.modulr.cloud" target="_blank" rel="noreferrer" style={{ display: "inline-flex", alignItems: "center", height: 44, padding: "0 22px", background: T.accent, color: T.accentFg, borderRadius: T.radiusPill, fontSize: 14, fontWeight: 600, textDecoration: "none" }}>
-            Learn more
-          </Link>
-        </div>
-        <p style={{ fontSize: 16, color: T.muted, maxWidth: 720, lineHeight: 1.65, marginBottom: 40 }}>
-          Whether you&apos;re a robotics team looking for better internal controls, or an operator looking to rent and operate robots for your business — Modulr connects both sides seamlessly.
-        </p>
+        </Reveal>
+        <Reveal delayMs={100}>
+          <p style={{ fontSize: 16, color: T.muted, maxWidth: 720, lineHeight: 1.65, marginBottom: 40 }}>
+            Whether you&apos;re a robotics team looking for better internal controls, or an operator looking to rent and operate robots for your business — Modulr connects both sides seamlessly.
+          </p>
+        </Reveal>
 
         {/* Main showcase grid */}
         <div className="el-g-split-wide" style={{ marginBottom: 16 }}>
@@ -927,18 +878,21 @@ export default function ElevenPage() {
       </section>
 
       {/* ════════════ DEVELOPER SDK ════════════ */}
-      <section style={{ borderTop: sectionBorder, padding: `${T.sectionPy} 24px`, maxWidth: T.maxW, margin: "0 auto" }}>
-        <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 48, flexWrap: "wrap", gap: 20 }}>
-          <div>
-            <div style={{ fontSize: 13, color: T.muted2, marginBottom: 8 }}>For Developers</div>
-            <h2 style={{ fontSize: "clamp(32px, 5vw, 52px)", fontWeight: 500, letterSpacing: "-0.03em", lineHeight: 1.08 }}>
-              Build anything with<br />powerful APIs &amp; SDK
-            </h2>
+      <div className="section-divider" style={{ maxWidth: T.maxW, margin: "0 auto" }} />
+      <section style={{ padding: `${T.sectionPy} 24px`, maxWidth: T.maxW, margin: "0 auto" }}>
+        <Reveal>
+          <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 48, flexWrap: "wrap", gap: 20 }}>
+            <div>
+              <div style={{ fontSize: 13, color: T.muted2, marginBottom: 8 }}>For Developers</div>
+              <h2 style={{ fontSize: "clamp(32px, 5vw, 52px)", fontWeight: 500, letterSpacing: "-0.03em", lineHeight: 1.08 }}>
+                Build anything with<br />powerful APIs &amp; SDK
+              </h2>
+            </div>
+            <Link href="https://docs.modulr.cloud" target="_blank" rel="noreferrer" style={{ display: "inline-flex", alignItems: "center", height: 44, padding: "0 22px", background: T.accent, color: T.accentFg, borderRadius: T.radiusPill, fontSize: 14, fontWeight: 600, textDecoration: "none" }}>
+              Explore docs
+            </Link>
           </div>
-          <Link href="https://docs.modulr.cloud" target="_blank" rel="noreferrer" style={{ display: "inline-flex", alignItems: "center", height: 44, padding: "0 22px", background: T.accent, color: T.accentFg, borderRadius: T.radiusPill, fontSize: 14, fontWeight: 600, textDecoration: "none" }}>
-            Explore docs
-          </Link>
-        </div>
+        </Reveal>
 
         {/* Teleoperation API */}
         <div style={{ borderRadius: T.radiusXl, border: sectionBorder, overflow: "hidden", marginBottom: 20 }}>
@@ -1050,16 +1004,19 @@ export default function ElevenPage() {
       </section>
 
       {/* ════════════ USE CASES ════════════ */}
-      <section style={{ borderTop: sectionBorder, padding: `${T.sectionPy} 24px`, maxWidth: T.maxW, margin: "0 auto" }}>
-        <div style={{ marginBottom: 32 }}>
-          <div style={{ fontSize: 13, color: T.muted2, marginBottom: 8 }}>Remote Teleoperation</div>
-          <h2 style={{ fontSize: "clamp(28px, 4vw, 42px)", fontWeight: 500, letterSpacing: "-0.03em" }}>
-            Use Cases
-          </h2>
-          <p style={{ marginTop: 12, fontSize: 16, color: T.muted, maxWidth: 640, lineHeight: 1.65 }}>
-            From agriculture to space exploration, Modulr powers real-time robotic control in the most demanding environments.
-          </p>
-        </div>
+      <div className="section-divider" style={{ maxWidth: T.maxW, margin: "0 auto" }} />
+      <section style={{ padding: `${T.sectionPy} 24px`, maxWidth: T.maxW, margin: "0 auto" }}>
+        <Reveal>
+          <div style={{ marginBottom: 32 }}>
+            <div style={{ fontSize: 13, color: T.muted2, marginBottom: 8 }}>Remote Teleoperation</div>
+            <h2 style={{ fontSize: "clamp(28px, 4vw, 42px)", fontWeight: 500, letterSpacing: "-0.03em" }}>
+              Use Cases
+            </h2>
+            <p style={{ marginTop: 12, fontSize: 16, color: T.muted, maxWidth: 640, lineHeight: 1.65 }}>
+              From agriculture to space exploration, Modulr powers real-time robotic control in the most demanding environments.
+            </p>
+          </div>
+        </Reveal>
         {/* Masonry-like asymmetric grid */}
         <div className="el-g-masonry">
           {/* Tall left card — Industrial Automation */}
@@ -1203,13 +1160,16 @@ export default function ElevenPage() {
       </section>
 
       {/* ════════════ ROADMAP (DUAL TRACK) ════════════ */}
-      <section style={{ borderTop: sectionBorder, padding: `${T.sectionPy} 24px`, maxWidth: T.maxW, margin: "0 auto" }}>
-        <h2 style={{ fontSize: "clamp(28px, 4vw, 42px)", fontWeight: 500, letterSpacing: "-0.03em", marginBottom: 16 }}>
-          Building the global<br />robot economy
-        </h2>
-        <p style={{ fontSize: 16, color: T.muted, maxWidth: 680, lineHeight: 1.65, marginBottom: 48 }}>
-          From devnet to mainnet, from campus tours to global robot games — our roadmap is designed to expand the Modulr network across robotics, Web3, and entertainment.
-        </p>
+      <div className="section-divider" style={{ maxWidth: T.maxW, margin: "0 auto" }} />
+      <section style={{ padding: `${T.sectionPy} 24px`, maxWidth: T.maxW, margin: "0 auto" }}>
+        <Reveal>
+          <h2 style={{ fontSize: "clamp(28px, 4vw, 42px)", fontWeight: 500, letterSpacing: "-0.03em", marginBottom: 16 }}>
+            Building the global<br />robot economy
+                </h2>
+          <p style={{ fontSize: 16, color: T.muted, maxWidth: 680, lineHeight: 1.65, marginBottom: 48 }}>
+            From devnet to mainnet, from campus tours to global robot games — our roadmap is designed to expand the Modulr network across robotics, Web3, and entertainment.
+          </p>
+        </Reveal>
 
         {/* Timeline header */}
         <div ref={timelineRef} style={{ overflowX: "auto", paddingBottom: 20, marginBottom: 32 }}>
@@ -1284,22 +1244,26 @@ export default function ElevenPage() {
           </div>
         </div>
 
-        <Link href="/roadmap" style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 14, fontWeight: 500, color: T.text, textDecoration: "none" }}>
+        <Link href="https://modulr.gitbook.io/modulr.cloud" target="_blank" rel="noreferrer" style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 14, fontWeight: 500, color: T.text, textDecoration: "none" }}>
           View full roadmap <span>→</span>
         </Link>
       </section>
 
       {/* ════════════ SAFETY ════════════ */}
-      <section style={{ borderTop: sectionBorder, padding: `${T.sectionPy} 24px`, maxWidth: T.maxW, margin: "0 auto" }}>
-        <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 48, flexWrap: "wrap", gap: 20 }}>
-          <h2 style={{ fontSize: "clamp(32px, 5vw, 52px)", fontWeight: 500, letterSpacing: "-0.03em" }}>Safety, built in</h2>
-          <Link href="#" style={{ display: "inline-flex", alignItems: "center", height: 44, padding: "0 22px", background: T.accent, color: T.accentFg, borderRadius: T.radiusPill, fontSize: 14, fontWeight: 600, textDecoration: "none" }}>
-            Learn more
-          </Link>
-        </div>
+      <div className="section-divider" style={{ maxWidth: T.maxW, margin: "0 auto" }} />
+      <section style={{ padding: `${T.sectionPy} 24px`, maxWidth: T.maxW, margin: "0 auto" }}>
+        <Reveal>
+          <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 48, flexWrap: "wrap", gap: 20 }}>
+            <h2 style={{ fontSize: "clamp(32px, 5vw, 52px)", fontWeight: 500, letterSpacing: "-0.03em" }}>Safety, built in</h2>
+            <Link href="#" style={{ display: "inline-flex", alignItems: "center", height: 44, padding: "0 22px", background: T.accent, color: T.accentFg, borderRadius: T.radiusPill, fontSize: 14, fontWeight: 600, textDecoration: "none" }}>
+              Learn more
+            </Link>
+          </div>
+        </Reveal>
         <div className="el-g3">
           {safetyItems.map((item, i) => (
-            <div key={item.title} style={{ borderRadius: T.radiusXl, border: sectionBorder, background: T.surface, overflow: "hidden" }}>
+            <Reveal key={item.title} delayMs={i * 80}>
+            <div className="hover-lift" style={{ borderRadius: T.radiusXl, border: sectionBorder, background: T.surface, overflow: "hidden", height: "100%" }}>
               {/* Geometric SVG illustration area */}
               <div style={{ height: 220, display: "flex", alignItems: "center", justifyContent: "center", padding: 24 }}>
                 {i === 0 && (
@@ -1348,20 +1312,24 @@ export default function ElevenPage() {
                 <p style={{ fontSize: 14, color: T.muted, lineHeight: 1.55 }}>{item.desc}</p>
               </div>
             </div>
+            </Reveal>
           ))}
-        </div>
-      </section>
+          </div>
+        </section>
 
       {/* ════════════ LATEST UPDATES ════════════ */}
       <section style={{ borderTop: sectionBorder, padding: `${T.sectionPy} 24px`, maxWidth: T.maxW, margin: "0 auto" }}>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 32 }}>
-          <h2 style={{ fontSize: "clamp(28px, 4vw, 42px)", fontWeight: 500, letterSpacing: "-0.03em" }}>Latest updates</h2>
-          <Link href="#" style={{ fontSize: 14, color: T.muted, textDecoration: "none" }}>All posts</Link>
-        </div>
+        <Reveal>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 32 }}>
+            <h2 style={{ fontSize: "clamp(28px, 4vw, 42px)", fontWeight: 500, letterSpacing: "-0.03em" }}>Latest updates</h2>
+            <Link href="/news" className="link-underline" style={{ fontSize: 14, color: T.muted, textDecoration: "none" }}>All posts</Link>
+          </div>
+        </Reveal>
         <div className="el-g3">
-          {latestUpdates.map((post) => (
-            <div key={post.title} style={{ cursor: "pointer" }}>
-              <div style={{
+          {latestUpdates.map((post, i) => (
+            <Reveal key={post.title} delayMs={i * 100}>
+            <div className="hover-lift" style={{ cursor: "pointer" }}>
+              <div className="card-shine" style={{
                 borderRadius: T.radiusXl,
                 overflow: "hidden",
                 position: "relative",
@@ -1404,55 +1372,12 @@ export default function ElevenPage() {
               </div>
               <p style={{ fontSize: 16, fontWeight: 500, lineHeight: 1.4, color: T.text }}>{post.title}</p>
             </div>
+            </Reveal>
           ))}
         </div>
       </section>
 
-      {/* ════════════ FOOTER CTA ════════════ */}
-      <section style={{ borderTop: sectionBorder, padding: "80px 24px", textAlign: "center" }}>
-        <div style={{ maxWidth: T.maxW, margin: "0 auto" }}>
-          <h2 style={{ fontSize: "clamp(32px, 5vw, 56px)", fontWeight: 500, letterSpacing: "-0.03em", lineHeight: 1.08, marginBottom: 16 }}>
-            The open network for<br />robot operations
-          </h2>
-          <p style={{ fontSize: 17, color: T.muted, maxWidth: 540, margin: "0 auto 32px", lineHeight: 1.6 }}>
-            Connect your robots, operate remotely, and earn from the global robotics economy — all on one platform.
-          </p>
-          <div style={{ display: "flex", justifyContent: "center", gap: 12, flexWrap: "wrap" }}>
-            <Link href="https://app.modulr.cloud" target="_blank" rel="noreferrer" style={{ display: "inline-flex", alignItems: "center", height: 48, padding: "0 24px", background: T.accent, color: T.accentFg, borderRadius: T.radiusPill, fontSize: 15, fontWeight: 600, textDecoration: "none" }}>
-              Launch App
-            </Link>
-            <Link href="https://calendly.com/d/cxn4-g4x-5sh/modulr-20min-product-demo" style={{ display: "inline-flex", alignItems: "center", height: 48, padding: "0 24px", background: T.surface, color: T.text, borderRadius: T.radiusPill, fontSize: 15, fontWeight: 500, textDecoration: "none", border: sectionBorder }}>
-              Book a Demo
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* ════════════ FOOTER ════════════ */}
-      <footer style={{ borderTop: sectionBorder, padding: "60px 24px 40px", background: "#fff" }}>
-        <div style={{ maxWidth: T.maxW, margin: "0 auto" }}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 40 }}>
-            <span style={{ fontWeight: 700, fontSize: 18, letterSpacing: "-0.02em" }}>Modulr</span>
-            <button style={{ padding: "6px 14px", borderRadius: 8, border: sectionBorder, background: "#fff", fontSize: 13, cursor: "pointer" }}>
-              English
-            </button>
-          </div>
-          <div className="el-g7">
-            {footerCols.map((col) => (
-              <div key={col.title}>
-                <div style={{ fontSize: 13, fontWeight: 600, color: T.text, marginBottom: 12 }}>{col.title}</div>
-                <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                  {col.links.map((link) => (
-                    <Link key={link.label} href={link.href} target={link.href.startsWith("http") ? "_blank" : undefined} rel={link.href.startsWith("http") ? "noreferrer" : undefined} style={{ fontSize: 13, color: T.muted, textDecoration: "none", transition: "color 0.15s" }}>
-                      {link.label}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </footer>
+      <ModulrFooter showCta />
     </div>
   );
 }

@@ -27,7 +27,7 @@ const tiles: Tile[] = [
     image: "/NVIDIA_3.jpeg",
     visual:
       "radial-gradient(220px 140px at 25% 45%, rgba(101,187,255,0.86), transparent 60%), radial-gradient(240px 150px at 78% 35%, rgba(255,176,96,0.72), transparent 62%), #eff1f5",
-    href: "/technology-overview",
+    href: "/robots",
     cta: "Learn more",
   },
   {
@@ -45,7 +45,7 @@ const tiles: Tile[] = [
     image: "/modulr_vision_image.jpg",
     visual:
       "radial-gradient(220px 130px at 28% 48%, rgba(255,143,91,0.76), transparent 60%), radial-gradient(240px 150px at 76% 35%, rgba(248,85,85,0.66), transparent 60%), #f3efef",
-    href: "/technology-overview",
+    href: "/robots",
     cta: "View technology",
   },
 ];
@@ -125,7 +125,7 @@ export function TonStyleShowcase({ className }: { className?: string }) {
                 Launch app
               </Link>
               <Link
-                href="/technology-overview"
+                href="/robots"
                 style={{
                   height: 42,
                   borderRadius: 999,
@@ -265,7 +265,7 @@ export function TonStyleShowcase({ className }: { className?: string }) {
                 Launch app
               </Link>
               <Link
-                href="/technology-overview"
+                href="/robots"
                 style={{
                   height: 44,
                   borderRadius: 999,

@@ -202,7 +202,7 @@ export function ExampleMegaNav({ theme }: { theme: Theme }) {
             {
               title: "AI Platform",
               items: [
-                        { title: "Platform Overview", desc: "The converged AI workspace", href: "/technology-overview", icon: <DefaultIcon theme={panelTheme} /> },
+                        { title: "Platform Overview", desc: "The converged AI workspace", href: "/robots", icon: <DefaultIcon theme={panelTheme} /> },
                         { title: "Super Agents", desc: "Delegate your work entirely", href: "/example", badge: "New", icon: <DefaultIcon theme={panelTheme} /> },
                         { title: "Brain MAX", desc: "One AI app to rule them all", href: "/example", icon: <DefaultIcon theme={panelTheme} /> },
               ],
@@ -210,7 +210,7 @@ export function ExampleMegaNav({ theme }: { theme: Theme }) {
             {
               title: "Features",
               items: [
-                        { title: "Teleoperation", desc: "Real-time remote control", href: "/technology-overview#teleoperation", icon: <DefaultIcon theme={panelTheme} /> },
+                        { title: "Teleoperation", desc: "Real-time remote control", href: "/robots#teleoperation", icon: <DefaultIcon theme={panelTheme} /> },
                         { title: "Network Orchestration", desc: "Route tasks across operators", href: "/example", icon: <DefaultIcon theme={panelTheme} /> },
                         { title: "Enterprise Search", desc: "Find anything instantly", href: "/example", icon: <DefaultIcon theme={panelTheme} /> },
               ],
@@ -218,7 +218,7 @@ export function ExampleMegaNav({ theme }: { theme: Theme }) {
             {
               title: "Resources",
               items: [
-                { title: "Pricing", href: "/pricing" },
+                { title: "Pricing", href: "/careers" },
                 { title: "Newsroom", href: "/example/news" },
                 { title: "Research", href: "/example/research" },
               ],
@@ -254,13 +254,13 @@ export function ExampleMegaNav({ theme }: { theme: Theme }) {
               items: [
                 { title: "Operations", href: "/example", desc: "Control robots at scale" },
                 { title: "R&D", href: "/example/research", desc: "Faster iteration loops" },
-                { title: "IT", href: "/technology-overview", desc: "Secure connectivity" },
+                { title: "IT", href: "/robots", desc: "Secure connectivity" },
               ],
             },
             {
               title: "Companies",
               items: [
-                { title: "Enterprise", href: "/pricing", desc: "Compliance & governance" },
+                { title: "Enterprise", href: "/careers", desc: "Compliance & governance" },
                 { title: "Startup", href: "/example", desc: "Launch quickly" },
                 { title: "Education", href: "/example", desc: "Labs & training" },
               ],
@@ -268,7 +268,7 @@ export function ExampleMegaNav({ theme }: { theme: Theme }) {
             {
               title: "Use cases",
               items: [
-                { title: "Teleoperation", href: "/technology-overview#teleoperation" },
+                { title: "Teleoperation", href: "/robots#teleoperation" },
                 { title: "Fleet Coordination", href: "/example" },
                 { title: "Industrial Automation", href: "/example" },
               ],
@@ -368,7 +368,7 @@ export function ExampleMegaNav({ theme }: { theme: Theme }) {
           },
         },
       },
-      { key: "pricing", label: "Pricing", href: "/pricing" },
+      { key: "pricing", label: "Pricing", href: "/careers" },
     ],
     [colors.muted, colors.panelBorder, colors.panelCardBg, colors.panelCardBg2, colors.panelMuted, colors.panelText, colors.text, isDark, panelTheme],
   );

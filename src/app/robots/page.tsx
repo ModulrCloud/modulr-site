@@ -3,6 +3,8 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { ModulrFooter } from "@/components/ModulrFooter";
+import { Reveal } from "@/components/Reveal";
 
 function useMobileNav() {
   const [open, setOpen] = useState(false);
@@ -150,90 +152,6 @@ const faqs = [
   { q: "What input methods are supported?", a: "Keyboard, mouse, joystick, gamepad, VR headset, haptic gloves, and custom input rigs. We provide a unified input abstraction layer." },
 ];
 
-/* ───────────────────────── FOOTER ───────────────────────── */
-const footerCols = [
-  {
-    title: "Platform",
-    links: [
-      { label: "Operator Console", href: "https://app.modulr.cloud" },
-      { label: "Fleet Management", href: "/technology-overview" },
-      { label: "Teleoperation", href: "/technology-overview" },
-      { label: "Data Marketplace", href: "#" },
-      { label: "Staking", href: "#" },
-      { label: "Explorer", href: "https://testnet.explorer.modulr.cloud" },
-      { label: "Switchboard", href: "#" },
-      { label: "Games Arena", href: "#" },
-    ],
-  },
-  {
-    title: "Products",
-    links: [
-      { label: "Modulr SDK", href: "https://docs.modulr.cloud" },
-      { label: "Modulr Agent", href: "#" },
-      { label: "Teleoperation API", href: "https://docs.modulr.cloud" },
-      { label: "Fleet API", href: "https://docs.modulr.cloud" },
-      { label: "Network API", href: "https://docs.modulr.cloud" },
-      { label: "Digital Twins", href: "#" },
-      { label: "Compute Credits", href: "#" },
-    ],
-  },
-  {
-    title: "Solutions",
-    links: [
-      { label: "For Enterprise", href: "#" },
-      { label: "For Developers", href: "https://docs.modulr.cloud" },
-      { label: "For Robot Owners", href: "#" },
-      { label: "For Operators", href: "#" },
-      { label: "Industrial", href: "#" },
-      { label: "Entertainment", href: "#" },
-      { label: "Defense & Security", href: "#" },
-      { label: "Healthcare", href: "#" },
-    ],
-  },
-  {
-    title: "Earn",
-    links: [
-      { label: "List Your Robot", href: "#" },
-      { label: "Become a Validator", href: "#" },
-      { label: "Data Provider", href: "#" },
-      { label: "Compute Provider", href: "#" },
-      { label: "Affiliate Program", href: "#" },
-    ],
-  },
-  {
-    title: "Resources",
-    links: [
-      { label: "Documentation", href: "https://docs.modulr.cloud" },
-      { label: "API Reference", href: "https://docs.modulr.cloud" },
-      { label: "Help Center", href: "#" },
-      { label: "Tokenomics", href: "#" },
-      { label: "Governance", href: "#" },
-      { label: "Terms", href: "#" },
-      { label: "Privacy", href: "#" },
-    ],
-  },
-  {
-    title: "Socials",
-    links: [
-      { label: "X (Twitter)", href: "https://x.com/Modulr_Robotics" },
-      { label: "LinkedIn", href: "http://linkedin.com/company/modulrcloud" },
-      { label: "GitHub", href: "https://github.com/ModulrCloud" },
-      { label: "Linktree", href: "https://linktr.ee/modulr.cloud" },
-      { label: "Telegram", href: "https://t.me/Modulr_Robotics" },
-    ],
-  },
-  {
-    title: "Company",
-    links: [
-      { label: "About", href: "/team" },
-      { label: "Research", href: "/research" },
-      { label: "News", href: "/news" },
-      { label: "Careers", href: "/careers" },
-      { label: "Roadmap", href: "/roadmap" },
-      { label: "Brand & Press Kit", href: "#" },
-    ],
-  },
-];
 
 /* ═══════════════════════════════════════════════════════════════════
    PAGE COMPONENT
@@ -301,6 +219,7 @@ export default function RobotsPage() {
         <div style={{ position: "relative", maxWidth: T.maxW, margin: "0 auto", padding: "80px 24px 40px", display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center" }}>
 
           {/* Schematic robot illustrations grid */}
+          <Reveal>
           <div style={{ width: "100%", maxWidth: 900, marginBottom: 48, display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16 }} className="el-g4">
 
             {/* Spot — quadruped robot dog (side view, Spot style) */}
@@ -494,10 +413,14 @@ export default function RobotsPage() {
               <div style={{ fontSize: 12, fontWeight: 600, color: T.muted, letterSpacing: "0.05em", textTransform: "uppercase" }}>Industrial</div>
             </div>
           </div>
+          </Reveal>
 
-          <h1 style={{ fontSize: "clamp(36px, 5vw, 56px)", fontWeight: 500, letterSpacing: "-0.04em", lineHeight: 1.08, marginBottom: 20, maxWidth: 800 }}>
+          <Reveal delayMs={150}>
+          <h1 className="text-shimmer" style={{ fontSize: "clamp(36px, 5vw, 56px)", fontWeight: 500, letterSpacing: "-0.04em", lineHeight: 1.08, marginBottom: 20, maxWidth: 800 }}>
             The open network for<br />robot operations
           </h1>
+          </Reveal>
+          <Reveal delayMs={250}>
           <p style={{ fontSize: 17, color: T.muted, maxWidth: 680, lineHeight: 1.6, marginBottom: 32 }}>
             Connect, control, and monetize robots globally. Modulr lets anyone rent or deploy robots for practical, real-world work — powered by an open network that brings robots, AI, data, and compute into one seamless interface.
           </p>
@@ -509,12 +432,15 @@ export default function RobotsPage() {
               Book a Demo
             </Link>
           </div>
+          </Reveal>
         </div>
       </section>
 
       {/* ════════════ USE CASES SLIDER ════════════ */}
+      <div className="section-divider" style={{ maxWidth: T.maxW, margin: "0 auto" }} />
       <section style={{ borderTop: sectionBorder, padding: "80px 0" }}>
         <div style={{ maxWidth: T.maxW, margin: "0 auto", padding: "0 24px" }}>
+          <Reveal>
           <div style={{ marginBottom: 32 }}>
             <h2 style={{ fontSize: "clamp(28px, 4vw, 42px)", fontWeight: 500, letterSpacing: "-0.03em" }}>
               Use Cases
@@ -523,6 +449,7 @@ export default function RobotsPage() {
               From factory floors to space exploration, Modulr powers real-time robotic control in the most demanding environments.
             </p>
           </div>
+          </Reveal>
           <div
             ref={sliderRef}
             style={{
@@ -611,10 +538,12 @@ export default function RobotsPage() {
       {/* ════════════ PLATFORM FEATURES ════════════ */}
       <section style={{ borderTop: sectionBorder, padding: "80px 24px", background: T.surface }}>
         <div style={{ maxWidth: T.maxW, margin: "0 auto" }}>
+          <Reveal>
           <h2 style={{ fontSize: "clamp(28px, 3.5vw, 40px)", fontWeight: 500, letterSpacing: "-0.03em", marginBottom: 8 }}>Real-Time Teleoperation</h2>
           <p style={{ fontSize: 17, color: T.muted, maxWidth: 640, marginBottom: 48, lineHeight: 1.6 }}>
             Operate any robot from anywhere with real-time video streaming, precise control, and enterprise-grade safety guardrails.
           </p>
+          </Reveal>
 
           <div className="el-g-split" style={{ gap: 48, alignItems: "start" }}>
             <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
@@ -662,18 +591,22 @@ export default function RobotsPage() {
       {/* ════════════ HOW IT WORKS ════════════ */}
       <section style={{ borderTop: sectionBorder, padding: "80px 24px" }}>
         <div style={{ maxWidth: T.maxW, margin: "0 auto" }}>
+          <Reveal>
           <h2 style={{ fontSize: "clamp(28px, 3.5vw, 40px)", fontWeight: 500, letterSpacing: "-0.03em", marginBottom: 8 }}>How it works</h2>
           <p style={{ fontSize: 20, fontWeight: 500, color: T.text, marginBottom: 48 }}>Three steps to go live</p>
+          </Reveal>
 
           <div className="el-g3" style={{ gap: 20 }}>
             {howItWorks.map((step, i) => (
-              <div key={step.title} style={{ padding: 32, borderRadius: T.radiusXl, border: sectionBorder, background: "#fff" }}>
+              <Reveal key={step.title} delayMs={i * 120}>
+              <div style={{ padding: 32, borderRadius: T.radiusXl, border: sectionBorder, background: "#fff" }} className="hover-lift">
                 <div style={{ width: 40, height: 40, borderRadius: 12, background: i === 0 ? T.accent : T.surface, color: i === 0 ? "#fff" : T.text, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, fontWeight: 700, marginBottom: 20, border: i === 0 ? "none" : sectionBorder }}>
                   {i + 1}
                 </div>
                 <h3 style={{ fontSize: 18, fontWeight: 600, marginBottom: 10, letterSpacing: "-0.01em" }}>{step.title}</h3>
                 <p style={{ fontSize: 14, color: T.muted, lineHeight: 1.6 }}>{step.desc}</p>
               </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -682,13 +615,17 @@ export default function RobotsPage() {
       {/* ════════════ CAPABILITIES ════════════ */}
       <section style={{ borderTop: sectionBorder, padding: "80px 24px", background: T.surface }}>
         <div style={{ maxWidth: T.maxW, margin: "0 auto" }}>
+          <Reveal>
           <h2 style={{ fontSize: "clamp(28px, 3.5vw, 40px)", fontWeight: 500, letterSpacing: "-0.03em", marginBottom: 48 }}>Built for operators</h2>
+          </Reveal>
           <div className="el-g4" style={{ gap: 20 }}>
-            {capabilities.map((cap) => (
-              <div key={cap.title} style={{ padding: 24, borderRadius: T.radiusLg, border: sectionBorder, background: "#fff" }}>
+            {capabilities.map((cap, i) => (
+              <Reveal key={cap.title} delayMs={i * 100}>
+              <div style={{ padding: 24, borderRadius: T.radiusLg, border: sectionBorder, background: "#fff" }} className="hover-lift">
                 <h3 style={{ fontSize: 16, fontWeight: 600, marginBottom: 8 }}>{cap.title}</h3>
                 <p style={{ fontSize: 14, color: T.muted, lineHeight: 1.6 }}>{cap.desc}</p>
               </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -697,12 +634,15 @@ export default function RobotsPage() {
       {/* ════════════ FULLY CUSTOMIZABLE ════════════ */}
       <section style={{ borderTop: sectionBorder, padding: "80px 24px" }}>
         <div style={{ maxWidth: T.maxW, margin: "0 auto" }}>
+          <Reveal>
           <h2 style={{ fontSize: "clamp(28px, 3.5vw, 40px)", fontWeight: 500, letterSpacing: "-0.03em", marginBottom: 8 }}>The Modulr advantage</h2>
           <p style={{ fontSize: 17, color: T.muted, marginBottom: 48 }}>Why operators and robot owners choose Modulr</p>
+          </Reveal>
 
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-            {customCards.map((card) => (
-              <div key={card.kicker} className="el-g-platform-inner" style={{ borderRadius: T.radiusXl, overflow: "hidden", border: sectionBorder, background: "#fff" }}>
+            {customCards.map((card, i) => (
+              <Reveal key={card.kicker} delayMs={i * 120}>
+              <div className="el-g-platform-inner hover-lift" style={{ borderRadius: T.radiusXl, overflow: "hidden", border: sectionBorder, background: "#fff" }}>
                 <div className="el-card-inner-text" style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
                   <div style={{ fontSize: 12, fontWeight: 700, color: T.muted, textTransform: "uppercase" as const, letterSpacing: "0.06em", marginBottom: 12 }}>{card.kicker}</div>
                   <h3 style={{ fontSize: 22, fontWeight: 600, letterSpacing: "-0.02em", lineHeight: 1.3, marginBottom: 12 }}>{card.title}</h3>
@@ -712,6 +652,7 @@ export default function RobotsPage() {
                   <div style={{ position: "absolute", inset: 0, background: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.15'/%3E%3C/svg%3E\")", backgroundSize: "256px 256px", mixBlendMode: "overlay" }} />
                 </div>
               </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -763,31 +704,7 @@ export default function RobotsPage() {
         </div>
       </section>
 
-      {/* ════════════ FOOTER ════════════ */}
-      <footer style={{ borderTop: sectionBorder, padding: "60px 24px 40px", background: "#fff" }}>
-        <div style={{ maxWidth: T.maxW, margin: "0 auto" }}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 40 }}>
-            <span style={{ fontWeight: 700, fontSize: 18, letterSpacing: "-0.02em" }}>Modulr</span>
-            <button style={{ padding: "6px 14px", borderRadius: 8, border: sectionBorder, background: "#fff", fontSize: 13, cursor: "pointer" }}>
-              English
-            </button>
-          </div>
-          <div className="el-g7">
-            {footerCols.map((col) => (
-              <div key={col.title}>
-                <div style={{ fontSize: 13, fontWeight: 600, color: T.text, marginBottom: 12 }}>{col.title}</div>
-                <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                  {col.links.map((link) => (
-                    <Link key={link.label} href={link.href} target={link.href.startsWith("http") ? "_blank" : undefined} rel={link.href.startsWith("http") ? "noreferrer" : undefined} style={{ fontSize: 13, color: T.muted, textDecoration: "none", transition: "color 0.15s" }}>
-                      {link.label}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </footer>
+      <ModulrFooter />
     </div>
   );
 }

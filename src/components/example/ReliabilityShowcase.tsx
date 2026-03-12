@@ -142,7 +142,7 @@ export function ReliabilityShowcase({ theme }: { theme: "dark" | "light" }) {
             </div>
 
             <Link
-              href="/technology-overview"
+              href="/robots"
               style={{
                 marginTop: 14,
                 display: "inline-flex",

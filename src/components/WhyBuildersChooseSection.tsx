@@ -85,7 +85,7 @@ export function WhyBuildersChooseSection({ className }: { className?: string }) 
                 <Reveal delayMs={160}>
                   <div className="mt-10 flex flex-wrap gap-3">
                     <Link
-                      href="/technology-overview"
+                      href="/robots"
                       className="inline-flex items-center justify-center rounded-full px-5 py-2.5 text-sm font-semibold transition ring-premium btn-secondary"
                     >
                       Explore technology

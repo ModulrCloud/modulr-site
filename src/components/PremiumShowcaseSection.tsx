@@ -42,7 +42,7 @@ export function PremiumShowcaseSection() {
                   Book a Demo
                 </a>
                 <Link
-                  href="/technology-overview"
+                  href="/robots"
                   className="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/[0.03] backdrop-blur-sm px-5 py-2.5 text-sm font-semibold text-white/80 transition hover:bg-white/[0.06] hover:text-white ring-premium"
                 >
                   Technology Overview

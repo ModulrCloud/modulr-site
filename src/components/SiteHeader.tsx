@@ -13,9 +13,9 @@ const nav = [
   { label: "Research", href: "/research" },
   { label: "News", href: "/news" },
   { label: "Careers", href: "/careers" },
-  { label: "Technology", href: "/technology-overview" },
+  { label: "Technology", href: "/robots" },
   { label: "Team", href: "/team" },
-  { label: "Pricing", href: "/pricing" },
+  { label: "Careers", href: "/careers" },
 ];
 
 function MenuIcon({ className }: { className?: string }) {

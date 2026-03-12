@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { ModulrFooter } from "@/components/ModulrFooter";
 
 /* ───────────────────────── DESIGN TOKENS ───────────────────────── */
 const T = {
@@ -135,90 +136,6 @@ const faqs = [
   { q: "Are APIs available?", a: "Yes. All Modulr capabilities — including data marketplace, staking, governance, and compute credits — are available via REST APIs and TypeScript/Python SDKs." },
 ];
 
-/* ───────────────────────── FOOTER ───────────────────────── */
-const footerCols = [
-  {
-    title: "Platform",
-    links: [
-      { label: "Operator Console", href: "https://app.modulr.cloud" },
-      { label: "Fleet Management", href: "/technology-overview" },
-      { label: "Teleoperation", href: "/technology-overview" },
-      { label: "Data Marketplace", href: "#" },
-      { label: "Staking", href: "#" },
-      { label: "Explorer", href: "https://testnet.explorer.modulr.cloud" },
-      { label: "Switchboard", href: "#" },
-      { label: "Games Arena", href: "#" },
-    ],
-  },
-  {
-    title: "Products",
-    links: [
-      { label: "Modulr SDK", href: "https://docs.modulr.cloud" },
-      { label: "Modulr Agent", href: "#" },
-      { label: "Teleoperation API", href: "https://docs.modulr.cloud" },
-      { label: "Fleet API", href: "https://docs.modulr.cloud" },
-      { label: "Network API", href: "https://docs.modulr.cloud" },
-      { label: "Digital Twins", href: "#" },
-      { label: "Compute Credits", href: "#" },
-    ],
-  },
-  {
-    title: "Solutions",
-    links: [
-      { label: "For Enterprise", href: "#" },
-      { label: "For Developers", href: "https://docs.modulr.cloud" },
-      { label: "For Robot Owners", href: "#" },
-      { label: "For Operators", href: "#" },
-      { label: "Industrial", href: "#" },
-      { label: "Entertainment", href: "#" },
-      { label: "Defense & Security", href: "#" },
-      { label: "Healthcare", href: "#" },
-    ],
-  },
-  {
-    title: "Earn",
-    links: [
-      { label: "List Your Robot", href: "#" },
-      { label: "Become a Validator", href: "#" },
-      { label: "Data Provider", href: "#" },
-      { label: "Compute Provider", href: "#" },
-      { label: "Affiliate Program", href: "#" },
-    ],
-  },
-  {
-    title: "Resources",
-    links: [
-      { label: "Documentation", href: "https://docs.modulr.cloud" },
-      { label: "API Reference", href: "https://docs.modulr.cloud" },
-      { label: "Help Center", href: "#" },
-      { label: "Tokenomics", href: "#" },
-      { label: "Governance", href: "#" },
-      { label: "Terms", href: "#" },
-      { label: "Privacy", href: "#" },
-    ],
-  },
-  {
-    title: "Socials",
-    links: [
-      { label: "X (Twitter)", href: "https://x.com/Modulr_Robotics" },
-      { label: "LinkedIn", href: "http://linkedin.com/company/modulrcloud" },
-      { label: "GitHub", href: "https://github.com/ModulrCloud" },
-      { label: "Linktree", href: "https://linktr.ee/modulr.cloud" },
-      { label: "Telegram", href: "https://t.me/Modulr_Robotics" },
-    ],
-  },
-  {
-    title: "Company",
-    links: [
-      { label: "About", href: "/team" },
-      { label: "Research", href: "/research" },
-      { label: "News", href: "/news" },
-      { label: "Careers", href: "/careers" },
-      { label: "Roadmap", href: "/roadmap" },
-      { label: "Brand & Press Kit", href: "#" },
-    ],
-  },
-];
 
 const glossyUseCases = [
   {
@@ -2264,32 +2181,7 @@ export default function Web3Page() {
           ))}
         </div>
       </section>
-
-      {/* ════════════ FOOTER ════════════ */}
-      <footer style={{ borderTop: sectionBorder, padding: "60px 24px 40px", background: "#fff" }}>
-        <div style={{ maxWidth: T.maxW, margin: "0 auto" }}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 40 }}>
-            <span style={{ fontWeight: 700, fontSize: 18, letterSpacing: "-0.02em" }}>Modulr</span>
-            <button style={{ padding: "6px 14px", borderRadius: 8, border: sectionBorder, background: "#fff", fontSize: 13, cursor: "pointer" }}>
-              English
-            </button>
-          </div>
-          <div className="el-g7">
-            {footerCols.map((col) => (
-              <div key={col.title}>
-                <div style={{ fontSize: 13, fontWeight: 600, color: T.text, marginBottom: 12 }}>{col.title}</div>
-                <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                  {col.links.map((link) => (
-                    <Link key={link.label} href={link.href} target={link.href.startsWith("http") ? "_blank" : undefined} rel={link.href.startsWith("http") ? "noreferrer" : undefined} style={{ fontSize: 13, color: T.muted, textDecoration: "none", transition: "color 0.15s" }}>
-                      {link.label}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </footer>
+      <ModulrFooter />
 
       {/* Bento grid + showcase responsive styles */}
       <style>{`

@@ -153,7 +153,7 @@ export function SiteFooter() {
               <li>
                 <Link
                   className="hover:text-white ring-premium rounded"
-                  href="/technology-overview"
+                  href="/robots"
                 >
                   Technology
                 </Link>
@@ -164,8 +164,8 @@ export function SiteFooter() {
                 </Link>
               </li>
               <li>
-                <Link className="hover:text-white ring-premium rounded" href="/pricing">
-                  Pricing
+                <Link className="hover:text-white ring-premium rounded" href="/careers">
+                  Careers
                 </Link>
               </li>
             </ul>
