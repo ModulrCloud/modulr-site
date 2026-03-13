@@ -267,8 +267,8 @@ export default function HomePage() {
       </header>
 
       {/* ════════════ HERO ════════════ */}
-      <section style={{ padding: `${T.sectionPy} 24px 60px`, maxWidth: T.maxW, margin: "0 auto", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", position: "relative" }}>
-        <FloatingOrbs variant="gold" count={4} />
+      <section style={{ padding: `${T.sectionPy} 24px 60px`, maxWidth: T.maxW, margin: "0 auto", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", position: "relative", overflow: "visible" }}>
+        <FloatingOrbs variant="gold" count={4} bleedX={260} />
         <Reveal3D variant="zoom">
           <h1 className="text-shimmer" style={{ fontSize: "clamp(48px, 7vw, 80px)", fontWeight: 500, letterSpacing: "-0.04em", lineHeight: 1.02, maxWidth: 800, position: "relative", zIndex: 1 }}>
           Robot Operation<br />at Scale
@@ -664,8 +664,8 @@ export default function HomePage() {
 
       {/* ════════════ TELEOPERATION SECTION ════════════ */}
       <div className="section-divider" style={{ maxWidth: T.maxW, margin: "0 auto" }} />
-      <section style={{ padding: `${T.sectionPy} 24px`, maxWidth: T.maxW, margin: "0 auto", position: "relative" }}>
-        <FloatingOrbs variant="blue" count={3} />
+      <section style={{ padding: `${T.sectionPy} 24px`, maxWidth: T.maxW, margin: "0 auto", position: "relative", overflow: "visible" }}>
+        <FloatingOrbs variant="blue" count={3} bleedX={260} />
         <Reveal3D variant="slide-left">
           <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 48, flexWrap: "wrap", gap: 20 }}>
             <div>
@@ -894,8 +894,8 @@ export default function HomePage() {
       </section>
 
       {/* ════════════ ROBOTIC 3D VISUAL ════════════ */}
-      <section style={{ maxWidth: T.maxW, margin: "0 auto", padding: `${T.sectionPy} 24px`, position: "relative" }}>
-        <FloatingOrbs variant="purple" count={3} />
+      <section style={{ maxWidth: T.maxW, margin: "0 auto", padding: `${T.sectionPy} 24px`, position: "relative", overflow: "visible" }}>
+        <FloatingOrbs variant="purple" count={3} bleedX={260} />
         <Reveal3D variant="zoom">
         <div style={{ textAlign: "center", marginBottom: 40, position: "relative", zIndex: 1 }}>
           <span className="glass-3d" style={{ display: "inline-block", padding: "6px 16px", borderRadius: T.radiusPill, fontSize: 13, fontWeight: 500, color: T.muted, marginBottom: 16 }}>
@@ -909,7 +909,6 @@ export default function HomePage() {
           </p>
         </div>
         </Reveal3D>
-        <Reveal3D variant="pop" delayMs={150}>
         <Tilt3D intensity={4} scale={1.01} style={{ borderRadius: T.radiusXl }}>
           <div className="depth-shadow" style={{ borderRadius: T.radiusXl, border: sectionBorder, background: T.surface, overflow: "hidden", height: "clamp(400px, 50vh, 560px)" }}>
             <Suspense fallback={<div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", color: T.muted, fontSize: 14 }}>Loading 3D…</div>}>
@@ -917,7 +916,6 @@ export default function HomePage() {
             </Suspense>
           </div>
         </Tilt3D>
-        </Reveal3D>
       </section>
 
       {/* ════════════ DEVELOPER SDK ════════════ */}
