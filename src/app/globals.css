@@ -326,6 +326,7 @@ body {
 .el-g-util { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
 .el-g-masonry { display: grid; grid-template-columns: 1fr 1.2fr 0.8fr; grid-template-rows: auto auto; gap: 12px; grid-auto-flow: dense; }
 .el-g-platform-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+.el-g-platform-sticky { display: grid; grid-template-columns: minmax(280px, 0.85fr) minmax(0, 1.15fr); gap: 56px; align-items: start; }
 .el-desktop-only { display: flex; }
 .el-mobile-only { display: none; }
 .el-mobile-menu { display: none; flex-direction: column; padding: 16px 24px; gap: 4px; border-bottom: 1px solid rgba(0,0,0,0.08); background: rgba(255,255,255,0.98); }
@@ -356,6 +357,7 @@ body {
   .el-g-masonry { grid-template-columns: 1fr; }
   .el-g-masonry > * { grid-row: auto !important; }
   .el-g-platform-inner { grid-template-columns: 1fr; }
+  .el-g-platform-sticky { grid-template-columns: 1fr; gap: 28px; }
   .el-desktop-only { display: none !important; }
   .el-mobile-only { display: flex !important; }
   .el-card-inner-text { padding: 24px 20px; }

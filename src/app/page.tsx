@@ -152,18 +152,61 @@ const networkStats = [
 export default function HomePage() {
   const [activeRoadmapIdx, setActiveRoadmapIdx] = useState(roadmapDates.length - 1);
   const timelineRef = useRef<HTMLDivElement>(null);
+  const platformSectionRef = useRef<HTMLElement | null>(null);
+  const [platformLeadOffset, setPlatformLeadOffset] = useState(0);
   const mobileNav = useMobileNav();
 
+
+  useEffect(() => {
+    let raf = 0;
+
+    const update = () => {
+      raf = 0;
+      const el = platformSectionRef.current;
+      if (!el || typeof window === "undefined") return;
+
+      if (window.innerWidth <= 1024) {
+        setPlatformLeadOffset(0);
+        return;
+      }
+
+      const rect = el.getBoundingClientRect();
+      const viewportH = window.innerHeight;
+      const start = viewportH * 0.32;
+      const end = -rect.height * 0.42;
+      const rawProgress = (start - rect.top) / (start - end);
+      const progress = Math.max(0, Math.min(1, rawProgress));
+      const delayedProgress = Math.max(0, Math.min(1, (progress - 0.1) / 0.9));
+      const easedProgress = delayedProgress * delayedProgress * (3 - 2 * delayedProgress);
+      setPlatformLeadOffset(easedProgress * 710);
+    };
+
+    const requestUpdate = () => {
+      if (!raf) raf = window.requestAnimationFrame(update);
+    };
+
+    requestUpdate();
+    window.addEventListener("scroll", requestUpdate, { passive: true });
+    window.addEventListener("resize", requestUpdate);
+
+    return () => {
+      if (raf) window.cancelAnimationFrame(raf);
+      window.removeEventListener("scroll", requestUpdate);
+      window.removeEventListener("resize", requestUpdate);
+    };
+  }, []);
 
   const sectionBorder = `1px solid ${T.border}`;
 
   return (
-    <div style={{ background: T.bg, color: T.text, fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' }}>
+    <div style={{ background: T.bg, color: T.text, fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif', paddingTop: 64 }}>
       {/* ════════════ HEADER ════════════ */}
       <header
         style={{
-          position: "sticky",
+          position: "fixed",
           top: 0,
+          left: 0,
+          right: 0,
           zIndex: 100,
           background: "rgba(255,255,255,0.82)",
           backdropFilter: "blur(20px)",
@@ -248,13 +291,11 @@ export default function HomePage() {
       {/* ════════════ 3D VISUAL ════════════ */}
       <section style={{ maxWidth: T.maxW, margin: "0 auto", padding: "0 24px 80px" }}>
         <Reveal3D variant="pop">
-        <Tilt3D intensity={4} scale={1.01} style={{ borderRadius: T.radiusXl }}>
           <div className="depth-shadow" style={{ borderRadius: T.radiusXl, border: sectionBorder, background: T.surface, overflow: "hidden", height: "clamp(400px, 50vh, 560px)" }}>
             <Suspense fallback={<div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", color: T.muted, fontSize: 14 }}>Loading 3D…</div>}>
               <HeroScene3D />
             </Suspense>
           </div>
-        </Tilt3D>
         </Reveal3D>
       </section>
 
@@ -356,58 +397,88 @@ export default function HomePage() {
 
       {/* ════════════ PLATFORM CARDS (Monetize robots. Globally.) ════════════ */}
       <div className="section-divider" style={{ maxWidth: T.maxW, margin: "0 auto" }} />
-      <section style={{ padding: `${T.sectionPy} 24px`, maxWidth: T.maxW, margin: "0 auto" }}>
-        <Reveal3D variant="zoom">
-          <h2 style={{ fontSize: "clamp(28px, 4vw, 42px)", fontWeight: 500, letterSpacing: "-0.03em", textAlign: "center", marginBottom: 12 }}>
-            Monetize robots. <span style={{ color: T.muted }}>Globally.</span>
-          </h2>
-          <p style={{ fontSize: 16, color: T.muted, textAlign: "center", maxWidth: 600, margin: "0 auto 48px", lineHeight: 1.6 }}>
-            From sourcing global robot liquidity to earning from idle assets — everything you need to build a robotics business on one platform.
-          </p>
-        </Reveal3D>
+      <section ref={platformSectionRef} style={{ padding: `${T.sectionPy} 24px`, maxWidth: T.maxW, margin: "0 auto" }}>
+        <div className="el-g-platform-sticky">
+          <div
+            style={{
+              position: "sticky",
+              top: 112,
+              alignSelf: "start",
+              transform: `translateY(${platformLeadOffset}px)`,
+              willChange: "transform",
+            }}
+          >
+            <Reveal3D variant="slide-left">
+              <div>
+              <div style={{ fontSize: 13, color: T.muted2, marginBottom: 10 }}>Monetization</div>
+              <h2 style={{ fontSize: "clamp(34px, 4.8vw, 56px)", fontWeight: 500, letterSpacing: "-0.04em", lineHeight: 1.02, maxWidth: 420 }}>
+                Monetize robots.
+                <br />
+                <span style={{ color: T.muted }}>Globally.</span>
+              </h2>
+              <p style={{ marginTop: 18, fontSize: 16, color: T.muted, maxWidth: 430, lineHeight: 1.7 }}>
+                From sourcing global robot liquidity to earning from idle assets, everything you need
+                to build a robotics business on one platform.
+              </p>
+              </div>
+            </Reveal3D>
+          </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 32 }}>
-          {platformCards.map((card, idx) => (
-            <Reveal3D key={`r-${card.number}`} variant={idx % 2 === 0 ? "slide-left" : "slide-right"} delayMs={idx * 80}>
-            <Tilt3D
-              key={card.number}
-              intensity={5}
-              scale={1.01}
-              style={{
-                position: "sticky",
-                top: 80 + idx * 20,
-                zIndex: idx + 1,
-                borderRadius: T.radiusXl,
-              }}
-            >
-              <div
-                className="depth-shadow glass-3d"
-                style={{
-                  borderRadius: T.radiusXl,
-                  border: sectionBorder,
-                  background: "#fff",
-                  overflow: "hidden",
-                  boxShadow: "0 4px 24px rgba(0,0,0,0.06)",
-                }}
-              >
-                <div className="el-g-platform-inner">
-                  <div className="el-card-inner-text">
-                    <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 16 }}>
-                      <span style={{ fontSize: 14, fontWeight: 700, letterSpacing: "0.08em", color: T.muted2 }}>{card.number}</span>
-                      <span style={{ fontSize: 12, fontWeight: 600, letterSpacing: "0.08em", color: T.muted2, textTransform: "uppercase" }}>{card.subtitle}</span>
+          <div>
+            {platformCards.map((card, idx) => (
+              <Reveal3D key={`platform-${card.number}`} variant="rise" delayMs={idx * 80}>
+                <div
+                  style={{
+                    padding: idx === 0 ? "0 0 34px" : "34px 0",
+                    borderTop: idx === 0 ? "none" : sectionBorder,
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "minmax(0, 1fr) auto",
+                      gap: 20,
+                      alignItems: "start",
+                    }}
+                  >
+                    <div>
+                      <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14, flexWrap: "wrap" }}>
+                        <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.08em", color: T.muted2 }}>{card.number}</span>
+                        <span style={{ fontSize: 12, fontWeight: 600, letterSpacing: "0.08em", color: T.muted2, textTransform: "uppercase" }}>{card.subtitle}</span>
+                      </div>
+                      <h3 style={{ fontSize: "clamp(28px, 3.2vw, 40px)", fontWeight: 500, letterSpacing: "-0.03em", lineHeight: 1.12 }}>
+                        {card.title}
+                      </h3>
+                      <p style={{ marginTop: 14, maxWidth: 620, fontSize: 16, color: T.muted, lineHeight: 1.72 }}>
+                        {card.desc}
+                      </p>
                     </div>
-                    <h3 style={{ fontSize: 28, fontWeight: 600, letterSpacing: "-0.02em", lineHeight: 1.2, marginBottom: 16 }}>{card.title}</h3>
-                    <p style={{ fontSize: 15, color: T.muted, lineHeight: 1.65 }}>{card.desc}</p>
-                  </div>
-                  <div style={{ background: card.gradient, padding: 32, display: "flex", alignItems: "center", justifyContent: "center", minHeight: 300, position: "relative", overflow: "hidden" }}>
-                    <AbstractOverlay index={idx} />
-                    <div style={{ fontSize: 64, fontWeight: 800, color: "rgba(255,255,255,0.4)", letterSpacing: "-0.04em", position: "relative", zIndex: 2 }}>{card.number}</div>
+
+                    <div
+                      style={{
+                        width: 54,
+                        height: 54,
+                        borderRadius: "50%",
+                        border: sectionBorder,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        color: T.text,
+                        flexShrink: 0,
+                        marginTop: 4,
+                        background: "#fff",
+                      }}
+                    >
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M7 17L17 7" />
+                        <path d="M8 7h9v9" />
+                      </svg>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </Tilt3D>
-            </Reveal3D>
-          ))}
+              </Reveal3D>
+            ))}
+          </div>
         </div>
       </section>
 

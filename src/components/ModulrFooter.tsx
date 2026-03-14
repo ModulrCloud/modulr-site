@@ -175,11 +175,11 @@ export function ModulrFooter({ showCta = false }: { showCta?: boolean }) {
           width: 44,
           height: 44,
           borderRadius: 12,
-          background: "rgba(255,255,255,0.9)",
+          background: "rgba(0,0,0,0.92)",
           backdropFilter: "blur(12px)",
           WebkitBackdropFilter: "blur(12px)",
-          border: sectionBorder,
-          boxShadow: "0 4px 16px rgba(0,0,0,0.08)",
+          border: "1px solid rgba(255,255,255,0.08)",
+          boxShadow: "0 10px 24px rgba(0,0,0,0.18)",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -191,7 +191,7 @@ export function ModulrFooter({ showCta = false }: { showCta?: boolean }) {
           zIndex: 50,
         }}
       >
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <path d="M18 15l-6-6-6 6" />
         </svg>
       </button>

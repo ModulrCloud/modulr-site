@@ -313,98 +313,121 @@ export default function ResearchArticlePage() {
     <div style={{ background: T.bg, color: T.text, fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' }}>
       <PageHeader isMobileNavOpen={isMobileNavOpen} setIsMobileNavOpen={setIsMobileNavOpen} />
 
-      {/* HERO VISUAL — full-width gradient card */}
-      <section style={{ padding: "0 24px", maxWidth: T.maxWFull, margin: "0 auto", paddingTop: 32 }}>
-        <div style={{
+      {/* HERO VISUAL — full-bleed editorial cover */}
+      <section
+        style={{
           position: "relative",
+          width: "100%",
+          minHeight: "clamp(420px, 58vh, 680px)",
           overflow: "hidden",
-          borderRadius: T.radiusXl,
-          minHeight: 400,
-        }}>
-          {/* Base gradient */}
-          <div style={{ position: "absolute", inset: 0, background: visual.bg }} />
-          {/* Noise grain overlay */}
-          <div style={{ position: "absolute", inset: 0, backgroundImage: noiseOverlaySvg, backgroundSize: "256px 256px", mixBlendMode: "overlay", opacity: 0.7 }} />
-          {/* Pattern */}
-          {visual.pattern && <div style={{ position: "absolute", inset: 0, backgroundImage: visual.pattern, backgroundSize: "400px 400px" }} />}
-          {/* SVG geometry */}
-          {visual.svg}
+          background: visual.bg,
+        }}
+      >
+        <div style={{ position: "absolute", inset: 0, backgroundImage: noiseOverlaySvg, backgroundSize: "256px 256px", mixBlendMode: "overlay", opacity: 0.72 }} />
+        {visual.pattern && <div style={{ position: "absolute", inset: 0, backgroundImage: visual.pattern, backgroundSize: "420px 420px", opacity: 0.92 }} />}
+        {visual.svg}
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            background: [
+              "linear-gradient(180deg, rgba(8,10,16,0.28) 0%, rgba(8,10,16,0.18) 24%, rgba(8,10,16,0.62) 100%)",
+              "linear-gradient(90deg, rgba(8,10,16,0.72) 0%, rgba(8,10,16,0.34) 46%, rgba(8,10,16,0.16) 100%)",
+            ].join(", "),
+          }}
+        />
 
-          {/* Content overlay */}
-          <div style={{
+        <div
+          style={{
             position: "relative",
             zIndex: 2,
+            maxWidth: 1280,
+            margin: "0 auto",
+            minHeight: "clamp(420px, 58vh, 680px)",
             display: "flex",
             flexDirection: "column",
             justifyContent: "flex-end",
-            minHeight: 400,
-            padding: "48px 48px 40px",
-          }}>
-            {/* Category + Tags row */}
+            padding: "clamp(72px, 10vw, 120px) 24px clamp(56px, 7vw, 72px)",
+          }}
+        >
+          <div style={{ maxWidth: 720 }}>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 20 }}>
-              <span style={{
-                padding: "5px 14px",
-                borderRadius: T.radiusPill,
-                background: "rgba(255,255,255,0.92)",
-                fontSize: 11,
-                fontWeight: 700,
-                letterSpacing: "0.06em",
-                textTransform: "uppercase" as const,
-                color: T.text,
-              }}>
+              <span
+                style={{
+                  padding: "6px 14px",
+                  borderRadius: T.radiusPill,
+                  background: "rgba(255,255,255,0.92)",
+                  fontSize: 11,
+                  fontWeight: 700,
+                  letterSpacing: "0.06em",
+                  textTransform: "uppercase" as const,
+                  color: T.text,
+                }}
+              >
                 {post.category}
               </span>
               {post.tags.map((tag) => (
-                <span key={tag} style={{
-                  padding: "5px 14px",
-                  borderRadius: T.radiusPill,
-                  background: "rgba(255,255,255,0.2)",
-                  backdropFilter: "blur(8px)",
-                  fontSize: 11,
-                  fontWeight: 600,
-                  letterSpacing: "0.04em",
-                  color: "#fff",
-                }}>
+                <span
+                  key={tag}
+                  style={{
+                    padding: "6px 14px",
+                    borderRadius: T.radiusPill,
+                    background: "rgba(255,255,255,0.14)",
+                    border: "1px solid rgba(255,255,255,0.12)",
+                    backdropFilter: "blur(10px)",
+                    WebkitBackdropFilter: "blur(10px)",
+                    fontSize: 11,
+                    fontWeight: 600,
+                    letterSpacing: "0.04em",
+                    color: "#fff",
+                  }}
+                >
                   {tag}
                 </span>
               ))}
             </div>
 
-            {/* Title */}
-            <h1 style={{
-              fontSize: "clamp(32px, 5vw, 48px)",
-              fontWeight: 600,
-              color: "#fff",
-              letterSpacing: "-0.03em",
-              lineHeight: 1.1,
-              maxWidth: 700,
-              textShadow: "0 2px 20px rgba(0,0,0,0.15)",
-              marginBottom: 16,
-            }}>
+            <h1
+              style={{
+                fontSize: "clamp(38px, 5.6vw, 64px)",
+                fontWeight: 560,
+                color: "#fff",
+                letterSpacing: "-0.05em",
+                lineHeight: 1.01,
+                maxWidth: 760,
+                textShadow: "0 10px 36px rgba(0,0,0,0.26)",
+                marginBottom: 16,
+                textWrap: "balance",
+              }}
+            >
               {post.title}
             </h1>
 
-            {/* Excerpt */}
-            <p style={{
-              fontSize: 17,
-              color: "rgba(255,255,255,0.78)",
-              lineHeight: 1.55,
-              maxWidth: 560,
-              marginBottom: 16,
-            }}>
+            <p
+              style={{
+                fontSize: "clamp(16px, 1.8vw, 19px)",
+                color: "rgba(255,255,255,0.76)",
+                lineHeight: 1.6,
+                maxWidth: 560,
+                marginBottom: 16,
+                textShadow: "0 4px 20px rgba(0,0,0,0.18)",
+              }}
+            >
               {post.excerpt}
             </p>
 
-            {/* Meta row */}
-            <div style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 16,
-              fontSize: 14,
-              color: "rgba(255,255,255,0.6)",
-            }}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 16,
+                flexWrap: "wrap",
+                fontSize: 14,
+                color: "rgba(255,255,255,0.68)",
+              }}
+            >
               <span>{post.date}</span>
-              <span style={{ width: 3, height: 3, borderRadius: "50%", background: "rgba(255,255,255,0.4)" }} />
+              <span style={{ width: 3, height: 3, borderRadius: "50%", background: "rgba(255,255,255,0.42)" }} />
               <span>{post.readingMinutes} min read</span>
             </div>
           </div>
@@ -412,7 +435,23 @@ export default function ResearchArticlePage() {
       </section>
 
       {/* ARTICLE BODY */}
-      <article style={{ maxWidth: T.maxW, margin: "0 auto", padding: "60px 24px 80px" }}>
+      <article
+        style={{
+          maxWidth: 960,
+          margin: "-72px auto 0",
+          padding: "0 24px 80px",
+          position: "relative",
+          zIndex: 3,
+        }}
+      >
+        <div
+          style={{
+            background: "#fff",
+            borderRadius: "32px 32px 0 0",
+            boxShadow: "0 24px 80px rgba(0,0,0,0.08)",
+            padding: "40px 0 0",
+          }}
+        >
         {/* Optional: Table of contents indicator */}
         <div style={{
           display: "flex",
@@ -420,6 +459,8 @@ export default function ResearchArticlePage() {
           gap: 12,
           marginBottom: 48,
           paddingBottom: 32,
+          paddingLeft: 40,
+          paddingRight: 40,
           borderBottom: sectionBorder,
         }}>
           <div style={{
@@ -441,13 +482,15 @@ export default function ResearchArticlePage() {
         </div>
 
         {/* Body content */}
-        <ArticleBody body={post.body} />
+        <div style={{ paddingLeft: 40, paddingRight: 40 }}>
+          <ArticleBody body={post.body} />
+        </div>
 
         {/* Divider */}
-        <div style={{ height: 1, background: T.border, marginTop: 60, marginBottom: 40 }} />
+        <div style={{ height: 1, background: T.border, marginTop: 60, marginBottom: 40, marginLeft: 40, marginRight: 40 }} />
 
         {/* Back link */}
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingLeft: 40, paddingRight: 40, paddingBottom: 40 }}>
           <Link href="/research" style={{
             display: "inline-flex",
             alignItems: "center",
@@ -499,6 +542,7 @@ export default function ResearchArticlePage() {
             </svg>
             Copy link
           </button>
+        </div>
         </div>
       </article>
 
