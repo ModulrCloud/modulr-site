@@ -265,7 +265,7 @@ export default function HomePage() {
 
       {/* ════════════ HERO ════════════ */}
       <section style={{ padding: `${T.sectionPy} 24px 60px`, maxWidth: T.maxW, margin: "0 auto", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", position: "relative", overflow: "visible" }}>
-        <FloatingOrbs variant="gold" count={4} bleedX={260} />
+        <FloatingOrbs variant="gold" count={4} bleedX={260} bleedY={180} />
         <Reveal3D variant="zoom">
           <h1 className="text-shimmer" style={{ fontSize: "clamp(48px, 7vw, 80px)", fontWeight: 500, letterSpacing: "-0.04em", lineHeight: 1.02, maxWidth: 800, position: "relative", zIndex: 1 }}>
           Robot Operation<br />at Scale
@@ -303,96 +303,296 @@ export default function HomePage() {
       <section style={{ padding: "64px 24px 72px" }}>
         <div style={{ maxWidth: T.maxW, margin: "0 auto" }}>
           <Reveal>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 40 }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap", marginBottom: 28 }}>
               <h2 style={{ fontSize: 20, fontWeight: 500, color: T.text }}>Trusted by leading developers and enterprises</h2>
               <Link href="/research" className="link-underline" style={{ fontSize: 14, color: T.muted, textDecoration: "none" }}>Read all stories</Link>
             </div>
           </Reveal>
-          <div style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))",
-            gap: 0,
-            border: sectionBorder,
-            borderRadius: T.radiusLg,
-            overflow: "hidden",
-            background: T.surface,
-          }}>
-            {trustedLogos.map((company, i) => (
-              <div
-                key={company.name}
-                title={company.name}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  padding: "28px 24px",
-                  borderRight: (i < trustedLogos.length - 1) ? sectionBorder : "none",
-                  transition: "background 0.2s",
-                  cursor: "pointer",
-                }}
-                onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(0,0,0,0.03)"; (e.currentTarget.querySelector("img") as HTMLElement).style.opacity = "0.8"; }}
-                onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; (e.currentTarget.querySelector("img") as HTMLElement).style.opacity = "0.4"; }}
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={company.logo}
-                  alt={company.name}
-                  style={{ height: 22, width: "auto", maxWidth: 120, objectFit: "contain", filter: "brightness(0)", opacity: 0.4, transition: "opacity 0.2s" }}
-                />
-              </div>
-            ))}
+          <div
+            className="mask-fade-x"
+            style={{
+              position: "relative",
+              overflow: "hidden",
+              padding: "12px 0",
+            }}
+          >
+            <div
+              className="animate-marquee-slow"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                width: "max-content",
+                gap: 0,
+              }}
+            >
+              {[...trustedLogos, ...trustedLogos].map((company, i) => (
+                <div
+                  key={`${company.name}-${i}`}
+                  title={company.name}
+                  style={{
+                    flex: "0 0 auto",
+                    minWidth: "clamp(160px, 16vw, 210px)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    padding: "20px 28px",
+                    borderTop: sectionBorder,
+                    borderBottom: sectionBorder,
+                    borderRight: sectionBorder,
+                    background: "color-mix(in oklab, var(--background) 96%, white 4%)",
+                    transition: "background 0.2s ease, opacity 0.2s ease",
+                    cursor: "pointer",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = "color-mix(in oklab, var(--background) 92%, white 8%)";
+                    (e.currentTarget.querySelector("img") as HTMLElement).style.opacity = "0.8";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = "color-mix(in oklab, var(--background) 96%, white 4%)";
+                    (e.currentTarget.querySelector("img") as HTMLElement).style.opacity = "0.48";
+                  }}
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={company.logo}
+                    alt={company.name}
+                    style={{
+                      height: 24,
+                      width: "auto",
+                      maxWidth: 132,
+                      objectFit: "contain",
+                      filter: "brightness(0)",
+                      opacity: 0.48,
+                      transition: "opacity 0.2s ease",
+                    }}
+                  />
+                </div>
+              ))}
+            </div>
+            <div
+              aria-hidden="true"
+              style={{
+                pointerEvents: "none",
+                position: "absolute",
+                inset: 0,
+                background: [
+                  "linear-gradient(90deg, var(--background) 0%, rgba(255,255,255,0) 12%)",
+                  "linear-gradient(270deg, var(--background) 0%, rgba(255,255,255,0) 12%)",
+                ].join(", "),
+              }}
+            />
           </div>
         </div>
       </section>
 
       {/* ════════════ A NEW ROBOTICS PARADIGM ════════════ */}
       <div className="section-divider" style={{ maxWidth: T.maxW, margin: "0 auto" }} />
-      <section style={{ padding: `${T.sectionPy} 24px`, maxWidth: T.maxW, margin: "0 auto" }}>
-        <Reveal>
-          <div style={{ marginBottom: 48 }}>
-            <div style={{ fontSize: 13, color: T.muted2, marginBottom: 8 }}>Discover</div>
-            <h2 style={{ fontSize: "clamp(32px, 5vw, 52px)", fontWeight: 500, letterSpacing: "-0.03em", lineHeight: 1.08 }}>
-              A New Robotics Paradigm
-            </h2>
-            <p style={{ marginTop: 16, fontSize: 16, color: T.muted, maxWidth: 640, lineHeight: 1.65 }}>
-              Built for today&apos;s operators and tomorrow&apos;s decentralized machine economy. Modular controls, real-time network telemetry, and enterprise-grade governance in one stack.
-            </p>
-          </div>
-        </Reveal>
-        <div className="el-g2">
-          {[
-            { name: "Operator Console", desc: "Control robots, monitor missions, and manage handoffs in one unified interface.", gradient: "linear-gradient(135deg, #ffecd2, #fcb69f)", href: "https://app.modulr.cloud", image: "/session-history-screenshot.png" },
-            { name: "Modulr Network", desc: "Stake, trade data, govern the protocol, and access decentralized compute for robot AI.", gradient: "linear-gradient(135deg, #a8edea, #d1c4e9)" , href: "/web3" },
-          ].map((p, i) => (
-            <Reveal3D key={p.name} delayMs={i * 150} variant={i === 0 ? "slide-left" : "slide-right"}>
-            <Tilt3D intensity={6} style={{ borderRadius: T.radiusXl }}>
-            <Link
-              href={p.href}
-              className="depth-shadow card-shine"
+      <section
+        style={{
+          padding: `${T.sectionPy} 0`,
+          width: "100vw",
+          marginLeft: "calc(50% - 50vw)",
+          marginRight: "calc(50% - 50vw)",
+        }}
+      >
+        <div style={{ maxWidth: T.maxW, margin: "0 auto", padding: "0 24px" }}>
+          <Reveal>
+            <div style={{ marginBottom: 48 }}>
+              <div style={{ fontSize: 13, color: T.muted2, marginBottom: 8 }}>Discover</div>
+              <h2 style={{ fontSize: "clamp(32px, 5vw, 52px)", fontWeight: 500, letterSpacing: "-0.03em", lineHeight: 1.08 }}>
+                A New Robotics Paradigm
+              </h2>
+              <p style={{ marginTop: 16, fontSize: 16, color: T.muted, maxWidth: 640, lineHeight: 1.65 }}>
+                Built for today&apos;s operators and tomorrow&apos;s decentralized machine economy. Modular controls, real-time network telemetry, and enterprise-grade governance in one stack.
+              </p>
+            </div>
+          </Reveal>
+        </div>
+        <Reveal3D variant="pop" delayMs={80}>
+          <Link
+            href="https://app.modulr.cloud"
+            className="depth-shadow card-shine"
+            style={{
+              position: "relative",
+              display: "block",
+              minHeight: 520,
+              borderRadius: 0,
+              overflow: "hidden",
+              border: sectionBorder,
+              textDecoration: "none",
+              color: "inherit",
+              background: "#101114",
+            }}
+          >
+            <div
               style={{
-                borderRadius: T.radiusXl,
-                border: sectionBorder,
-                overflow: "hidden",
-                cursor: "pointer",
-                textDecoration: "none",
-                color: "inherit",
-                display: "block",
+                position: "absolute",
+                inset: 0,
+                opacity: 1,
               }}
             >
-              <div style={{ height: 200, background: p.gradient, position: "relative", overflow: "hidden" }}>
-                {p.image && <Image src={p.image} fill style={{ objectFit: "cover", objectPosition: "left top" }} alt={p.name} />}
-                {!p.image && <AbstractOverlay index={3} viewBox="0 0 500 200" />}
+              <video
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  objectPosition: "center center",
+                }}
+              >
+                <source src="/Robot_Video_2.mp4" type="video/mp4" />
+              </video>
+            </div>
+            <div
+              style={{
+                position: "absolute",
+                inset: 0,
+                background: [
+                  "linear-gradient(90deg, rgba(10,12,18,0.46) 0%, rgba(10,12,18,0.18) 34%, rgba(10,12,18,0.06) 58%, rgba(10,12,18,0.18) 100%)",
+                  "linear-gradient(180deg, rgba(8,10,16,0.08) 0%, rgba(8,10,16,0.12) 56%, rgba(8,10,16,0.42) 100%)",
+                ].join(", "),
+              }}
+            />
+            <div
+              style={{
+                position: "absolute",
+                inset: 0,
+                backgroundImage:
+                  "linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px)",
+                backgroundSize: "108px 108px",
+                opacity: 0.12,
+              }}
+            />
+
+            <div
+              style={{
+                position: "relative",
+                zIndex: 2,
+                minHeight: 520,
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+                padding: "28px 28px 24px",
+              }}
+            >
+              <div style={{ display: "flex", justifyContent: "space-between", gap: 20, alignItems: "flex-start" }}>
+                <div style={{ maxWidth: 420 }}>
+                  <div
+                    style={{
+                      fontSize: 13,
+                      fontWeight: 500,
+                      lineHeight: 1.35,
+                      color: "rgba(255,255,255,0.9)",
+                      textShadow: "0 2px 14px rgba(0,0,0,0.28)",
+                    }}
+                  >
+                    Modulr unifies teleoperation, fleet visibility,
+                    <br />
+                    and network coordination in one layer.
+                  </div>
+                </div>
+                <div
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    width: 48,
+                    height: 48,
+                    borderRadius: "50%",
+                    background: "rgba(255,255,255,0.08)",
+                    border: "1px solid rgba(255,255,255,0.14)",
+                    color: "#fff",
+                    backdropFilter: "blur(10px)",
+                    WebkitBackdropFilter: "blur(10px)",
+                  }}
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M7 17L17 7" />
+                    <path d="M8 7h9v9" />
+                  </svg>
+                </div>
               </div>
-              <div style={{ padding: "24px 28px" }}>
-                <h3 style={{ fontSize: 24, fontWeight: 600, letterSpacing: "-0.02em" }}>{p.name}</h3>
-                <p style={{ marginTop: 8, fontSize: 15, color: T.muted, lineHeight: 1.6 }}>{p.desc}</p>
-                <div style={{ marginTop: 16, fontSize: 14, fontWeight: 500, color: T.text }}>Explore {p.name} →</div>
+
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "flex-end",
+                  justifyContent: "space-between",
+                  gap: 20,
+                  flexWrap: "wrap",
+                }}
+              >
+                <div>
+                  <div
+                    style={{
+                      fontSize: "clamp(28px, 3.8vw, 42px)",
+                      fontWeight: 520,
+                      letterSpacing: "-0.04em",
+                      lineHeight: 1.06,
+                      color: "#fff",
+                      maxWidth: 520,
+                      textShadow: "0 4px 24px rgba(0,0,0,0.28)",
+                    }}
+                  >
+                    A new operating paradigm
+                    <br />
+                    for global robotics
+                  </div>
+                  <div
+                    style={{
+                      marginTop: 14,
+                      display: "flex",
+                      gap: 8,
+                      flexWrap: "wrap",
+                    }}
+                  >
+                    {["Teleoperation", "Operator Console"].map((item) => (
+                      <span
+                        key={item}
+                        style={{
+                          padding: "7px 12px",
+                          borderRadius: 999,
+                          border: "1px solid rgba(255,255,255,0.14)",
+                          background: "rgba(255,255,255,0.06)",
+                          color: "rgba(255,255,255,0.78)",
+                          fontSize: 12,
+                          lineHeight: 1,
+                          backdropFilter: "blur(10px)",
+                          WebkitBackdropFilter: "blur(10px)",
+                        }}
+                      >
+                        {item}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <div
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 8,
+                    padding: "10px 16px",
+                    borderRadius: 999,
+                    background: "rgba(255,255,255,0.08)",
+                    border: "1px solid rgba(255,255,255,0.14)",
+                    color: "#fff",
+                    fontSize: 13,
+                    fontWeight: 600,
+                    backdropFilter: "blur(10px)",
+                    WebkitBackdropFilter: "blur(10px)",
+                  }}
+                >
+                  Global operations
+                </div>
               </div>
-            </Link>
-            </Tilt3D>
-            </Reveal3D>
-          ))}
-        </div>
+            </div>
+          </Link>
+        </Reveal3D>
       </section>
 
       {/* ════════════ PLATFORM CARDS (Monetize robots. Globally.) ════════════ */}
@@ -720,6 +920,9 @@ export default function HomePage() {
           minHeight: "100vh",
           overflow: "hidden",
           background: "#050506",
+          width: "100vw",
+          marginLeft: "calc(50% - 50vw)",
+          marginRight: "calc(50% - 50vw)",
         }}
       >
         <div
@@ -792,62 +995,65 @@ export default function HomePage() {
             flexDirection: "column",
             justifyContent: "flex-start",
             alignItems: "center",
+            width: "100%",
             padding: "clamp(72px, 9vw, 112px) 24px 36px",
           }}
         >
-          <Reveal3D variant="zoom">
-            <div style={{ textAlign: "center", maxWidth: 640 }}>
-              <h2
-                style={{
-                  fontSize: "clamp(34px, 4.8vw, 62px)",
-                  fontWeight: 480,
-                  letterSpacing: "-0.05em",
-                  lineHeight: 0.98,
-                  color: "#fff",
-                  textWrap: "balance",
-                  textShadow: "0 10px 28px rgba(0,0,0,0.28)",
-                }}
-              >
-                Say hi to your
-                <br />
-                personal robot
-              </h2>
-              <p
-                style={{
-                  margin: "18px auto 0",
-                  maxWidth: 500,
-                  fontSize: 15,
-                  lineHeight: 1.55,
-                  color: "rgba(255,255,255,0.62)",
-                  textShadow: "0 6px 18px rgba(0,0,0,0.22)",
-                }}
-              >
-                Premium telepresence for the next generation of human-robot interaction.
-              </p>
-              <div style={{ marginTop: 24, display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-                <Link
-                  href="https://app.modulr.cloud"
-                  target="_blank"
-                  rel="noreferrer"
+          <div style={{ width: "100%", maxWidth: T.maxW, margin: "0 auto" }}>
+            <Reveal3D variant="zoom">
+              <div style={{ textAlign: "center", maxWidth: 640, margin: "0 auto" }}>
+                <h2
                   style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    height: 44,
-                    padding: "0 20px",
-                    borderRadius: 999,
-                    background: "#fff",
-                    color: "#111318",
-                    fontSize: 14,
-                    fontWeight: 600,
-                    textDecoration: "none",
-                    boxShadow: "0 12px 34px rgba(0,0,0,0.18)",
+                    fontSize: "clamp(34px, 4.8vw, 62px)",
+                    fontWeight: 480,
+                    letterSpacing: "-0.05em",
+                    lineHeight: 0.98,
+                    color: "#fff",
+                    textWrap: "balance",
+                    textShadow: "0 10px 28px rgba(0,0,0,0.28)",
                   }}
                 >
-                  Launch App
-                </Link>
+                  Say hi to your
+                  <br />
+                  personal robot
+                </h2>
+                <p
+                  style={{
+                    margin: "18px auto 0",
+                    maxWidth: 500,
+                    fontSize: 15,
+                    lineHeight: 1.55,
+                    color: "rgba(255,255,255,0.62)",
+                    textShadow: "0 6px 18px rgba(0,0,0,0.22)",
+                  }}
+                >
+                  Premium telepresence for the next generation of human-robot interaction.
+                </p>
+                <div style={{ marginTop: 24, display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
+                  <Link
+                    href="https://app.modulr.cloud"
+                    target="_blank"
+                    rel="noreferrer"
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      height: 44,
+                      padding: "0 20px",
+                      borderRadius: 999,
+                      background: "#fff",
+                      color: "#111318",
+                      fontSize: 14,
+                      fontWeight: 600,
+                      textDecoration: "none",
+                      boxShadow: "0 12px 34px rgba(0,0,0,0.18)",
+                    }}
+                  >
+                    Launch App
+                  </Link>
+                </div>
               </div>
-            </div>
-          </Reveal3D>
+            </Reveal3D>
+          </div>
         </div>
       </section>
 

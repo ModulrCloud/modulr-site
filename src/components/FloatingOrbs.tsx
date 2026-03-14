@@ -15,6 +15,7 @@ type FloatingOrbsProps = {
   variant?: "hero" | "gold" | "blue" | "purple";
   count?: number;
   bleedX?: number;
+  bleedY?: number;
 };
 
 const palettes: Record<string, string[]> = {
@@ -40,7 +41,7 @@ const palettes: Record<string, string[]> = {
   ],
 };
 
-export function FloatingOrbs({ variant = "hero", count = 3, bleedX = 0 }: FloatingOrbsProps) {
+export function FloatingOrbs({ variant = "hero", count = 3, bleedX = 0, bleedY = 0 }: FloatingOrbsProps) {
   const orbs = useMemo<OrbConfig[]>(() => {
     const pal = palettes[variant] ?? palettes.hero;
     return Array.from({ length: count }, (_, i) => ({
@@ -57,8 +58,8 @@ export function FloatingOrbs({ variant = "hero", count = 3, bleedX = 0 }: Floati
     <div
       style={{
         position: "absolute",
-        top: 0,
-        bottom: 0,
+        top: bleedY ? -bleedY : 0,
+        bottom: bleedY ? -bleedY : 0,
         left: bleedX ? -bleedX : 0,
         right: bleedX ? -bleedX : 0,
         overflow: "hidden",
